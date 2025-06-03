@@ -1,132 +1,70 @@
 <?php
-// This file assumes config.php and auth.php (for permission functions and session variables)
-// are included before it, typically by header.php.
-
-// Helper function to generate nav items conditionally
-if (!function_exists("navItem")) {
-    function navItem(string $label, string $href, string $iconClass, ?array $allowed_roles = null, ?string $required_permission = null): string {
-        // Check permission first if specified
-        if ($required_permission !== null && !hasPermission($required_permission)) {
-            return ""; // Don't render if user doesn't have the required permission
-        }
-        
-        // For backward compatibility, also check roles if specified
-        if ($allowed_roles !== null && !has_role($allowed_roles)) {
-            return ""; // Don't render if user doesn't have an allowed role
-        }
-
-        // Determine active state - improved to check if the current page contains the target path
-        $current_page_path = $_SERVER["PHP_SELF"]; 
-        $target_href_path = parse_url($href, PHP_URL_PATH);
-        $target_filename = basename($target_href_path);
-        
-        // Check if the current page matches the target path OR contains the target filename
-        $is_active = ($current_page_path === $target_href_path) || (strpos($current_page_path, $target_filename) !== false);
-        $active_class = $is_active ? " active" : "";
-
-        return
-        '<li class="menu-item' . $active_class . '">
-          <a href="' . htmlspecialchars($href) . '" class="menu-link" style="position: relative; z-index: 20; pointer-events: auto;">
-            <i class="menu-icon ' . htmlspecialchars($iconClass) . '"></i>
-            <div class="menu-text">' . htmlspecialchars($label) . '</div>
-            <span class="hover-effect"></span>
-          </a>
-        </li>';
-    }
-}
-
-// Get user profile info if available
-$userFullName = $_SESSION['user_first_name'] ?? 'User';
-$userFullName .= ' ' . ($_SESSION['user_last_name'] ?? '');
-$userRole = $_SESSION['user_role'] ?? 'Guest';
-$userInitials = substr($_SESSION['user_first_name'] ?? 'U', 0, 1) . substr($_SESSION['user_last_name'] ?? 'S', 0, 1);
+// includes/sidebar.php
+$roleID = getUserRoleID();
 ?>
-
-<!-- Modern Glass-Effect Sidebar -->
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-  <!-- Sidebar Toggle for Desktop -->
-  <button class="sidebar-toggle-desktop" type="button">
-    <i class="bx bx-chevrons-left"></i>
-  </button>
-<!-- Logo Container with Enhanced Styling -->
-  <div class="app-brand demo">
-    <a href="<?php echo htmlspecialchars($baseLinkPath); ?>dashboards/index.php" class="app-brand-link">
-      <div class="logo-container">
-        <!-- Logo will be dynamically switched based on theme -->
-        <img src="<?php echo htmlspecialchars($baseAssetPath); ?>img/logos/waLogoBlue.png" alt="Water Academy Logo" id="sidebarLogo" class="theme-logo light-logo" style="max-width: 100%; max-height: 180px; object-fit: contain;" />
-        <img src="<?php echo htmlspecialchars($baseAssetPath); ?>img/logos/waLogoWhite.png" alt="Water Academy Logo" id="sidebarLogoDark" class="theme-logo dark-logo" style="max-width: 100%; max-height: 180px; object-fit: contain;" />
-      </div>
-    </a>
+<!-- Sidebar (hidden by default on mobile) -->
+<aside
+  x-show="sidebarOpen || window.innerWidth >= 768"
+  @click.outside="sidebarOpen = false"
+  class="fixed inset-y-0 left-0 w-64 bg-white border-r shadow-lg transform transition-transform duration-200
+         md:translate-x-0 z-30"
+  :class="{ '-translate-x-full': !(sidebarOpen || window.innerWidth >= 768) }"
+>
+  <div class="flex items-center justify-between p-4 border-b">
+    <a href="/coordinator_dashboard.php"><img src="<?= BASE_ASSET_PATH ?>images/waLogoBlue.png" alt="Water Academy" class="h-8"></a>
+    <button @click="sidebarOpen = false" class="text-gray-600 hover:text-gray-900 md:hidden">
+      <!-- Heroicon: x -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
   </div>
+  <nav class="mt-4">
+    <ul>
+      <?php if (hasPermission('access_dashboard')): ?>
+        <li class="px-4 py-2 hover:bg-gray-100"><a href="/coordinator_dashboard.php" class="block text-gray-700">Dashboard</a></li>
+      <?php endif; ?>
 
-<!-- Add more vertical space below logo -->
-  <div style="height: 20px;"></div> <!-- Increased space -->
-  <div class="menu-inner-shadow"></div>
+      <?php if (hasPermission('manage_groups')): ?>
+        <li class="px-4 py-2 hover:bg-gray-100"><a href="/manage_groups.php" class="block text-gray-700">Groups</a></li>
+      <?php endif; ?>
 
-  <ul class="menu-inner py-1" style="list-style: none; padding-left: 0;">
-    <!-- Home (renamed from Dashboard) -->
-    <?php echo navItem("Home", $baseLinkPath . "dashboards/index.php", "ri-home-4-line"); ?>
-    
-    <!-- Reports - Visible to users with reporting permissions -->
-    <?php
-    $can_see_reports_menu = hasAnyPermission(['access_group_reports', 'access_trainee_reports', 'access_attendance_reports']);
-    if ($can_see_reports_menu):
-        // Check if current page is a report page
-        $isReportsActive = false;
-        $report_pages = ["reports.php", "report_group_performance.php", "report_trainee_performance.php", "report_attendance_summary.php", "group-analytics.php"];
-        foreach($report_pages as $r_page){
-            if(strpos($_SERVER['PHP_SELF'], $r_page) !== false){
-                $isReportsActive = true;
-                break;
-            }
-        }
-    ?>
-    <li class="menu-item<?php echo $isReportsActive ? ' active' : ''; ?>">
-      <a href="<?php echo htmlspecialchars($baseLinkPath); ?>dashboards/reports.php" class="menu-link">
-        <i class="menu-icon ri-line-chart-line"></i>
-        <div class="menu-text">Analytics & Reports</div>
-        <span class="hover-effect"></span>
-      </a>
-    </li>
-    <?php endif; ?>
-    
-    <!-- Profile is accessible from the user's icon in the header -->
+      <?php if (hasPermission('manage_courses')): ?>
+        <li class="px-4 py-2 hover:bg-gray-100"><a href="/manage_courses.php" class="block text-gray-700">Courses</a></li>
+      <?php endif; ?>
 
-    <!-- Management - Visible to users with management permissions -->
-    <?php if (hasAnyPermission(['manage_groups', 'view_groups', 'manage_trainees', 'view_trainees', 'manage_courses', 'view_courses'])): ?>
-        <?php echo navItem("Groups", $baseLinkPath . "dashboards/groups.php", "ri-group-2-line", null, 'view_groups'); ?>
-        <?php echo navItem("Trainees", $baseLinkPath . "dashboards/trainees.php", "ri-user-star-line", null, 'view_trainees'); ?>
-        <?php echo navItem("Courses", $baseLinkPath . "dashboards/courses.php", "ri-book-open-line", null, 'view_courses'); ?>
-        <?php echo navItem("Instructors", $baseLinkPath . "dashboards/instructors.php", "ri-user-voice-line", null, 'view_users'); ?>
-        <?php echo navItem("Coordinators", $baseLinkPath . "dashboards/coordinators.php", "ri-user-settings-line", null, 'view_users'); ?>
-    <?php endif; ?>
+      <?php if (hasPermission('manage_trainees')): ?>
+        <li class="px-4 py-2 hover:bg-gray-100"><a href="/manage_trainees.php" class="block text-gray-700">Trainees</a></li>
+      <?php endif; ?>
 
-    <!-- Instructor Specific -->
-    <?php if (hasAnyPermission(['record_grades', 'record_attendance'])): ?>
-        <?php /* Removed "My Courses" nav button as requested */ ?>
-        <?php echo navItem("Attendance & Grades", $baseLinkPath . "dashboards/attendance_grades.php", "ri-file-list-3-line", null, 'record_grades'); ?>
-    <?php endif; ?>
+      <?php if (hasPermission('record_attendance')): ?>
+        <li class="px-4 py-2 hover:bg-gray-100"><a href="/attendance.php" class="block text-gray-700">Attendance</a></li>
+      <?php endif; ?>
 
-    <!-- Coordinator Specific - Now handled by permissions in the Reports section -->
+      <?php if (hasPermission('record_grades')): ?>
+        <li class="px-4 py-2 hover:bg-gray-100"><a href="/attendance_grades.php" class="block text-gray-700">Grade Entry</a></li>
+      <?php endif; ?>
 
-    <!-- Admin Section - Visible to users with admin permissions -->
-    <?php if (hasPermission('manage_users')): ?>
-        <?php echo navItem("Users", $baseLinkPath . "dashboards/users.php", "ri-user-settings-line", null, 'manage_users'); ?>
-    <?php endif; ?>
-    
-    <?php /* Removed Settings nav button as it exists in the header dropdown menu */ ?>
+      <?php if (hasPermission('access_group_reports') || hasPermission('access_trainee_reports') || hasPermission('access_attendance_summary')): ?>
+        <li class="px-4 py-2 font-medium text-gray-700 uppercase text-xs mt-4">Reports</li>
+        <?php if (hasPermission('access_group_reports')): ?>
+          <li class="px-6 py-2 hover:bg-gray-100"><a href="/report_group_performance.php" class="block text-gray-600">Group Performance</a></li>
+        <?php endif; ?>
+        <?php if (hasPermission('access_trainee_reports')): ?>
+          <li class="px-6 py-2 hover:bg-gray-100"><a href="/report_trainee_performance.php" class="block text-gray-600">Trainee Performance</a></li>
+        <?php endif; ?>
+        <?php if (hasPermission('access_attendance_summary')): ?>
+          <li class="px-6 py-2 hover:bg-gray-100"><a href="/report_attendance_summary.php" class="block text-gray-600">Attendance Summary</a></li>
+        <?php endif; ?>
+      <?php endif; ?>
 
-    <!-- Sign Out -->
-    <?php echo navItem("Sign Out", $baseLinkPath . "logout.php", "ri-logout-box-r-line"); ?>
-    
-    <!-- Theme Switcher removed from sidebar, now in header -->
-  </ul>
-  
-  <!-- Enhanced Sidebar Footer -->
-  <div class="sidebar-footer">
-    <div class="version">Water Academy v2.1</div>
-  </div>
+      <?php if (hasPermission('access_user_management')): ?>
+        <li class="px-4 py-2 hover:bg-gray-100"><a href="/user_management.php" class="block text-gray-700">User Management</a></li>
+      <?php endif; ?>
+
+      <?php if (hasPermission('access_settings')): ?>
+        <li class="px-4 py-2 hover:bg-gray-100"><a href="/settings/email_templates.php" class="block text-gray-700">Settings</a></li>
+      <?php endif; ?>
+    </ul>
+  </nav>
 </aside>
-
-<!-- Add Remix Icons CDN with newer version -->
-<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">

@@ -16,6 +16,21 @@ function getUserRole(): string {
     return $_SESSION['user_role'] ?? 'Guest';
 }
 
+// Get current user's details from session
+function getCurrentUser(): array {
+    return [
+        'userID' => $_SESSION['user_id'] ?? null,
+        'username' => $_SESSION['username'] ?? 'Guest',
+        'email' => $_SESSION['email'] ?? null,
+        'firstName' => $_SESSION['FirstName'] ?? '',
+        'lastName' => $_SESSION['LastName'] ?? '',
+        'fullName' => $_SESSION['FullName'] ?? 'Guest User',
+        'role' => $_SESSION['user_role'] ?? 'Guest',
+        'roleID' => $_SESSION['role_id'] ?? null,
+        'avatarPath' => $_SESSION['AvatarPath'] ?? 'assets/img/avatars/1.png'
+    ];
+}
+
 // Check if current user has a specific permission
 function hasPermission(string $permissionName): bool {
     global $conn;
