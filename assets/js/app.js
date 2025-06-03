@@ -4,90 +4,151 @@
  * Initializes core UI components and modules after dependencies are loaded.
  */
 
-// Ensure jQuery is available globally (if not already)
-if (typeof $ === 'undefined' && typeof jQuery !== 'undefined') {
-  $ = jQuery;
+// Alpine.js layout data
+function layout() {
+  return {
+    sidebarOpen: window.innerWidth >= 768,
+    initLayout() {
+      if (window.innerWidth < 768) {
+        this.sidebarOpen = false;
+      }
+      window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768) {
+          this.sidebarOpen = true;
+        }
+      });
+    }
+  };
 }
+
+// Utility to initialize a Doughnut chart
+function initDoughnutChart(chartId, dataValue, hexColor) {
+  const ctx = document.getElementById(chartId);
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: [chartId, 'Remaining'],
+      datasets: [{
+        data: [dataValue, 100 - dataValue],
+        backgroundColor: [hexColor, '#E5E7EB'],
+      }]
+    },
+    options: {
+      cutout: '70%',
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+// Utility for Bar chart (attendance summary)
+function initBarChart(chartId, labelsArray, dataArray) {
+  const ctx = document.getElementById(chartId);
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labelsArray,
+      datasets: [{
+        label: 'Percentage',
+        data: dataArray,
+        backgroundColor: '#3B82F6',
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { beginAtZero: true, max: 100 } }
+    }
+  });
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
   console.log('app.js: Initializing Water Academy application.');
 
-  // Add a small delay to ensure all preceding scripts have fully executed and exposed their globals.
-  // This is a pragmatic workaround for potential race conditions without a full bundler.
-  setTimeout(function() {
-    console.log('app.js: Checking module availability...');
-    console.log('app.js: typeof UI_Components_Module:', typeof UI_Components_Module); // Updated to UI_Components_Module
-    console.log('app.js: typeof Layout_Module:', typeof Layout_Module);
-    console.log('app.js: typeof WA_Table:', typeof WA_Table);
-    console.log('app.js: typeof initThemeSwitcher:', typeof initThemeSwitcher);
-    console.log('app.js: typeof initSidebarToggle:', typeof initSidebarToggle);
+  // Initialize UI Components module (only if present)
+  if (typeof UI_Components_Module !== 'undefined' && typeof UI_Components_Module.init === 'function') {
+    UI_Components_Module.init();
+  } else if (document.body.classList.contains('login-page')) {
+    // Suppress error for login page where UI_Components is not expected
+  } else {
+    console.error('app.js: UI_Components module not found or not initialized.');
+  }
 
-    // Initialize UI Components module (only if present)
-    if (typeof UI_Components_Module !== 'undefined' && typeof UI_Components_Module.init === 'function') { // Updated to UI_Components_Module
-      UI_Components_Module.init(); // Updated to UI_Components_Module
-    } else if (document.body.classList.contains('login-page')) {
-      // Suppress error for login page where UI_Components is not expected
-    } else {
-      console.error('app.js: UI_Components module not found or not initialized.');
-    }
+  // Initialize Layout module (only if present)
+  if (typeof Layout_Module !== 'undefined' && typeof Layout_Module.init === 'function') {
+    Layout_Module.init();
+  } else if (document.body.classList.contains('login-page')) {
+    // Suppress error for login page where Layout_Module is not expected
+  } else {
+    console.error('app.js: Layout_Module not found or not initialized.');
+  }
 
-    // Initialize Layout module (only if present)
-    if (typeof Layout_Module !== 'undefined' && typeof Layout_Module.init === 'function') {
-      Layout_Module.init();
-    } else if (document.body.classList.contains('login-page')) {
-      // Suppress error for login page where Layout_Module is not expected
-    } else {
-      console.error('app.js: Layout_Module not found or not initialized.');
-    }
+  // Initialize WA_Table module (only if present)
+  if (typeof WA_Table !== 'undefined' && typeof WA_Table.init === 'function') {
+    WA_Table.init();
+  } else if (document.body.classList.contains('login-page')) {
+    // Suppress error for login page where WA_Table is not expected
+  } else {
+    console.error('app.js: WA_Table module not found or not initialized.');
+  }
 
-    // Initialize WA_Table module (only if present)
-    if (typeof WA_Table !== 'undefined' && typeof WA_Table.init === 'function') {
-      WA_Table.init();
-    } else if (document.body.classList.contains('login-page')) {
-      // Suppress error for login page where WA_Table is not expected
-    } else {
-      console.error('app.js: WA_Table module not found or not initialized.');
-    }
+  // Initialize Theme Switcher (only if present)
+  if (typeof initThemeSwitcher === 'function') {
+    initThemeSwitcher();
+  } else if (document.body.classList.contains('login-page')) {
+    // Suppress warning for login page where Theme Switcher is not expected
+  } else {
+    console.warn('app.js: initThemeSwitcher function not found. Theme switching may not work.');
+  }
 
-    // Initialize Theme Switcher (only if present)
-    if (typeof initThemeSwitcher === 'function') {
-      initThemeSwitcher();
-    } else if (document.body.classList.contains('login-page')) {
-      // Suppress warning for login page where Theme Switcher is not expected
-    } else {
-      console.warn('app.js: initThemeSwitcher function not found. Theme switching may not work.');
-    }
+  // Initialize Sidebar Toggle (only if present)
+  if (typeof initSidebarToggle === 'function') {
+    initSidebarToggle();
+  } else if (document.body.classList.contains('login-page')) {
+    // Suppress warning for login page where Sidebar Toggle is not expected
+  } else {
+    console.warn('app.js: initSidebarToggle function not found. Sidebar toggle may not work.');
+  }
 
-    // Initialize Sidebar Toggle (only if present)
-    if (typeof initSidebarToggle === 'function') {
-      initSidebarToggle();
-    } else if (document.body.classList.contains('login-page')) {
-      // Suppress warning for login page where Sidebar Toggle is not expected
-    } else {
-      console.warn('app.js: initSidebarToggle function not found. Sidebar toggle may not work.');
-    }
+  // Initialize charts for Group Performance Report
+  if (document.getElementById('chartAvgScore')) {
+    // These values should come from PHP variables embedded in the HTML
+    // For now, using dummy values as per the guide's example
+    const avgScore = parseInt(document.getElementById('chartAvgScore').dataset.value || '0');
+    const avgAttendance = parseInt(document.getElementById('chartAvgAttendance').dataset.value || '0');
+    const avgLGI = parseInt(document.getElementById('chartAvgLGI').dataset.value || '0');
 
-    // Initialize Bootstrap components using jQuery if available, or suppress if not needed
-    if (typeof $ !== 'undefined' && typeof $.fn.tooltip !== 'undefined') {
-      // Initialize Tooltips
-      $('[data-bs-toggle="tooltip"]').tooltip();
-      console.log('app.js: Bootstrap Tooltips initialized using jQuery.');
-    } else {
-      console.warn('app.js: jQuery Tooltip not available. Tooltips may not function.');
-    }
+    initDoughnutChart('chartAvgScore', avgScore, '#3B82F6');
+    initDoughnutChart('chartAvgAttendance', avgAttendance, '#10B981');
+    initDoughnutChart('chartAvgLGI', avgLGI, '#F59E0B');
+  }
 
-    if (typeof $ !== 'undefined' && typeof $.fn.popover !== 'undefined') {
-      // Initialize Popovers
-      $('[data-bs-toggle="popover"]').popover();
-      console.log('app.js: Bootstrap Popovers initialized using jQuery.');
-    } else {
-      console.warn('app.js: jQuery Popover not available. Popovers may not function.');
-    }
+  // Attendance summary bar chart
+  if (document.getElementById('chartAttendanceSummary')) {
+    const labels = JSON.parse(document.getElementById('chartAttendanceSummary').dataset.labels);
+    const data = JSON.parse(document.getElementById('chartAttendanceSummary').dataset.values);
+    initBarChart('chartAttendanceSummary', labels, data);
+  }
 
-    // Toasts are generally not initialized this way, they are triggered programmatically.
-    // Removing direct initialization to avoid potential conflicts.
-    // console.log('app.js: Bootstrap Toasts are expected to be triggered programmatically.');
+  // Listen for saving attendance via Alpine event
+  document.addEventListener('save-attendance', event => {
+    const { id, present, absent } = event.detail;
+    fetch('/dashboards/save_attendance.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ AttendanceID: id, PresentHours: present, AbsentHours: absent }),
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert('Attendance updated.');
+        location.reload();
+      } else {
+        alert('Error: ' + data.message);
+      }
+    });
+  });
 
-    console.log('app.js: Water Academy application initialization complete.');
-  }, 100); // Small delay to ensure globals are defined
+  console.log('app.js: Water Academy application initialization complete.');
 });

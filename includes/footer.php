@@ -117,22 +117,8 @@
     </div>
   </div>
 
-  <!-- Initialize Bootstrap Modals using jQuery -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Initialize all Bootstrap modals on the page using jQuery
-      if (typeof jQuery !== 'undefined' && typeof $.fn.modal !== 'undefined') {
-        $('.modal').each(function() {
-          $(this).modal({ show: false }); // Initialize without showing
-        });
-        console.log('All Bootstrap Modals initialized using jQuery.');
-      } else {
-        console.warn('jQuery or Bootstrap Modal plugin not available. Modals may not function correctly.');
-      }
-    });
-  </script>
-
-  <!-- Scripts moved from header.php - REMOVED TO PREVENT DUPLICATE LOADING -->
+  <!-- App logic (Alpine state & Chart.js initialization) -->
+  <script src="<?= BASE_ASSET_PATH ?>js/app.js"></script>
 
 </body>
 </html>
