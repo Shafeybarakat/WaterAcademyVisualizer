@@ -2,10 +2,9 @@
 // includes/header.php
 require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/config.php'; // defines $baseAssetPath, DB config
-if (!isLoggedIn()) {
-  header('Location: /login.php');
-  exit;
-}
+
+// The protect_authenticated_area function in auth.php handles redirection if not logged in.
+// No need for a redundant check here.
 $currentUser = getCurrentUser(); // returns array with firstName, lastName, role, etc.
 ?>
 <!DOCTYPE html>
