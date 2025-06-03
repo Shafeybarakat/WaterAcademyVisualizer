@@ -167,8 +167,8 @@ $baseAssetPath = BASE_ASSET_PATH;
         .login-card-container {
             background-color: rgba(255, 255, 255, 0.1); /* 10% opacity for glass effect */
             backdrop-filter: blur(10px); /* Stronger blur for glass effect */
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle white border */
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Stronger shadow */
+            border: 1px solid rgba(0, 255, 255, 0.5); /* Neon blue border (cyan with 50% opacity) */
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7), 0 0 25px rgba(0, 255, 255, 0.5); /* Neon blue shadow */
             border-radius: 10px;
             padding: 2rem;
             width: 100%;
@@ -195,31 +195,31 @@ $baseAssetPath = BASE_ASSET_PATH;
             width: 100%; /* Ensure it spans full width for centering */
             text-align: center;
         }
-        .visualizer-logo-bottom {
+        .visualizer-logo-bottom-outer {
             position: absolute;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 10;
+            z-index: 10; /* Ensure it's above the login card */
             text-align: center;
             color: white; /* Text color for bottom logo details */
         }
-        .visualizer-logo-bottom img {
+        .visualizer-logo-bottom-outer img {
             height: 80px; /* Adjust size as needed */
             width: auto;
             filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); /* Shadow for the logo */
         }
-        .visualizer-logo-bottom p {
+        .visualizer-logo-bottom-outer p {
             margin: 0;
             line-height: 1.2;
         }
-        .visualizer-logo-bottom .water-academy-text {
+        .visualizer-logo-bottom-outer .water-academy-text {
             font-size: 0.8rem;
             font-weight: bold;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
-        .visualizer-logo-bottom .shafey-barakat-text {
+        .visualizer-logo-bottom-outer .shafey-barakat-text {
             font-family: 'Dancing Script', cursive; /* Specific font for signature */
             font-size: 1.2rem;
             margin-top: 5px;
@@ -259,6 +259,27 @@ $baseAssetPath = BASE_ASSET_PATH;
         .login-button-gradient:hover {
             background-image: linear-gradient(to right, #1D4ED8, #3B82F6);
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .login-title-main {
+                font-size: 1.8rem; /* Smaller font for mobile */
+                top: 10px;
+            }
+            .login-card-container {
+                padding: 1.5rem;
+                max-width: 90%; /* Adjust width for smaller screens */
+            }
+            .visualizer-logo-bottom-outer {
+                bottom: 10px;
+            }
+            .visualizer-logo-bottom-outer img {
+                height: 60px;
+            }
+            .visualizer-logo-bottom-outer .shafey-barakat-text {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -345,12 +366,12 @@ $baseAssetPath = BASE_ASSET_PATH;
                     </button>
                 </div>
             </form>
-            <div class="visualizer-logo-bottom">
-                <img src="<?= $baseAssetPath ?>img/visualizerlogo.png" alt="Visualizer Logo">
-                <p class="water-academy-text">Water Academy</p>
-                <p class="shafey-barakat-text">Shafey Barakat</p>
-            </div>
         </div>
+    </div>
+    <div class="visualizer-logo-bottom-outer">
+        <img src="<?= $baseAssetPath ?>img/visualizerlogo.png" alt="Visualizer Logo">
+        <p class="water-academy-text">Water Academy</p>
+        <p class="shafey-barakat-text">Shafey Barakat</p>
     </div>
 </body>
 </html>
