@@ -2,23 +2,20 @@
 // login.php
 
 // Ensure session is started. This should be the very first thing.
-// config.php also does this, but it's safe to have it here too.
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 // If a user is already logged in, redirect them to their dashboard.
-// Avoid showing the login page to already authenticated users.
 if (isset($_SESSION['user_id']) && isset($_SESSION['user_role'])) {
     $dashboard_path = 'dashboards/index.php'; // Always use the main dashboard
     header("Location: " . $dashboard_path);
     exit;
 }
 
-// Require database configuration. This also ensures session_start() has been called.
+// Require database configuration.
 require_once "includes/config.php"; // For $conn
-// auth.php is not strictly needed by login.php itself, but good practice if you use its functions.
-// require_once "includes/auth.php"; 
+require_once "includes/auth.php"; // For loadUserPermissions()
 
 $error_message = '';
 $success_message = '';
@@ -32,7 +29,6 @@ if (isset($_GET['message'])) {
     } elseif ($_GET['message'] === 'session_expired') {
         $error_message = "Your session has expired. Please log in again.";
     }
-    // Add more custom messages as needed
 }
 
 // Handle form submission
@@ -61,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 if (!$stmt->execute()) {
                     $error_message = "Login query execution failed. Please try again.";
-                    error_log("Login page DB execute error: " . $stmt->error . " for input: " . $username_or_email); // Fixed PHP syntax error here
+                    error_log("Login page DB execute error: " . $stmt->error . " for input: " . $username_or_email);
                 } else {
                     $result = $stmt->get_result();
 
@@ -82,7 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             session_regenerate_id(true);
                             
                             // Load user permissions into session for faster access
-                            require_once "includes/auth.php";
                             loadUserPermissions();
 
                             // Update LastLogin timestamp
@@ -125,169 +120,104 @@ if (isset($conn) && !$conn->connect_error) {
 }
 
 // Determine base path for assets (login.php is in the root 'wa' directory)
-$baseAssetPath = "assets/"; 
+// Using BASE_ASSET_PATH defined in config.php
+$baseAssetPath = BASE_ASSET_PATH; 
 ?>
 <!DOCTYPE html>
-<html
-  lang="en"
-  class="light-style layout-menu-fixed layout-compact"
-  dir="ltr"
-  data-theme="theme-default"
-  data-assets-path="<?php echo htmlspecialchars($baseAssetPath); ?>"
-  data-template="vertical-menu-template-free">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Water Academy</title>
-
     <meta name="description" content="Login to Water Academy Training Management System" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="<?= $baseAssetPath ?>img/favicon/favicon.ico" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-      rel="stylesheet" />
-
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
-
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="assets/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="assets/css/base.css" />
-    <link rel="stylesheet" href="assets/css/layout.css" />
-    <link rel="stylesheet" href="assets/css/pages/login.css" />
+    <!-- Tailwind CSS -->
+    <link href="<?= $baseAssetPath ?>css/tailwind.css" rel="stylesheet">
+    <link href="<?= $baseAssetPath ?>css/custom.css" rel="stylesheet">
     
-    <!-- Helpers -->
-    <!-- Base dependencies -->
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/utils/logger.js?v=<?php echo time(); ?>"></script>
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/utils/config-manager.js?v=<?php echo time(); ?>"></script>
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/utils/dependency-manager.js?v=<?php echo time(); ?>"></script>
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/module-fix.js?v=<?php echo time(); ?>"></script>
-
-    <!-- Chart.js for doughnut charts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- ApexCharts JS -->
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
-
-    <!-- BS-Stepper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
-
-    <!-- Our Refactored Helpers -->
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/utils/helpers.js?v=<?php echo time(); ?>"></script>
-    
-    <!-- Theme and UI components (after core libraries) -->
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/theme-switcher.js?v=<?php echo time(); ?>"></script>
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/sidebar-toggle.js?v=<?php echo time(); ?>"></script>
-    
-    <!-- Essential custom JS files (now initialized by app.js) -->
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/wa-modal.js?v=<?php echo time(); ?>"></script>
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/utils/modal-upgrade.js?v=<?php echo time(); ?>"></script>
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/wa-table.js?v=<?php echo time(); ?>"></script>
-    
-    <!-- Our Modular JS Files (must be loaded before app.js) -->
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/modules/ui-components.js?v=<?php echo time(); ?>"></script>
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/modules/layout.js?v=<?php echo time(); ?>"></script>
-
-    <!-- Our Main Application JS -->
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/app.js?v=<?php echo time(); ?>"></script>
-    
-    <!-- Cache Management JS -->
-    <script src="<?php echo htmlspecialchars($baseAssetPath); ?>js/cache-management.js?v=<?php echo time(); ?>"></script>
-  </head>
-
-  <body class="login-page">
-    <!-- Content -->
-
-    <h2 class="login-title">Water Academy Visualizer</h2>
-    <div class="container-xxl">
-      <div class="authentication-wrapper authentication-basic container-p-y">
-        <div class="authentication-inner">
-          <!-- Login Card -->
-          <div class="login-card">
-            <div class="card-body">
-              <!-- Logo -->
-              <div class="app-brand justify-content-center">
-                <a href="index.php" class="app-brand-link gap-2">
-                  <span class="app-brand-logo demo">
-                    <img src="assets/img/logos/waLogoWhite.png" alt="Water Academy Logo" class="login-logo">
-                  </span>
-                </a>
-              </div>
-              <!-- /Logo -->
-
-              <form id="formAuthentication" class="mb-3 login-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-                <div class="mb-3">
-                  <label for="username_or_email" class="form-label">Email</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="username_or_email"
-                    name="username_or_email"
-                    placeholder="Enter your email"
-                    value="<?php echo isset($_POST['username_or_email']) ? htmlspecialchars($_POST['username_or_email']) : ''; ?>"
-                    autofocus required />
-                </div>
-                <div class="mb-3 form-password-toggle">
-                  <div class="d-flex justify-content-between">
-                    <label class="form-label" for="password">Password</label>
-                  </div>
-                  <div class="input-group input-group-merge">
-                    <input
-                      type="password"
-                      id="password"
-                      class="form-control"
-                      name="password"
-                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                      aria-describedby="password" required />
-                    <span class="input-group-text cursor-pointer" id="togglePassword"><i class="bx bx-hide"></i></span>
-                  </div>
-                  <div class="text-end mt-1">
-                    <a href="#" class="text-muted"><small>Forgot Password?</small></a>
-                  </div>
-                </div>
-                <div class="mb-3 text-center">
-                  <button class="btn btn-primary d-grid w-100 mx-auto" type="submit">Sign in</button>
-                </div>
-              </form>
+    <!-- Alpine.js (deferred) -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <!-- Main Application JS -->
+    <script src="<?= $baseAssetPath ?>js/app.js" defer></script>
+</head>
+<body class="h-full flex items-center justify-center bg-gray-100">
+    <div class="min-h-screen flex items-center justify-center w-full">
+        <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg relative">
+            <div class="flex justify-center mb-6">
+                <img src="<?= $baseAssetPath ?>img/logos/waLogoBlue.png" alt="Water Academy Logo" class="h-16">
             </div>
-          </div>
-          <!-- /Login Card -->
-          <img src="assets/img/bg/visu.png" alt="Visualizer Logo" class="visu-overlay-logo">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Sign in to your account</h2>
+
+            <?php if ($error_message): ?>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Error!</strong>
+                    <span class="block sm:inline"><?= htmlspecialchars($error_message) ?></span>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($success_message): ?>
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Success!</strong>
+                    <span class="block sm:inline"><?= htmlspecialchars($success_message) ?></span>
+                </div>
+            <?php endif; ?>
+
+            <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="space-y-6">
+                <div>
+                    <label for="username_or_email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input
+                        type="email"
+                        id="username_or_email"
+                        name="username_or_email"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        placeholder="Enter your email"
+                        value="<?= htmlspecialchars($_POST['username_or_email'] ?? ''); ?>"
+                        required
+                        autofocus
+                    />
+                </div>
+                <div x-data="{ showPassword: false }">
+                    <div class="flex items-center justify-between">
+                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <a href="#" class="text-sm text-blue-600 hover:text-blue-500">Forgot Password?</a>
+                    </div>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <input
+                            :type="showPassword ? 'text' : 'password'"
+                            id="password"
+                            name="password"
+                            class="block w-full pr-10 pl-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            placeholder="••••••••"
+                            required
+                        />
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                            <button type="button" @click="showPassword = !showPassword" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                                <svg x-show="!showPassword" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                <svg x-show="showPassword" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 .98-3.14 3.28-5.58 6.29-7.04M9.5 12a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12c-1.274 4.057-5.064 7-9.542 7-1.056 0-2.087-.12-3.08-.35M12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Sign in
+                    </button>
+                </div>
+            </form>
+            <img src="<?= $baseAssetPath ?>img/bg/visu.png" alt="Visualizer Logo" class="absolute bottom-0 right-0 w-24 h-auto opacity-20">
         </div>
-      </div>
     </div>
-
-    <!-- / Content -->
-
-    <!-- Main JS (app.js now handles all initializations) -->
-    <!-- Error Handler (if still needed, integrate into app.js or keep separate if truly standalone) -->
-    <!-- <script src="assets/js/Login-error-handler.js"></script> -->
-    <script>
-      // Password toggle functionality (moved from main.js or old helpers)
-      const togglePassword = document.querySelector('#togglePassword');
-      const password = document.querySelector('#password');
-
-      if (togglePassword && password) {
-        togglePassword.addEventListener('click', function (e) {
-          const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-          password.setAttribute('type', type);
-          this.querySelector('i').classList.toggle('bx-show');
-          this.querySelector('i').classList.toggle('bx-hide');
-        });
-      }
-    </script>
-
-  </body>
+</body>
 </html>
-</content>
