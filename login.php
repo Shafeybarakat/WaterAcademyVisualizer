@@ -128,7 +128,7 @@ $baseAssetPath = BASE_ASSET_PATH;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Water Academy</title>
+    <title>Login | Water Academy Visualizer</title>
     <meta name="description" content="Login to Water Academy Training Management System" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -145,14 +145,53 @@ $baseAssetPath = BASE_ASSET_PATH;
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <!-- Main Application JS -->
     <script src="<?= $baseAssetPath ?>js/app.js" defer></script>
+
+    <style>
+        body {
+            background-image: url('<?= $baseAssetPath ?>img/bg/01x.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: 'Public Sans', sans-serif; /* Assuming Public Sans is desired */
+        }
+        .login-card-container {
+            background-color: rgba(255, 255, 255, 0.9); /* 90% transparency */
+            backdrop-filter: blur(5px); /* Optional: adds a blur effect to the background */
+        }
+        .login-title-overlay {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 2.5rem; /* Adjust as needed */
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            z-index: 10;
+            white-space: nowrap;
+        }
+        .visualizer-logo-bottom {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            text-align: center;
+        }
+        .visualizer-logo-bottom img {
+            height: 80px; /* Adjust size as needed */
+            width: auto;
+        }
+    </style>
 </head>
-<body class="h-full flex items-center justify-center bg-gray-100">
+<body class="h-full flex items-center justify-center">
+    <div class="login-title-overlay">Water Academy Visualizer</div>
     <div class="min-h-screen flex items-center justify-center w-full">
-        <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg relative">
+        <div class="max-w-md w-full p-8 rounded-lg shadow-lg relative login-card-container">
             <div class="flex justify-center mb-6">
-                <img src="<?= $baseAssetPath ?>img/logos/waLogoBlue.png" alt="Water Academy Logo" class="h-16">
+                <img src="<?= $baseAssetPath ?>img/logos/waLogoWhite.png" alt="Water Academy Logo" class="h-16">
             </div>
-            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Sign in to your account</h2>
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Log in</h2>
 
             <?php if ($error_message): ?>
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -170,13 +209,13 @@ $baseAssetPath = BASE_ASSET_PATH;
 
             <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="space-y-6">
                 <div>
-                    <label for="username_or_email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <label for="username_or_email" class="block text-sm font-medium text-gray-700">Username</label>
                     <input
-                        type="email"
+                        type="text"
                         id="username_or_email"
                         name="username_or_email"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                        placeholder="Enter your email"
+                        placeholder="Enter your username or email"
                         value="<?= htmlspecialchars($_POST['username_or_email'] ?? ''); ?>"
                         required
                         autofocus
@@ -212,11 +251,15 @@ $baseAssetPath = BASE_ASSET_PATH;
                 </div>
                 <div>
                     <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Sign in
+                        Login
                     </button>
                 </div>
             </form>
-            <img src="<?= $baseAssetPath ?>img/bg/visu.png" alt="Visualizer Logo" class="absolute bottom-0 right-0 w-24 h-auto opacity-20">
+            <div class="visualizer-logo-bottom">
+                <img src="<?= $baseAssetPath ?>img/visualizerlogo.png" alt="Visualizer Logo">
+                <p class="text-xs text-gray-600 mt-1">Water Academy</p>
+                <p class="text-xs text-gray-600">Shafey Barakat</p>
+            </div>
         </div>
     </div>
 </body>
