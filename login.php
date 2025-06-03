@@ -261,6 +261,11 @@ $baseAssetPath = BASE_ASSET_PATH;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
+        /* Hide generic PHP errors that might appear outside our styled messages */
+        body > pre {
+            display: none !important;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .login-title-main {
@@ -279,6 +284,20 @@ $baseAssetPath = BASE_ASSET_PATH;
             }
             .visualizer-logo-bottom-outer .shafey-barakat-text {
                 font-size: 1rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .login-title-main {
+                font-size: 1.5rem;
+            }
+            .login-card-container {
+                padding: 1rem;
+            }
+            .visualizer-logo-bottom-outer img {
+                height: 50px;
+            }
+            .visualizer-logo-bottom-outer .shafey-barakat-text {
+                font-size: 0.9rem;
             }
         }
     </style>
