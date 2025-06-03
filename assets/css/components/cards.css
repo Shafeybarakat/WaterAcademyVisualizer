@@ -1,0 +1,308 @@
+/*
+ * Water Academy Card Components Stylesheet
+ * Contains styles for stats cards, action cards, and generic cards.
+ * Adopted and refactored from assets/css/old/mainx.css and assets/css/old/ui-enhancements.css.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* --- Dashboard Stats Cards --- */
+/* -------------------------------------------------------------------------- */
+.dashboard-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  flex: 0 0 200px; /* Fixed size for square shape */
+  width: 200px; /* Fixed width */
+  height: 200px; /* Fixed height for square shape */
+  background-color: var(--card-background);
+  border-radius: 25px; /* More rounded corners from ui-enhancements */
+  padding: 1.5rem;
+  border: none; /* Remove border from ui-enhancements */
+  box-shadow: 0 0 20px rgba(58, 165, 255, 0.4), 0 0 30px rgba(58, 165, 255, 0.2), inset 0 0 15px rgba(58, 165, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center content vertically */
+  text-align: center;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--wa-primary), var(--wa-info));
+  border-radius: 25px 25px 0 0;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 0 25px rgba(58, 165, 255, 0.6), 0 0 40px rgba(58, 165, 255, 0.3), inset 0 0 20px rgba(58, 165, 255, 0.15);
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--wa-primary);
+}
+
+.stat-value {
+  font-size: 3.5rem; /* Much bigger size */
+  font-weight: bold; /* Bold */
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Icon colors */
+.icon-groups { color: var(--wa-primary); }
+.icon-courses { color: var(--wa-secondary); }
+.icon-trainees { color: var(--wa-success); }
+.icon-instructors { color: var(--wa-warning); }
+.icon-coordinators { color: var(--wa-info); }
+
+/* -------------------------------------------------------------------------- */
+/* --- Action Cards --- */
+/* -------------------------------------------------------------------------- */
+.action-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: stretch; /* Ensure cards stretch to equal height */
+}
+
+.action-card {
+  flex: 1 1 calc(50% - 1.5rem);
+  min-width: 300px;
+  background-color: var(--card-background);
+  border-radius: 15px; /* Reduced rounded corners */
+  padding: 1.5rem;
+  border: none; /* Remove border from ui-enhancements */
+  box-shadow: 0 0 20px rgba(58, 165, 255, 0.4), 0 0 30px rgba(58, 165, 255, 0.2), inset 0 0 15px rgba(58, 165, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: auto; /* Let content define height, flex will stretch */
+}
+
+.action-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--wa-primary), var(--wa-secondary));
+  border-radius: 25px 25px 0 0;
+}
+
+.action-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 0 25px rgba(58, 165, 255, 0.6), 0 0 40px rgba(58, 165, 255, 0.3), inset 0 0 20px rgba(58, 165, 255, 0.15);
+}
+
+.action-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem; /* Add padding below the header */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Add a horizontal separator */
+}
+
+.action-card-icon {
+  font-size: 1.5rem;
+  margin-right: 0.75rem;
+  color: var(--wa-primary);
+}
+
+.action-card-title {
+  margin: 0;
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-card-title);
+  color: var(--text-primary);
+  flex-grow: 1; /* Allow title to take available space */
+}
+
+.action-card-content {
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  flex-grow: 1; /* Ensure action card buttons are aligned at the bottom */
+}
+
+.action-card-footer {
+  margin-top: auto; /* Ensure action card buttons are aligned at the bottom */
+  width: 100%; /* Ensure action card buttons are aligned at the bottom */
+}
+
+/* Remove this rule as align-items: stretch on .action-cards handles it */
+/* .action-cards .col-md-6 {
+  display: flex;
+} */
+
+/* -------------------------------------------------------------------------- */
+/* --- Generic Card Styles --- */
+/* -------------------------------------------------------------------------- */
+.card {
+  background-color: var(--card-background);
+  border-radius: 15px; /* Reduced rounded corners */
+  padding: var(--card-padding); /* Use variable from mainx.css */
+  border: 1px solid transparent; /* Add a transparent border for gradient overlay */
+  box-shadow: 0 0 15px rgba(0, 208, 255, 0.3), 0 0 25px rgba(160, 120, 234, 0.2); /* Bluish neon shadow */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: var(--bs-card-height);
+  color: var(--bs-card-color);
+  word-wrap: break-word;
+  background-clip: padding-box; /* Ensure background doesn't go under border */
+  outline: 0;
+}
+
+/* Gradient Border Effect using pseudo-element */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 15px; /* Match card border-radius */
+  padding: 1px; /* Thickness of the border */
+  background: linear-gradient(135deg, #00d0ff, #a078ea, #c0c0c0); /* Blue, Neon, Silver gradient */
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none; /* Allow clicks to pass through */
+  z-index: 2; /* Ensure it's above card content but below overlay */
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px rgba(0, 208, 255, 0.5), 0 0 35px rgba(160, 120, 234, 0.3); /* Enhanced hover shadow */
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 25px rgba(58, 165, 255, 0.6), 0 0 40px rgba(58, 165, 255, 0.3), inset 0 0 20px rgba(58, 165, 255, 0.15);
+}
+
+.card-body {
+  flex: 1 1 auto;
+  padding: var(--card-padding); /* Use variable from mainx.css */
+  color: var(--text-primary); /* Use WA specific text color */
+}
+
+.card-header {
+  padding: 1.5rem; /* Use hardcoded value from core.css or define variable */
+  margin-bottom: 0;
+  color: var(--text-primary); /* Use WA specific text color */
+  background-color: var(--bs-tertiary-bg); /* Changed to use tertiary background */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Use a subtle border */
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Dark Theme Specific Adjustments --- */
+/* -------------------------------------------------------------------------- */
+
+.theme-dark .stat-card,
+.theme-dark .action-card,
+.theme-dark .card {
+  box-shadow: 0 0 15px rgba(0, 208, 255, 0.2), 0 0 25px rgba(160, 120, 234, 0.15); /* Dark theme shadow */
+}
+
+.theme-dark .stat-card::before,
+.theme-dark .action-card::before,
+.theme-dark .card::before {
+  background: linear-gradient(135deg, #00d0ff, #a078ea, #c0c0c0); /* Dark theme gradient border */
+}
+
+.theme-dark .stat-card:hover,
+.theme-dark .action-card:hover,
+.theme-dark .card:hover {
+  box-shadow: 0 0 20px rgba(0, 208, 255, 0.4), 0 0 35px rgba(160, 120, 234, 0.25); /* Dark theme hover shadow */
+}
+
+.theme-dark .card-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Responsive Adjustments --- */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 1199.98px) {
+  .stat-card {
+    flex: 1 1 calc(33.333% - 1.25rem);
+  }
+}
+
+/* Action Card Dropdown Filter Styling */
+.action-card .form-select {
+  width: 100%;  /* max-width: 250px;  */
+  margin: 0 auto 1rem auto; /* Center and add bottom margin */
+  display: block; /* Ensure it takes full width and centers */
+  text-align: left; /* Center text inside dropdown */
+  height: 40px; /* Make taller */
+  line-height: 40px; /* Vertically center text */
+  padding: 0 1rem; /* Adjust padding */
+  border-radius: 8px; /* Match other elements */
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  color: var(--bs-body-color); /* Use theme-appropriate text color */
+  border: 1px solid rgba(58, 165, 255, 0.4); /* Subtle border */
+  transition: all 0.3s ease;
+}
+
+.action-card .form-select:focus {
+  border-color: var(--wa-primary);
+  box-shadow: 0 0 0 0.25rem rgba(0, 208, 255, 0.25);
+}
+
+/* Action Card Buttons Sizing and Alignment */
+.action-card .btn {
+  width: 80%;
+  max-width: 200px; /* Match dropdown width */
+  margin: 0 auto; /* Center button */
+  display: block; /* Ensure it takes full width and centers */
+}
+
+@media (max-width: 767.98px) {
+  .stat-card {
+    flex: 1 1 calc(50% - 1.25rem);
+  }
+  
+  .action-card {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .dashboard-stats {
+    flex-direction: column;
+  }
+  
+  .stat-card {
+    width: 100%;
+  }
+}

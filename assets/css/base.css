@@ -1,0 +1,186 @@
+/*
+ * Water Academy Base Stylesheet
+ * Contains foundational typography and global HTML element styles.
+ * Adopted from assets/css/old/mainx.css
+ */
+
+/* -------------------------------------------------------------------------- */
+/* --- Typography & Fonts --- */
+/* -------------------------------------------------------------------------- */
+/* Michroma Font (for headings and titles) */
+@font-face {
+  font-family: 'Michroma';
+  src: url('../fonts/Michroma webfont kit/michroma-webfont.woff2') format('woff2'),
+       url('../fonts/Michroma webfont kit/michroma-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Ubuntu Font (for regular text) */
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../fonts/Ubuntu webfont kit/ubuntu-r-webfont.woff2') format('woff2'),
+       url('../fonts/Ubuntu webfont kit/ubuntu-r-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../fonts/Ubuntu webfont kit/ubuntu-b-webfont.woff2') format('woff2'),
+       url('../fonts/Ubuntu webfont kit/ubuntu-b-webfont.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../fonts/Ubuntu webfont kit/ubuntu-l-webfont.woff2') format('woff2'),
+       url('../fonts/Ubuntu webfont kit/ubuntu-l-webfont.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Base Typography */
+body {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: var(--font-size-regular-text);
+  font-weight: var(--font-weight-regular-text);
+  color: var(--bs-body-color); /* Use Bootstrap's body color */
+  line-height: 1.6;
+  background-color: var(--bs-body-bg) !important; /* Use Bootstrap's body background, force with !important */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6,
+.card-title, .info-card-title, .metric-label, .page-title {
+  font-family: 'Michroma', sans-serif;
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+  color: var(--bs-heading-color); /* Use Bootstrap's heading color */
+}
+
+h1, .h1 {
+  font-size: var(--font-size-dashboard-title);
+  font-weight: var(--font-weight-dashboard-title);
+}
+
+h2, .h2 {
+  font-size: calc(var(--font-size-dashboard-title) - 2px);
+  font-weight: var(--font-weight-dashboard-title);
+}
+
+h3, .h3 {
+  font-size: var(--font-size-section-header);
+  font-weight: var(--font-weight-section-header);
+}
+
+h4, .h4 {
+  font-size: calc(var(--font-size-section-header) - 2px);
+  font-weight: var(--font-weight-section-header);
+}
+
+h5, .h5 {
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-card-title);
+}
+
+h6, .h6 {
+  font-size: calc(var(--font-size-card-title) - 2px);
+  font-weight: var(--font-weight-card-title);
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--bs-secondary-color); /* Use Bootstrap's secondary color for paragraphs */
+  transition: color 0.3s ease;
+}
+
+a {
+  color: var(--wa-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--wa-primary-dark);
+  text-decoration: underline;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Global HTML Element Styles --- */
+/* -------------------------------------------------------------------------- */
+html, body {
+  min-height: 100vh;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Strictly prevent horizontal scrolling */
+  overflow-y: auto; /* Allow vertical scrolling */
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit; /* Propagate box-sizing to all elements */
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Layout Variables --- */
+/* -------------------------------------------------------------------------- */
+:root {
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 78px;
+  --dashboard-header-height: 56px; /* Standard Bootstrap navbar height */
+  --dashboard-header-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --sidebar-logo-container-height: 190px;
+  --sidebar-nav-item-height: 40px;
+  --sidebar-icon-size: 1.4rem;
+  --dashboard-header-height: 70px; /* Increased header height */
+  
+  /* Spacing Variables */
+  --spacing-unit: 1rem; /* Base spacing unit */
+  --spacing-between-sections: 2rem; /* For vertical spacing between major content blocks */
+  --spacing-between-cards: 1.5rem; /* For horizontal/vertical spacing within card grids */
+
+  --font-size-dashboard-title: 2.5rem;
+  --font-weight-dashboard-title: 700;
+  --font-size-section-header: 1.75rem;
+  --font-weight-section-header: 600;
+  --font-size-card-title: 1.125rem;
+  --font-weight-card-title: 700; /* Added for bold card titles */
+
+  /* Sidebar Gradient Colors (for dark theme) */
+  --sidebar-gradient-top: #1a202c; /* Dark theme sidebar top color */
+  --sidebar-gradient-bottom: #2d3748; /* Dark theme sidebar bottom color */
+
+  /* Sidebar Gradient Colors (for light theme) */
+  --sidebar-gradient-top-light: #ffffff; /* Light theme sidebar top color */
+  --sidebar-gradient-bottom-light: #f1f5f9; /* Light theme sidebar bottom color */
+
+  /* General Background and Text Colors (mapped to Bootstrap variables) */
+  --background-color: var(--bs-body-bg); /* Main background color */
+  --text-primary: var(--bs-body-color); /* Primary text color */
+  --text-secondary: var(--bs-secondary-color); /* Secondary text color (for paragraphs, muted text) */
+  --sidebar-text-color: var(--bs-body-color); /* Sidebar text color */
+  --sidebar-icon-color: var(--bs-body-color); /* Sidebar icon color */
+  --hover-bg: rgba(var(--bs-primary-rgb), 0.06); /* Hover background for interactive elements */
+  --wa-primary: #00d0ff; /* Water Academy primary blue */
+  --wa-primary-dark: #00a0cc; /* Darker shade of WA primary blue */
+  --wa-info: #a078ea; /* Water Academy info purple */
+  --wa-success: #71dd37; /* Water Academy success green */
+  --wa-gradient-blue: linear-gradient(135deg, #00d0ff 0%, #a078ea 100%); /* Blue-purple gradient */
+  --button-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* General button shadow */
+  --wa-transition: all 0.3s ease-in-out; /* Global transition property */
+}
+
+/* Light theme specific overrides */
+.theme-light {
+  --sidebar-gradient-top: var(--sidebar-gradient-top-light);
+  --sidebar-gradient-bottom: var(--sidebar-gradient-bottom-light);
+  --sidebar-text-color: var(--bs-body-color); /* Ensure light theme text color */
+  --sidebar-icon-color: var(--wa-primary); /* Ensure light theme icon color */
+}

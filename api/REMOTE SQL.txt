@@ -1,0 +1,16 @@
+Remote MySQL
+
+hostname: 193.203.166.165
+
+DB_PASS, 'Afb@1976'
+DB_NAME, 'u652025084_w_academy'
+DB_USER, 'u652025084_w_academyuser'
+
+========================================
+
+SSH details
+
+IP		89.116.192.161
+Port		65002
+Username	u652025084
+Password	Afb@1976

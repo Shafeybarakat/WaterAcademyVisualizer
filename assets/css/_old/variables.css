@@ -1,0 +1,289 @@
+/* 
+ * Global CSS Variables
+ * This file contains all the CSS variables used throughout the project.
+ * These variables can be customized to change the theme of the application.
+ * Updated with modern color schemes and enhanced UI variables
+ */
+
+:root {
+    /* Theme: Default (Blue) */
+    --theme-name: "Default";
+    
+    /* Color Codes - Enhanced with more vibrant colors */
+    --sidebar-gradient-top: #1e3c72;
+    --sidebar-gradient-bottom: #2a5298;
+    --primary-blue: #3aa5ff;
+    --secondary-blue: #0078f0;
+    --accent-color: #00d0ff;
+    --success-green: #2ecc71;
+    --warning-yellow: #f39c12;
+    --danger-red: #e74c3c;
+    --background-color: #f8fafc;
+    --card-background: #ffffff;
+    --text-primary: #2c3e50;
+    --text-secondary: #566573;
+    --text-muted: #7f8c8d;
+    --sidebar-text-color: rgba(236, 240, 241, 0.85); /* Brighter text for better readability */
+    --sidebar-icon-color: rgba(236, 240, 241, 0.85);
+    --sidebar-active-bg: rgba(58, 165, 255, 0.4); /* More vibrant blue for active items */
+    --sidebar-active-border: #3aa5ff;
+    --hover-bg: rgba(58, 165, 255, 0.25);
+    --active-bg: rgba(58, 165, 255, 0.4);
+    
+    /* Water Academy Template Variables - Enhanced */
+    --wa-primary: #3aa5ff;
+    --wa-secondary: #a078ea;
+    --wa-success: #2ecc71;
+    --wa-warning: #f39c12;
+    --wa-danger: #e74c3c;
+    --wa-info: #00d0ff;
+    --wa-light-bg: #f8fafc;
+    --wa-dark-bg: #2c3e50;
+    --wa-card-bg: #ffffff;
+    --wa-card-border: rgba(0, 0, 0, 0.05);
+    --wa-hover-overlay: rgba(58, 165, 255, 0.05);
+    --wa-active-overlay: rgba(58, 165, 255, 0.1);
+
+    /* Measurements - Refined for modern UI */
+    --sidebar-width: 260px;
+    --card-border-radius: 12px; /* Increased for modern look */
+    --card-padding: 24px;
+    --card-margin: 16px;
+    --sidebar-icon-size: 22px; /* Slightly larger icons */
+    --dashboard-icon-size: 32px; /* Slightly larger icons */
+    --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03);
+    --card-hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    --wa-card-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    --wa-card-hover-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    --wa-border-radius: 14px; /* More rounded corners */
+    --wa-small-radius: 8px;
+    --wa-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother easing */
+    --border-radius: 8px; /* Slightly more rounded */
+    --transition-speed: 0.25s; /* Slightly slower for smoother feel */
+    --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    
+    /* New UI elements */
+    --glass-blur: blur(10px);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --wa-gradient-blue: linear-gradient(135deg, var(--wa-primary) 0%, var(--wa-info) 100%);
+    --wa-gradient-purple: linear-gradient(135deg, var(--wa-primary) 0%, var(--wa-secondary) 100%);
+    --wa-button-shadow: 0 4px 10px rgba(58, 165, 255, 0.3);
+
+    /* Typography Sizes - Enhanced for better readability */
+    --font-size-card-title: 17px;
+    --font-weight-card-title: 600;
+    --font-size-section-header: 22px;
+    --font-weight-section-header: 600;
+    --font-size-dashboard-title: 26px;
+    --font-weight-dashboard-title: 700;
+    --font-size-metric-number: 30px;
+    --font-weight-metric-number: 700;
+    --font-size-navigation-text: 14px;
+    --font-weight-navigation-text: 500;
+    --font-size-regular-text: 15px; /* Slightly larger for better readability */
+    --font-weight-regular-text: 400;
+    --font-size-small-text: 13px;
+    --font-weight-small-text: 400;
+
+    /* Spacing (8px grid) - Refined for better spacing */
+    --spacing-unit: 8px;
+    --nav-item-padding-vertical: calc(var(--spacing-unit) * 1.5); /* 12px - more compact */
+    --nav-item-padding-horizontal: calc(var(--spacing-unit) * 2.5); /* 20px - more compact */
+    --spacing-between-cards: calc(var(--spacing-unit) * 3); /* 24px */
+    --spacing-between-sections: calc(var(--spacing-unit) * 5); /* 40px - more breathing room */
+    --content-padding: calc(var(--spacing-unit) * 3); /* 24px padding for content areas */
+
+    /* Sidebar Specific - Refined for modern look */
+    --sidebar-logo-container-height: 90px; /* Slightly taller logo area */
+    --sidebar-logo-container-padding: calc(var(--spacing-unit) * 2); /* 16px */
+    --sidebar-nav-item-height: 44px; /* Slightly taller for better clickability */
+    --sidebar-icon-text-spacing: calc(var(--spacing-unit) * 1.5); /* 12px - better spacing */
+    --sidebar-category-header-font-size: 12px;
+    --sidebar-category-header-font-weight: 600; /* Bolder headers */
+    --sidebar-category-header-margin-top: calc(var(--spacing-unit) * 3); /* 24px */
+    --sidebar-category-header-margin-bottom: var(--spacing-unit); /* 8px */
+    --sidebar-item-border-radius: 8px; /* Rounded corners for menu items */
+
+    /* Dashboard Header Specific - Enhanced */
+    --dashboard-header-height: 70px; /* Slightly shorter for more compact look */
+    --dashboard-header-margin-bottom: calc(var(--spacing-unit) * 3); /* 24px */
+    --dashboard-header-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    --search-bar-width: 320px; /* Slightly wider */
+    --search-bar-height: 42px; /* Slightly taller */
+    --search-bar-border-radius: calc(var(--spacing-unit) * 2.5); /* 20px - pill shaped */
+    --user-avatar-size: 42px; /* Slightly larger */
+    --notification-icon-size: 22px; /* Slightly larger */
+    
+    /* Button styles */
+    --button-border-radius: 8px;
+    --button-height-sm: 32px;
+    --button-height-md: 38px; 
+    --button-height-lg: 44px;
+    --button-font-weight: 500;
+    --button-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Theme: Dark - Enhanced with modern dark mode colors */
+.theme-dark {
+    --theme-name: "Dark";
+    
+    /* Color Codes */
+    --sidebar-gradient-top: #0f172a;
+    --sidebar-gradient-bottom: #1e293b;
+    --primary-blue: #38bdf8;
+    --secondary-blue: #0ea5e9;
+    --accent-color: #22d3ee;
+    --success-green: #4ade80;
+    --warning-yellow: #fbbf24;
+    --danger-red: #f87171;
+    --background-color: #0f172a;
+    --card-background: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --sidebar-text-color: rgba(241, 245, 249, 0.9);
+    --sidebar-icon-color: rgba(241, 245, 249, 0.9);
+    --sidebar-active-bg: rgba(56, 189, 248, 0.2);
+    --sidebar-active-border: #38bdf8;
+    --hover-bg: rgba(56, 189, 248, 0.15);
+    --active-bg: rgba(56, 189, 248, 0.2);
+    
+    /* Card and UI adjustments for dark mode */
+    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    --wa-card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    --wa-card-hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    --wa-card-bg: #1e293b;
+    --wa-card-border: rgba(255, 255, 255, 0.05);
+    
+    /* Dark mode specific elements */
+    --glass-bg: rgba(15, 23, 42, 0.3);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --wa-button-shadow: 0 4px 10px rgba(56, 189, 248, 0.2);
+}
+
+/* Theme: Light - Enhanced with softer colors */
+.theme-light {
+    --theme-name: "Light";
+    
+    /* Color Codes */
+    --sidebar-gradient-top: #ffffff;
+    --sidebar-gradient-bottom: #f1f5f9;
+    --primary-blue: #3b82f6;
+    --secondary-blue: #2563eb;
+    --accent-color: #06b6d4;
+    --success-green: #22c55e;
+    --warning-yellow: #eab308;
+    --danger-red: #ef4444;
+    --background-color: #f8fafc;
+    --card-background: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --sidebar-text-color: rgba(15, 23, 42, 0.85);
+    --sidebar-icon-color: rgba(15, 23, 42, 0.85);
+    --sidebar-active-bg: rgba(59, 130, 246, 0.15);
+    --sidebar-active-border: #3b82f6;
+    --hover-bg: rgba(59, 130, 246, 0.08);
+    --active-bg: rgba(59, 130, 246, 0.15);
+    
+    /* Card and UI adjustments for light mode */
+    --card-shadow: 0 10px 15px rgba(0, 0, 0, 0.04);
+    --wa-card-shadow: 0 8px 16px rgba(0, 0, 0, 0.03);
+    --wa-card-border: rgba(0, 0, 0, 0.05);
+    
+    /* Light mode specific elements */
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(0, 0, 0, 0.05);
+    --wa-button-shadow: 0 4px 10px rgba(59, 130, 246, 0.15);
+}
+
+/* Theme: Green - Enhanced with richer green tones */
+.theme-green {
+    --theme-name: "Green";
+    
+    /* Color Codes */
+    --sidebar-gradient-top: #064e3b;
+    --sidebar-gradient-bottom: #047857;
+    --primary-blue: #10b981;
+    --secondary-blue: #059669;
+    --accent-color: #34d399;
+    --success-green: #22c55e;
+    --warning-yellow: #fbbf24;
+    --danger-red: #f87171;
+    --background-color: #ecfdf5;
+    --card-background: #ffffff;
+    --text-primary: #064e3b;
+    --text-secondary: #065f46;
+    --text-muted: #047857;
+    --sidebar-text-color: rgba(240, 253, 244, 0.9);
+    --sidebar-icon-color: rgba(240, 253, 244, 0.9);
+    --sidebar-active-bg: rgba(16, 185, 129, 0.25);
+    --sidebar-active-border: #10b981;
+    --hover-bg: rgba(16, 185, 129, 0.15);
+    --active-bg: rgba(16, 185, 129, 0.25);
+    
+    /* Green theme specific gradients */
+    --wa-gradient-green: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+    --wa-button-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+/* Theme: Purple - Enhanced with more vibrant purples */
+.theme-purple {
+    --theme-name: "Purple";
+    
+    /* Color Codes */
+    --sidebar-gradient-top: #4c1d95;
+    --sidebar-gradient-bottom: #6d28d9;
+    --primary-blue: #8b5cf6;
+    --secondary-blue: #7c3aed;
+    --accent-color: #a78bfa;
+    --success-green: #4ade80;
+    --warning-yellow: #fbbf24;
+    --danger-red: #f87171;
+    --background-color: #f5f3ff;
+    --card-background: #ffffff;
+    --text-primary: #4c1d95;
+    --text-secondary: #6d28d9;
+    --text-muted: #7e22ce;
+    --sidebar-text-color: rgba(245, 243, 255, 0.9);
+    --sidebar-icon-color: rgba(245, 243, 255, 0.9);
+    --sidebar-active-bg: rgba(139, 92, 246, 0.25);
+    --sidebar-active-border: #8b5cf6;
+    --hover-bg: rgba(139, 92, 246, 0.15);
+    --active-bg: rgba(139, 92, 246, 0.25);
+    
+    /* Purple theme specific gradients */
+    --wa-gradient-purple: linear-gradient(135deg, #8b5cf6 0%, #c4b5fd 100%);
+    --wa-button-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+}
+
+/* Theme: Ocean - New oceanic blue theme */
+.theme-ocean {
+    --theme-name: "Ocean";
+    
+    /* Color Codes */
+    --sidebar-gradient-top: #075985;
+    --sidebar-gradient-bottom: #0369a1;
+    --primary-blue: #0ea5e9;
+    --secondary-blue: #0284c7;
+    --accent-color: #22d3ee;
+    --success-green: #4ade80;
+    --warning-yellow: #fbbf24;
+    --danger-red: #f87171;
+    --background-color: #f0f9ff;
+    --card-background: #ffffff;
+    --text-primary: #075985;
+    --text-secondary: #0369a1;
+    --text-muted: #0284c7;
+    --sidebar-text-color: rgba(240, 249, 255, 0.9);
+    --sidebar-icon-color: rgba(240, 249, 255, 0.9);
+    --sidebar-active-bg: rgba(14, 165, 233, 0.25);
+    --sidebar-active-border: #0ea5e9;
+    --hover-bg: rgba(14, 165, 233, 0.15);
+    --active-bg: rgba(14, 165, 233, 0.25);
+    
+    /* Ocean theme specific gradients */
+    --wa-gradient-ocean: linear-gradient(135deg, #0ea5e9 0%, #22d3ee 100%);
+    --wa-button-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
+}

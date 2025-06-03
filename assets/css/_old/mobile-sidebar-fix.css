@@ -1,0 +1,107 @@
+/**
+ * Water Academy Mobile Sidebar Fix
+ * Addresses UI issues with the sidebar on mobile devices
+ */
+
+/* Fix mobile sidebar positioning and visibility */
+@media (max-width: 1199.98px) {
+  /* Reset transform and improve z-index */
+  .menu.menu-vertical {
+    transform: translateX(-100%);
+    width: var(--sidebar-width);
+    z-index: 2000; /* Higher than the overlay to appear on top */
+    box-shadow: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    pointer-events: auto !important; /* Ensure clicks work */
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  /* When sidebar is shown */
+  .menu.menu-vertical.show,
+  .layout-menu-expanded .menu.menu-vertical {
+    transform: translateX(0);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Reset layout page margin on mobile */
+  .layout-page {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    left: 0 !important;
+  }
+  
+  /* Fix overlay positioning and appearance */
+  .layout-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 1990; /* Just below sidebar */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .layout-menu-expanded .layout-overlay {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Fix menu item clickability */
+  .menu.menu-vertical .menu-item,
+  .menu.menu-vertical .menu-link {
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 2010;
+  }
+  
+  /* Ensure sidebar toggle button is visible and clickable on mobile */
+  .layout-navbar .d-xl-none {
+    display: block !important;
+    z-index: 1020;
+  }
+  
+  /* Fix nested elements in sidebar */
+  .menu.menu-vertical .app-brand.demo,
+  .menu.menu-vertical .menu-inner {
+    pointer-events: auto !important;
+  }
+  
+  /* Remove any width constraints from main content */
+  .container-xxl {
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Fix any potential overflow issues */
+  body, html {
+    overflow-x: hidden;
+  }
+}
+
+/* Fix specificity issues by using !important for critical properties */
+.menu.menu-vertical.show {
+  transform: translateX(0) !important;
+}
+
+/* Fix sidebar menu item clickability everywhere */
+.menu-inner > .menu-item > .menu-link {
+  pointer-events: auto !important;
+}
+
+/* Fix any overflow issues in layout containers */
+.layout-wrapper,
+.layout-container {
+  overflow-x: hidden;
+}

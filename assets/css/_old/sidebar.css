@@ -1,0 +1,432 @@
+/* 
+ * Sidebar Styles
+ * This file contains all styles related to the sidebar navigation.
+ * Updated for modern UI appearance with improved visual aesthetics
+ */
+
+/* Sidebar General */
+.menu.menu-vertical { /* Targeting the main menu container more directly */
+    width: var(--sidebar-width) !important; /* Ensure width is applied */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1030; /* Ensure it's above content but below modals if any */
+    transition: all 0.3s ease; /* Smooth transitions */
+    border-right: none; /* Remove border for cleaner look */
+}
+
+/* Dark mode sidebar styling */
+body:not(.theme-light) .menu.menu-vertical {
+    background: linear-gradient(135deg, var(--sidebar-gradient-top) 0%, var(--sidebar-gradient-bottom) 100%); /* Modern diagonal gradient */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow for depth */
+}
+
+/* Light mode sidebar styling */
+body.theme-light .menu.menu-vertical {
+    background: #7be7ff; /* Plain white background */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+    border-right: 1px solid rgba(0, 0, 0, 0.1); /* Light border */
+}
+
+/* Sidebar Logo Container */
+.menu.menu-vertical .app-brand.demo {
+    height: auto; /* Allow height to adjust based on content */
+    padding: 20px 0; /* Add padding top and bottom */
+    display: flexbox; /* Use flexbox */
+    justify-content: center; /* Center align logo */
+    align-items: center;
+    border-bottom: none; /* Removed separator as requested */
+    margin-bottom: 10px; /* Add space after logo */
+}
+
+.menu.menu-vertical .app-brand.demo .app-brand-link {
+    display: inline-flex; /* Ensure link wraps logo properly */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Sidebar Logo Image */
+.logo-container {
+    width: 100%; /* Fixed width */
+    height: 100%; /* Fixed height for 1:1 ratio */
+    display: flexbox;
+    justify-content: center;
+    align-items: center;
+}
+
+#sidebarLogo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: fill;
+    filter: brightness(1.2); /* Make logo slightly brighter on dark background */
+}
+
+/* Sidebar Navigation Items */
+.menu.menu-vertical .menu-inner > .menu-item {
+    margin-bottom: 6px; /* Increased space between items */
+    margin-top: 0; /* Reset top margin */
+    animation: fadeIn 0.3s ease forwards; /* Slightly slower animation */
+    opacity: 0;
+    position: relative; /* For before/after pseudo-elements */
+}
+
+.menu.menu-vertical .menu-inner > .menu-item > .menu-link,
+.menu.menu-vertical .menu-inner > .menu-item .menu-toggle {
+    height: var(--sidebar-nav-item-height);
+    padding: 10px 18px; /* Comfortable padding */
+    color: var(--sidebar-text-color);
+    font-size: var(--font-size-navigation-text);
+    font-weight: var(--font-weight-navigation-text);
+    border-radius: 8px; /* Slightly rounded corners */
+    margin: 0 12px; /* Increased margin for better spacing */
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transition with easing */
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden; /* For ripple effect */
+    backdrop-filter: blur(5px); /* Glass-like effect */
+}
+
+.menu.menu-vertical .menu-inner > .menu-item > .menu-link .menu-icon,
+.menu.menu-vertical .menu-inner > .menu-item .menu-toggle .menu-icon {
+    font-size: calc(var(--sidebar-icon-size) - 2px); /* Slightly smaller icons */
+    width: var(--sidebar-icon-size);
+    height: var(--sidebar-icon-size);
+    color: var(--sidebar-icon-color); 
+    margin-right: 14px; /* Consistent spacing */
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease; /* Allow icon to animate */
+}
+
+/* If using SVGs directly, you might need to style the svg tag or its container */
+.menu.menu-vertical .menu-inner > .menu-item > .menu-link .menu-icon svg {
+    width: var(--sidebar-icon-size);
+    height: var(--sidebar-icon-size);
+    fill: var(--sidebar-icon-color); /* Or stroke, depending on SVG */
+}
+
+/* Light mode nav styling */
+body.theme-light .menu.menu-vertical .menu-inner > .menu-item > .menu-link {
+    color: #2c3e50; /* Dark text for light mode */
+}
+
+body.theme-light .menu.menu-vertical .menu-inner > .menu-item > .menu-link .menu-icon {
+    color: #3498db; /* Blue icons for light mode */
+}
+
+/* Dark mode text color (default) */
+body:not(.theme-light) .menu.menu-vertical .menu-inner > .menu-item > .menu-link {
+    color: var(--sidebar-text-color); /* White/light text for dark mode */
+}
+
+/* Sidebar Item Hover State - Dark Mode */
+body:not(.theme-light) .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link:hover,
+body:not(.theme-light) .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Subtle light background */
+    color: #ffffff; /* Bright white text on hover */
+    transform: translateX(3px); /* Slight rightward shift */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Subtle elevation */
+}
+
+body:not(.theme-light) .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link:hover .menu-icon,
+body:not(.theme-light) .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-toggle:hover .menu-icon {
+    color: var(--wa-primary); /* Accent color on hover */
+    transform: scale(1.1); /* Slightly enlarge icon */
+}
+
+/* Sidebar Item Hover State - Light Mode */
+body.theme-light .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link:hover,
+body.theme-light .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-toggle:hover {
+    background-color: #ffffff; /* Light blue background */
+    color: #2980b9; /* Darker blue text on hover */
+    transform: translateX(3px); /* Slight rightward shift */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Subtle elevation */
+}
+
+body.theme-light .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link:hover .menu-icon,
+body.theme-light .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-toggle:hover .menu-icon {
+    color: #2980b9; /* Darker blue on hover */
+    transform: scale(1.1); /* Slightly enlarge icon */
+}
+
+/* Add ripple effect for clicks */
+.menu.menu-vertical .menu-inner > .menu-item > .menu-link:active::after,
+.menu.menu-vertical .menu-inner > .menu-item > .menu-toggle:active::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+    transform: translate(-50%, -50%) scale(0);
+    animation: ripple 0.5s ease-out;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+@keyframes ripple {
+    to {
+        transform: translate(-50%, -50%) scale(3);
+        opacity: 0;
+    }
+}
+
+/* Sidebar Item Active State */
+.menu.menu-vertical .menu-inner > .menu-item.active > .menu-link,
+.menu.menu-vertical .menu-inner > .menu-item.active > .menu-toggle {
+    background: linear-gradient(90deg, var(--wa-primary) 0%, rgba(58, 165, 255, 0.7) 100%); /* Gradient background */
+    color: #ffffff; /* White text */
+    font-weight: 600; /* Bolder text */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Pronounced shadow */
+    transform: translateX(5px); /* Slightly indented */
+}
+
+.menu.menu-vertical .menu-inner > .menu-item.active > .menu-link .menu-icon,
+.menu.menu-vertical .menu-inner > .menu-item.active > .menu-toggle .menu-icon {
+    color: #ffffff; /* White icon */
+}
+
+/* Add a subtle glowing effect to active items */
+.menu.menu-vertical .menu-inner > .menu-item.active > .menu-link::before,
+.menu.menu-vertical .menu-inner > .menu-item.active > .menu-toggle::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--wa-primary);
+    opacity: 0.2;
+    filter: blur(8px);
+    z-index: -1;
+    border-radius: 8px;
+}
+
+/* Enhanced hover effect */
+.menu.menu-vertical .menu-inner > .menu-item > .menu-link .hover-effect,
+.menu.menu-vertical .menu-inner > .menu-item > .menu-toggle .hover-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    z-index: -1;
+    mix-blend-mode: overlay;
+}
+
+.menu.menu-vertical .menu-inner > .menu-item > .menu-link:hover .hover-effect,
+.menu.menu-vertical .menu-inner > .menu-item > .menu-toggle:hover .hover-effect {
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Add label indicator for new items */
+.menu.menu-vertical .menu-inner > .menu-item > .menu-link .menu-text {
+    position: relative;
+}
+
+.menu-text[data-new]::after {
+    content: 'NEW';
+    position: absolute;
+    top: -8px;
+    right: -28px;
+    font-size: 8px;
+    background: var(--wa-warning);
+    color: #000;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+/* Sidebar Category Headers */
+.menu.menu-vertical .menu-header {
+    color: rgba(255, 255, 255, 0.5); /* Light text for category headers on dark background */
+    font-size: var(--sidebar-category-header-font-size);
+    font-weight: var(--sidebar-category-header-font-weight);
+    text-transform: uppercase;
+    padding: var(--nav-item-padding-vertical) var(--nav-item-padding-horizontal);
+    margin-top: var(--sidebar-category-header-margin-top);
+    margin-bottom: var(--sidebar-category-header-margin-bottom);
+}
+
+/* Mobile toggle for sidebar */
+.layout-menu-toggle {
+    color: var(--sidebar-text-color);
+    position: relative;
+    z-index: 30; /* Higher z-index to ensure clickability */
+}
+
+/* Enhanced mobile styles to ensure menu items are clickable */
+@media screen and (max-width: 992px) {
+    .menu-item .menu-link {
+        position: relative !important;
+        z-index: 25 !important; /* Ensure higher than potential overlays */
+        pointer-events: auto !important; /* Force pointer events */
+    }
+    
+    .menu.menu-vertical {
+        z-index: 1050 !important; /* Higher z-index when on mobile */
+    }
+    
+    /* Ensure menu toggle is always clickable */
+    .layout-menu-toggle.menu-link {
+        pointer-events: auto !important;
+        z-index: 1060 !important;
+        position: fixed !important;
+    }
+}
+
+.menu-inner-shadow {
+    display: none; /* Remove default inner shadow if not desired */
+}
+
+/* Submenu Styling - Glass morphism effect */
+.menu-sub {
+    background: rgba(0, 0, 0, 0.15) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-radius: 12px !important;
+    padding: 8px !important;
+    margin: 6px 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    transform-origin: top center;
+    animation: submenuAppear 0.3s ease forwards;
+}
+
+@keyframes submenuAppear {
+    from {
+        opacity: 0;
+        transform: scaleY(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+}
+
+.menu-sub .menu-item {
+    margin: 4px 0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.menu-sub .menu-link {
+    padding: 8px 12px 8px 36px !important;
+    font-size: 0.85rem;
+    color: var(--sidebar-text-color) !important;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.menu-sub .menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.menu-sub .menu-item.active {
+    background: var(--wa-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.menu-sub .menu-item.active .menu-link {
+    color: #ffffff !important;
+    font-weight: 500;
+}
+
+/* Staggered animation for menu items */
+.menu-inner > *:nth-child(1) { animation-delay: 0.05s; }
+.menu-inner > *:nth-child(2) { animation-delay: 0.1s; }
+.menu-inner > *:nth-child(3) { animation-delay: 0.15s; }
+.menu-inner > *:nth-child(4) { animation-delay: 0.2s; }
+.menu-inner > *:nth-child(5) { animation-delay: 0.25s; }
+.menu-inner > *:nth-child(6) { animation-delay: 0.3s; }
+.menu-inner > *:nth-child(7) { animation-delay: 0.35s; }
+.menu-inner > *:nth-child(8) { animation-delay: 0.4s; }
+.menu-inner > *:nth-child(9) { animation-delay: 0.45s; }
+.menu-inner > *:nth-child(10) { animation-delay: 0.5s; }
+.menu-inner > *:nth-child(n+11) { animation-delay: 0.55s; }
+
+/* Enhanced Animation for Menu Items */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Collapsed Sidebar Styles */
+.layout-menu-collapsed .app-brand {
+  padding: 10px 0 !important;
+}
+
+.layout-menu-collapsed #sidebarLogo {
+  width: 50px;
+  height: 50px;
+}
+
+.layout-menu-collapsed .menu-inner > .menu-item > .menu-link {
+  justify-content: center;
+  padding: 10px;
+}
+
+.layout-menu-collapsed .menu-inner > .menu-item > .menu-link .menu-icon {
+  margin-right: 0 !important;
+}
+
+.layout-menu-collapsed .menu-inner > .menu-item > .menu-link .menu-text,
+.layout-menu-collapsed .menu-inner > .menu-item > .menu-link .menu-arrow,
+.layout-menu-collapsed .user-info,
+.layout-menu-collapsed .sidebar-footer {
+  display: none;
+}
+
+.layout-menu-collapsed .user-profile {
+  justify-content: center;
+  padding: 10px;
+}
+
+.layout-menu-collapsed .user-avatar {
+  margin-right: 0;
+}
+
+/* Sidebar Footer - Modern styling */
+.sidebar-footer {
+  padding: 15px;
+  text-align: center;
+  color: var(--sidebar-text-color);
+  font-size: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 20px;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+}
+
+.version {
+  position: relative;
+  display: inline-block;
+  padding: 5px 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.5px;
+}

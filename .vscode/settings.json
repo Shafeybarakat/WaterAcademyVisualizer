@@ -1,0 +1,18 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "193.203.166.165",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "new water academy",
+            "database": "u652025084_new_wa_db",
+            "username": "u652025084_new_wa_user",
+            "password": "Afb@1976"
+        }
+    ]
+}

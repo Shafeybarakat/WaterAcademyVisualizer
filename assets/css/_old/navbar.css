@@ -1,0 +1,183 @@
+/* 
+ * Navbar Styles
+ * This file contains all styles related to the top navigation bar.
+ */
+
+/* Dashboard Header (Navbar) */
+.layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached { /* Specific to Sneat's structure */
+    height: var(--dashboard-header-height);
+    margin-top: var(--card-margin); /* Consistent margin from design specs */
+    margin-bottom: var(--dashboard-header-margin-bottom);
+    box-shadow: var(--dashboard-header-shadow);
+    border-radius: var(--card-border-radius);
+    background-color: var(--card-background); /* Use theme variable */
+    padding-left: var(--card-padding); /* 24px */
+    padding-right: var(--card-padding); /* 24px */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* This targets the container within the navbar that holds the title and right-side elements */
+.layout-navbar .navbar-nav-right.d-flex.align-items-center {
+    width: 100%;
+}
+
+/* Page Title in Navbar */
+.layout-navbar .page-title { /* You'll need to ensure your $pageTitle is wrapped in an element with this class in header.php */
+    font-family: 'Michroma', sans-serif; /* As per typography spec */
+    font-size: var(--font-size-dashboard-title);
+    font-weight: var(--font-weight-dashboard-title);
+    color: var(--text-primary);
+    margin-right: auto; /* Pushes other items to the right */
+    transition: color 0.3s ease;
+}
+
+/* User Avatar in Navbar */
+.layout-navbar .avatar {
+    width: var(--user-avatar-size);
+    height: var(--user-avatar-size);
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--primary-blue);
+    transition: border-color 0.3s ease;
+}
+
+.layout-navbar .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image covers the avatar area nicely */
+}
+
+/* User Dropdown Menu */
+.layout-navbar .dropdown-menu {
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 0;
+    min-width: 200px;
+    background-color: var(--card-background);
+    transition: background-color 0.3s ease;
+}
+
+.layout-navbar .dropdown-item {
+    padding: 0.5rem 1.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.layout-navbar .dropdown-item:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-blue);
+}
+
+.layout-navbar .dropdown-item i {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+/* Notification Bell Icon */
+.layout-navbar .notification-icon {
+    width: var(--notification-icon-size);
+    height: var(--notification-icon-size);
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+}
+
+.layout-navbar .notification-icon:hover {
+    color: var(--primary-blue);
+}
+
+/* Badge for notifications */
+.layout-navbar .notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--danger-red);
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Search Bar */
+.layout-navbar .navbar-search {
+    position: relative;
+    margin-right: 1rem;
+}
+
+.layout-navbar .navbar-search .form-control {
+    width: var(--search-bar-width);
+    height: var(--search-bar-height);
+    border-radius: var(--search-bar-border-radius);
+    font-family: 'Ubuntu', sans-serif;
+    font-size: var(--font-size-regular-text);
+    padding-left: 2.5rem;
+    background-color: var(--background-color);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.layout-navbar .navbar-search .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* Theme Toggle Button */
+.layout-navbar .theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    padding: 0.25rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.layout-navbar .theme-toggle:hover {
+    color: var(--primary-blue);
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .layout-navbar .navbar-search .form-control {
+        width: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .layout-navbar .navbar-search {
+        display: none;
+    }
+    
+    .layout-navbar .page-title {
+        font-size: calc(var(--font-size-dashboard-title) - 4px);
+    }
+}
+
+/* Dark theme adjustments */
+.theme-dark .layout-navbar {
+    background-color: var(--card-background);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.theme-dark .layout-navbar .dropdown-menu {
+    background-color: var(--card-background);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.theme-dark .layout-navbar .navbar-search .form-control {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}

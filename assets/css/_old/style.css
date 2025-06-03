@@ -1,0 +1,25 @@
+/* 
+ * Main Stylesheet
+ * This file imports all the CSS files used in the project.
+ */
+
+/* Base Styles */
+@import url("variables.css");
+@import url("typography.css");
+
+/* Layout Styles */
+@import url("layout.css");
+
+/* Component Styles */
+@import url("sidebar.css");
+@import url("navbar.css");
+@import url("cards.css");
+@import url("buttons.css");
+@import url("tables.css");
+@import url("badges.css");
+@import url("progress.css");
+@import url("filter-cards.css");
+@import url("theme-switcher.css");
+
+/* Print Styles */
+@import url("report-print.css");

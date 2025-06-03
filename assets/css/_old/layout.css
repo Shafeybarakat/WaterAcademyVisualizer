@@ -1,0 +1,140 @@
+/* 
+ * Layout Styles
+ * This file contains general layout styles for the application.
+ */
+
+/* General Body Styling */
+body, html {
+    min-height: 100%;
+    height: 100%; /* Ensure html and body take full height for sticky footer */
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color); /* Base background for the entire page */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.layout-wrapper { /* Sneat's outermost wrapper */
+    min-height: 100vh; /* Ensure layout wrapper takes full viewport height */
+}
+
+.layout-container { /* Contains sidebar and layout-page. Sneat likely handles its display. */
+    display: flex; /* Generally not needed here if sidebar is fixed */
+}
+
+/* Main Content Area Styling */
+.content-wrapper {
+    background-color: var(--background-color); /* Main content area background */
+    min-height: calc(100vh - var(--dashboard-header-height) - var(--dashboard-header-margin-bottom)); /* Can be a fallback if flex-grow isn't enough */
+    padding: var(--spacing-between-sections) var(--spacing-between-cards); /* Consistent padding */
+    flex-grow: 1; /* Allows content-wrapper to take available space */
+    transition: background-color 0.3s ease;
+}
+
+/* Adjust main content layout to account for fixed sidebar */
+.layout-page {
+    padding-left: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Crucial for sticky footer: ensures .layout-page tries to fill viewport height */
+    width: calc(100% - var(--sidebar-width));
+    position: relative; /* For detached navbar positioning */
+    transition: margin-left 0.3s ease;
+}
+
+/* Collapsed sidebar adjustment */
+.layout-menu-collapsed .layout-page {
+    padding-left: var(--sidebar-collapsed-width);
+}
+
+/* Container for page content */
+.container-xxl {
+    width: 100%;
+    padding-right: var(--spacing-unit);
+    padding-left: var(--spacing-unit);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 1199.98px) {
+    .layout-page {
+        padding-left: 0;
+    }
+    
+    .layout-menu-collapsed .layout-page {
+        padding-left: 0;
+    }
+}
+
+/* Footer styling */
+.footer {
+    background-color: var(--card-background);
+    padding: 1rem 0;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: auto; /* Push footer to bottom when content is short */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark theme adjustments */
+.theme-dark .footer {
+    background-color: var(--card-background);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Grid system enhancements */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -0.75rem;
+    margin-left: -0.75rem;
+}
+
+.col, .col-auto, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, 
+.col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col-sm,
+.col-sm-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, 
+.col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, 
+.col-sm-12, .col-md, .col-md-auto, .col-md-1, .col-md-2, .col-md-3, 
+.col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, 
+.col-md-10, .col-md-11, .col-md-12, .col-lg, .col-lg-auto, .col-lg-1, 
+.col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, 
+.col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-xl, 
+.col-xl-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, 
+.col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, 
+.col-xl-12 {
+    position: relative;
+    width: 100%;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+}
+
+/* Section spacing */
+.section {
+    margin-bottom: var(--spacing-between-sections);
+}
+
+/* Page header */
+.page-header {
+    margin-bottom: var(--spacing-between-cards);
+}
+
+/* Utility classes */
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+.py-3 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+.px-4 {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+}

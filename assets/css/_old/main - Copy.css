@@ -1,0 +1,2098 @@
+/*
+ * Water Academy Main Stylesheet
+ * Unified, futuristic design for all UI elements
+ * Supports both dark and light modes with proper theme switching
+ */
+
+/* -------------------------------------------------------------------------- */
+/* --- CSS Variables --- */
+/* -------------------------------------------------------------------------- */
+:root {
+  /* Theme: Default (Blue) */
+  --theme-name: "Default";
+
+  /* Core Color Palette */
+  --wa-primary: #3aa5ff;
+  --wa-primary-dark: #0078f0;
+  --wa-primary-light: #70c4ff;
+  --wa-secondary: #a078ea;
+  --wa-accent: #00d0ff;
+  --wa-success: #2ecc71;
+  --wa-warning: #f39c12;
+  --wa-danger: #e74c3c;
+  --wa-info: #00d0ff;
+
+  /* Background & Surface Colors */
+  --background-color: #f8fafc;
+  --card-background: #ffffff;
+  --sidebar-gradient-top: #1e3c72;
+  --sidebar-gradient-bottom: #2a5298;
+
+  /* Text Colors */
+  --text-primary: #2c3e50;
+  --text-secondary: #566573;
+  --text-muted: #7f8c8d;
+  --sidebar-text-color: rgba(236, 240, 241, 0.95);
+  --sidebar-icon-color: rgba(236, 240, 241, 0.95);
+
+  /* Interactive States */
+  --hover-bg: rgba(58, 165, 255, 0.15);
+  --active-bg: rgba(58, 165, 255, 0.25);
+  --sidebar-active-bg: rgba(58, 165, 255, 0.4);
+  --sidebar-active-border: #3aa5ff;
+
+  /* Measurements & Spacing */
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 70px;
+  --card-border-radius: 15px;
+  --card-padding: 24px;
+  --card-margin: 16px;
+  --spacing-unit: 8px;
+  --spacing-between-cards: calc(var(--spacing-unit) * 3);
+  --spacing-between-sections: calc(var(--spacing-unit) * 5);
+
+  /* Icon Sizes */
+  --sidebar-icon-size: 25px;
+  --dashboard-icon-size: 35px;
+
+  /* Shadows & Effects */
+  --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03);
+  --card-hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  --button-shadow: 0 4px 10px rgba(58, 165, 255, 0.3);
+  --glass-blur: blur(10px);
+
+  /* Special Effects */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --wa-gradient-blue: linear-gradient(135deg, var(--wa-primary) 0%, var(--wa-info) 100%);
+  --wa-gradient-purple: linear-gradient(135deg, var(--wa-primary) 0%, var(--wa-secondary) 100%);
+
+  /* Typography */
+  --font-size-card-title: 17px;
+  --font-weight-card-title: 600;
+  --font-size-section-header: 22px;
+  --font-weight-section-header: 600;
+  --font-size-dashboard-title: 26px;
+  --font-weight-dashboard-title: 700;
+  --font-size-metric-number: 30px;
+  --font-weight-metric-number: 700;
+  --font-size-navigation-text: 14px;
+  --font-weight-navigation-text: 500;
+  --font-size-regular-text: 15px;
+  --font-weight-regular-text: 400;
+
+  /* Animations & Transitions */
+  --transition-speed: 0.25s;
+  --wa-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Navbar & Header */
+  --dashboard-header-height: 70px;
+  --dashboard-header-margin-bottom: calc(var(--spacing-unit) * 3);
+  --dashboard-header-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+  /* Sidebar Specific */
+  --sidebar-logo-container-height: 200px;
+  --sidebar-logo-container-padding: calc(var(--spacing-unit) * 2);
+  --sidebar-nav-item-height: 40px;
+  --sidebar-icon-text-spacing: calc(var(--spacing-unit) * 1.5);
+  --sidebar-category-header-font-size: 12px;
+  --sidebar-category-header-font-weight: 600;
+  --sidebar-category-header-margin-top: calc(var(--spacing-unit) * 3);
+  --sidebar-category-header-margin-bottom: var(--spacing-unit);
+  --sidebar-item-border-radius: 8px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Dark Theme --- */
+/* -------------------------------------------------------------------------- */
+.theme-dark {
+  --theme-name: "Dark";
+
+  /* Core Color Adjustments */
+  --wa-primary: #38bdf8;
+  --wa-primary-dark: #0ea5e9;
+  --wa-primary-light: #7dd3fc;
+
+  /* Background & Surface Colors */
+  --background-color: #0f172a;
+  --card-background: #1e293b;
+  --sidebar-gradient-top: #0f172a;
+  --sidebar-gradient-bottom: #1e293b;
+
+  /* Text Colors */
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --sidebar-text-color: rgba(241, 245, 249, 0.9);
+  --sidebar-icon-color: rgba(241, 245, 249, 0.9);
+
+  /* Interactive States */
+  --hover-bg: rgba(56, 189, 248, 0.15);
+  --active-bg: rgba(56, 189, 248, 0.25);
+  --sidebar-active-bg: rgba(56, 189, 248, 0.2);
+  --sidebar-active-border: #38bdf8;
+
+  /* Shadows & Effects */
+  --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  --card-hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  --box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  --button-shadow: 0 4px 10px rgba(56, 189, 248, 0.2);
+
+  /* Special Effects */
+  --glass-bg: rgba(15, 23, 42, 0.3);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Light Theme --- */
+/* -------------------------------------------------------------------------- */
+.theme-light {
+  --theme-name: "Light";
+
+  /* Core Color Adjustments */
+  --wa-primary: #3b82f6;
+  --wa-primary-dark: #2563eb;
+  --wa-primary-light: #60a5fa;
+
+  /* Background & Surface Colors */
+  --background-color: #f8fafc;
+  --card-background: #ffffff;
+  --sidebar-gradient-top: #ffffff;
+  --sidebar-gradient-bottom: #f1f5f9;
+
+  /* Text Colors */
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --sidebar-text-color: rgba(15, 23, 42, 0.85);
+  --sidebar-icon-color: rgba(15, 23, 42, 0.85);
+
+  /* Interactive States */
+  --hover-bg: rgba(59, 130, 246, 0.08);
+  --active-bg: rgba(59, 130, 246, 0.15);
+  --sidebar-active-bg: rgba(59, 130, 246, 0.15);
+  --sidebar-active-border: #3b82f6;
+
+  /* Shadows & Effects */
+  --card-shadow: 0 10px 15px rgba(0, 0, 0, 0.04);
+  --card-hover-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
+  --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  --button-shadow: 0 4px 10px rgba(59, 130, 246, 0.15);
+
+  /* Special Effects */
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.05);
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Typography & Fonts --- */
+/* -------------------------------------------------------------------------- */
+/* Michroma Font (for headings and titles) */
+@font-face {
+  font-family: 'Michroma';
+  src: url('../fonts/Michroma webfont kit/michroma-webfont.woff2') format('woff2'),
+       url('../fonts/Michroma webfont kit/michroma-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Ubuntu Font (for regular text) */
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../fonts/Ubuntu webfont kit/ubuntu-r-webfont.woff2') format('woff2'),
+       url('../fonts/Ubuntu webfont kit/ubuntu-r-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../fonts/Ubuntu webfont kit/ubuntu-b-webfont.woff2') format('woff2'),
+       url('../fonts/Ubuntu webfont kit/ubuntu-b-webfont.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../fonts/Ubuntu webfont kit/ubuntu-l-webfont.woff2') format('woff2'),
+       url('../fonts/Ubuntu webfont kit/ubuntu-l-webfont.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Base Typography */
+body {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: var(--font-size-regular-text);
+  font-weight: var(--font-weight-regular-text);
+  color: var(--text-primary);
+  line-height: 1.6;
+  background-color: var(--background-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6,
+.card-title, .info-card-title, .metric-label, .page-title {
+  font-family: 'Michroma', sans-serif;
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+  color: var(--text-primary);
+}
+
+h1, .h1 {
+  font-size: var(--font-size-dashboard-title);
+  font-weight: var(--font-weight-dashboard-title);
+}
+
+h2, .h2 {
+  font-size: calc(var(--font-size-dashboard-title) - 2px);
+  font-weight: var(--font-weight-dashboard-title);
+}
+
+h3, .h3 {
+  font-size: var(--font-size-section-header);
+  font-weight: var(--font-weight-section-header);
+}
+
+h4, .h4 {
+  font-size: calc(var(--font-size-section-header) - 2px);
+  font-weight: var(--font-weight-section-header);
+}
+
+h5, .h5 {
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-card-title);
+}
+
+h6, .h6 {
+  font-size: calc(var(--font-size-card-title) - 2px);
+  font-weight: var(--font-weight-card-title);
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+a {
+  color: var(--wa-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--wa-primary-dark);
+  text-decoration: underline;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Layout & Structure --- */
+/* -------------------------------------------------------------------------- */
+html, body {
+  min-height: 100vh;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto; /* Allow vertical scrolling */
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit; /* Propagate box-sizing to all elements */
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Layout Wrapper --- */
+/* -------------------------------------------------------------------------- */
+.layout-wrapper {
+  min-height: 100vh; /* Ensures full viewport height */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  overflow: hidden; /* Prevent any overflow on the wrapper */
+  transition: var(--wa-transition); /* Use the defined transition variable */
+}
+
+.layout-container {
+  display: flex;
+  flex: 1 0 auto;
+}
+
+.layout-page {
+  flex: 1;
+  margin-left: var(--sidebar-width) !important;
+  padding-left: 0 !important; /* Override padding from layout.css */
+  margin-right: 0 !important;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease, width 0.3s ease, max-width 0.3s ease;
+  position: relative;
+  width: calc(100% - var(--sidebar-width)) !important; /* Fixes the gap by accounting for margin */
+  max-width: calc(100% - var(--sidebar-width)) !important;
+  min-height: 100vh; /* Crucial for sticky footer: ensures .layout-page tries to fill viewport height */
+  box-sizing: border-box; /* Ensure padding doesn't add to width */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-y: auto; /* Allow vertical scrolling for main content */
+  left: 0; /* Ensure no left positioning adds gap */
+}
+
+.content-wrapper {
+  flex: 1;
+  padding: var(--spacing-between-sections) var(--spacing-between-cards);
+  background-color: var(--background-color);
+  transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Allows content-wrapper to take available space */
+  align-items: stretch;
+  min-height: calc(100vh - 56px - 30px); /* 100vh - header height - footer height */
+  overflow-y: visible; /* Don't add a second scrollbar */
+}
+
+.container-xxl {
+  width: 100%;
+  padding-right: var(--spacing-unit);
+  padding-left: var(--spacing-unit);
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 100%;
+}
+
+.footer {
+  background-color: var(--card-background);
+  padding: 0.5rem 0;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  margin-top: auto;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+  height: 30px;
+}
+
+.theme-dark .footer {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Collapsed Sidebar Layout Adjustments */
+.layout-menu-collapsed .layout-page {
+  margin-left: var(--sidebar-collapsed-width) !important;
+  width: calc(100% - var(--sidebar-collapsed-width)) !important;
+  max-width: calc(100% - var(--sidebar-collapsed-width)) !important;
+}
+
+.layout-menu-collapsed .menu.menu-vertical {
+  width: var(--sidebar-collapsed-width) !important;
+}
+
+.menu.menu-vertical.collapsed {
+  width: var(--sidebar-collapsed-width) !important;
+}
+
+/* Mobile Layout Adjustments */
+@media (max-width: 1199.98px) {
+  .menu.menu-vertical {
+    transform: translateX(-100%);
+    width: var(--sidebar-width);
+    z-index: 1080;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+  }
+  
+  .menu.menu-vertical.show {
+    transform: translateX(0);
+  }
+  
+  .layout-page {
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .layout-menu-collapsed .layout-page {
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .layout-menu-expanded .layout-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1070;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* Row and Column Spacing */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.75rem;
+  margin-left: -0.75rem;
+}
+
+.col, .col-auto, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6,
+.col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col-sm,
+.col-sm-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5,
+.col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11,
+.col-sm-12, .col-md, .col-md-auto, .col-md-1, .col-md-2, .col-md-3,
+.col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9,
+.col-md-10, .col-md-11, .col-md-12, .col-lg, .col-lg-auto, .col-lg-1,
+.col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7,
+.col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-xl,
+.col-xl-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5,
+.col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11,
+.col-xl-12 {
+  position: relative;
+  width: 100%;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Sidebar Styling --- */
+/* -------------------------------------------------------------------------- */
+.menu.menu-vertical {
+  width: var(--sidebar-width);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 1030;
+  transition: width 0.3s ease, transform 0.3s ease;
+  border-right: none;
+  background: linear-gradient(135deg, var(--sidebar-gradient-top) 0%, var(--sidebar-gradient-bottom) 100%);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  color: var(--sidebar-text-color);
+  overflow-y: auto; /* Allow vertical scrolling for sidebar content */
+  overflow-x: hidden;
+}
+
+/* Logo Container */
+.menu.menu-vertical .app-brand.demo {
+  height: 190px;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: none;
+  margin-bottom: 20px;
+}
+
+.menu.menu-vertical .app-brand.demo .app-brand-link {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Logo Image */
+.logo-container {
+  width: 190px;
+  height: 190px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#sidebarLogo, #sidebarLogoDark {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: filter 0.3s ease;
+}
+
+.theme-dark #sidebarLogo {
+  display: none !important;
+}
+
+.theme-dark #sidebarLogoDark {
+  display: block !important;
+}
+
+.theme-light #sidebarLogo {
+  display: block !important;
+}
+
+.theme-light #sidebarLogoDark {
+  display: none !important;
+}
+
+/* Navigation Items */
+.menu.menu-vertical .menu-inner > .menu-item {
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.menu.menu-vertical .menu-inner > .menu-item > .menu-link {
+  height: var(--sidebar-nav-item-height);
+  padding: 10px 18px;
+  color: var(--sidebar-text-color);
+  font-size: var(--font-size-navigation-text);
+  font-weight: var(--font-weight-navigation-text);
+  border-radius: 12px;
+  margin: 0 12px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+}
+
+.menu.menu-vertical .menu-inner > .menu-item > .menu-link .menu-icon {
+  font-size: calc(var(--sidebar-icon-size) - 2px);
+  width: var(--sidebar-icon-size);
+  height: var(--sidebar-icon-size);
+  color: var(--sidebar-icon-color);
+  margin-right: 14px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+/* Hover Effects */
+.menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transform: translateX(3px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link:hover .menu-icon {
+  color: var(--wa-primary-light);
+  transform: scale(1.1);
+}
+
+/* Light Mode Hover Effects */
+.theme-light .menu.menu-vertical {
+  background: #ffffff !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%) !important;
+}
+
+.theme-light .menu.menu-vertical .menu-item {
+  color: var(--text-primary) !important;
+}
+
+.theme-light .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link {
+  color: var(--text-primary) !important;
+}
+
+.theme-light .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link .menu-icon {
+  color: var(--wa-primary) !important;
+}
+
+.theme-light #sidebarLogo {
+  display: block !important;
+}
+
+.theme-light #sidebarLogoDark {
+  display: none !important;
+}
+
+/* Dark Theme */
+.theme-dark .menu.menu-vertical {
+  background: var(--sidebar-gradient-top) !important;
+  background: linear-gradient(135deg, var(--sidebar-gradient-top) 0%, var(--sidebar-gradient-bottom) 100%) !important;
+}
+
+.theme-dark #sidebarLogo {
+  display: none !important;
+}
+
+.theme-dark #sidebarLogoDark {
+  display: block !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Sidebar Logo Container Fixes --- */
+/* -------------------------------------------------------------------------- */
+.menu.menu-vertical .app-brand.demo {
+  height: var(--sidebar-logo-container-height);
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: none;
+  margin-bottom: 20px;
+}
+
+.menu.menu-vertical .app-brand.demo .app-brand-link {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Logo Image */
+.logo-container {
+  width: 190px;
+  height: 190px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#sidebarLogo, #sidebarLogoDark {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: filter 0.3s ease;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Misc UI Element Fixes --- */
+/* -------------------------------------------------------------------------- */
+/* Fix button styling */
+.btn {
+  border-radius: 8px;
+  transition: all 0.25s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Fix form controls */
+.form-control, .form-select {
+  background-color: var(--card-background) !important;
+  color: var(--text-primary) !important;
+  border-color: rgba(0, 0, 0, 0.1);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.theme-dark .form-control,
+.theme-dark .form-select {
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(30, 41, 59, 0.8) !important;
+}
+
+/* Fix dropdowns */
+.dropdown-menu {
+  background-color: var(--card-background);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
+}
+
+.theme-dark .dropdown-menu {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item {
+  color: var(--text-primary);
+}
+
+.theme-dark .dropdown-item {
+  color: var(--text-primary);
+}
+
+.dropdown-item:hover {
+  background-color: var(--hover-bg);
+  color: var(--wa-primary);
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Consolidated Styles from header-fix.css --- */
+/* -------------------------------------------------------------------------- */
+/*
+ * Water Academy Header Fixes
+ * Addresses UI issues with the header, navbar, and sidebar toggle
+ * Consolidated header styles from main.css and layout-fix-comprehensive.css
+ */
+
+/* -------------------------------------------------------------------------- */
+/* --- Header and Navbar Specific Fixes --- */
+/* -------------------------------------------------------------------------- */
+
+/* Main navbar container */
+.layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached {
+  display: flex;
+  align-items: center;
+  height: var(--dashboard-header-height);
+  /* Use sticky positioning from layout-fix-comprehensive.css */
+  position: sticky;
+  top: 15px;
+  z-index: 1020;
+  /* Use width and margins from layout-fix-comprehensive.css */
+  width: calc(100% - 2rem);
+  max-width: calc(100% - 2rem);
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: var(--card-margin); /* Keep margin-top from main.css */
+  margin-bottom: var(--dashboard-header-margin-bottom); /* Keep margin-bottom from main.css */
+  /* Keep padding, border-radius, background, border, shadow from header-fix.css */
+  padding: 0 var(--card-padding);
+  border-radius: var(--card-border-radius);
+  background-color: var(--card-background);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: var(--dashboard-header-shadow);
+  transition: background-color 0.3s ease, color 0.3s ease; /* Keep transition from main.css */
+}
+
+.theme-dark .layout-navbar {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--card-background) !important; /* Keep from main.css */
+  color: var(--text-primary) !important; /* Keep from main.css */
+}
+
+/* Fix navbar content alignment */
+.navbar-nav-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navbar-nav-right ul.navbar-nav > li {
+  margin-left: 1rem; /* Add some space between items */
+}
+
+/* Hide mobile menu toggle on desktop */
+@media (min-width: 1200px) {
+  .layout-navbar .d-xl-none {
+    display: none !important;
+  }
+
+  /* Show desktop sidebar toggle */
+  /* This rule is in header-fix.css, keep it */
+  .layout-menu-toggle {
+    display: block !important;
+  }
+}
+
+/* Show mobile menu toggle on mobile only */
+@media (max-width: 1199.98px) {
+  .layout-navbar .d-xl-none {
+    display: block !important;
+  }
+}
+
+/* Theme toggle button */
+#theme-toggle-btn {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 15px;
+}
+
+.theme-dark #theme-toggle-btn {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+#theme-toggle-btn:hover {
+  background-color: var(--hover-bg);
+  transform: rotate(30deg);
+}
+
+/* Theme icons */
+.theme-icon-light, .theme-icon-dark {
+  font-size: 1.25rem;
+}
+
+.theme-dark .theme-icon-light {
+  display: none !important;
+}
+
+.theme-dark .theme-icon-dark {
+  display: block !important;
+}
+
+.theme-light .theme-icon-light {
+  display: block !important;
+}
+
+.theme-light .theme-icon-dark {
+  display: none !important;
+}
+
+/* User info section */
+.navbar-text {
+  margin-right: 0.5rem;
+}
+
+/* User welcome and role with better alignment */
+.user-welcome {
+  font-family: 'Michroma', sans-serif;
+  font-size: 1rem;
+  color: var(--text-primary);
+  display: inline-block;
+  margin-right: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.user-role {
+  font-family: 'Michroma', sans-serif;
+  font-size: 0.75rem;
+  color: var(--wa-primary);
+  font-weight: bold;
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  background-color: rgba(58, 165, 255, 0.1);
+  border-radius: 4px;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.theme-dark .user-role {
+  background-color: rgba(56, 189, 248, 0.2);
+  color: var(--wa-primary-light);
+}
+
+/* Avatar styling */
+.layout-navbar .avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--wa-primary);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.layout-navbar .avatar:hover {
+  box-shadow: 0 0 15px rgba(58, 165, 255, 0.5);
+}
+
+.layout-navbar .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Page title */
+.page-title {
+  font-family: 'Michroma', sans-serif;
+  font-size: var(--font-size-dashboard-title);
+  font-weight: var(--font-weight-dashboard-title);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  transition: color 0.3s ease;
+  flex-grow: 1;
+  margin-right: auto;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Sidebar Toggle Fixes --- */
+/* -------------------------------------------------------------------------- */
+
+/* Ensure sidebar toggle buttons are visible */
+/* Keep from header-fix.css */
+.layout-menu-toggle,
+.js-layout-menu-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  transition: color 0.2s ease-in-out;
+}
+
+.layout-menu-toggle:hover,
+.js-layout-menu-toggle:hover {
+  color: var(--wa-primary);
+}
+
+/* Desktop sidebar toggle button */
+/* Keep from header-fix.css */
+.sidebar-toggle-desktop {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* Increased size */
+  height: 40px; /* Increased size */
+  background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent background */
+  color: var(--sidebar-text-color);
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+  border-radius: 50%; /* Circular shape */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smoother transition */
+  position: absolute;
+  top: 15px; /* Adjusted position */
+  right: 15px; /* Adjusted position */
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Added shadow */
+  backdrop-filter: blur(5px); /* Glass effect */
+}
+
+.sidebar-toggle-desktop:hover {
+  background-color: rgba(255, 255, 255, 0.25); /* Darker on hover */
+  transform: scale(1.05); /* Slightly less aggressive scale */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* More prominent shadow on hover */
+}
+
+/* Only hide desktop toggle in mobile view */
+@media (max-width: 1199.98px) {
+  .sidebar-toggle-desktop {
+    display: none !important;
+  }
+}
+
+/* Rotate chevron icon in collapsed mode */
+/* Keep from header-fix.css */
+.layout-menu-collapsed .sidebar-toggle-desktop i.bx-chevrons-left,
+.menu.menu-vertical.collapsed .sidebar-toggle-desktop i.bx-chevrons-left {
+  transform: rotate(180deg); /* Rotate chevrons icon for collapsed state */
+}
+
+/* Ensure mobile menu icon is visible only on mobile */
+/* Keep from header-fix.css */
+.bx-menu {
+  font-size: 1.5rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Dropdown Menu Fixes --- */
+/* -------------------------------------------------------------------------- */
+/* Keep from main.css, seems more complete */
+.dropdown-menu {
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+  min-width: 200px;
+  background-color: var(--card-background);
+  transition: background-color 0.3s ease;
+  z-index: 1030;
+}
+
+.theme-dark .dropdown-menu {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item {
+  padding: 0.75rem 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: var(--hover-bg);
+  color: var(--wa-primary);
+}
+
+.dropdown-item i,
+.dropdown-item .bx {
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.dropdown-item:hover i,
+.dropdown-item:hover .bx {
+  color: var(--wa-primary);
+}
+
+.dropdown-divider {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0.5rem 0;
+}
+
+.theme-dark .dropdown-divider {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* Dropdown fixes */
+.dropdown-menu.show {
+  display: block !important;
+}
+
+.dropdown-menu {
+  position: absolute !important;
+  z-index: 1050 !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  border-radius: 0.375rem !important;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175) !important;
+  background-color: #fff !important;
+}
+
+.theme-dark .dropdown-menu {
+  background-color: #2b2c40 !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Tablet and below */
+@media (max-width: 991.98px) {
+  .layout-navbar .page-title {
+    font-size: calc(var(--font-size-dashboard-title) - 4px);
+  }
+
+  .user-welcome {
+    font-size: 0.9rem;
+  }
+
+  .user-role {
+    font-size: 0.7rem;
+  }
+
+  .layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767.98px) {
+  .layout-navbar .navbar-nav-right {
+    flex-wrap: wrap;
+  }
+
+  /* Hide user welcome on small mobile */
+  .user-welcome {
+    display: none;
+  }
+
+  .user-role {
+    font-size: 0.65rem;
+    padding: 0.05rem 0.4rem;
+  }
+
+  .page-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Very small devices */
+/* This media query in header-fix.css hides navbar-text, which contains user-welcome and user-role.
+   The previous media query already hides user-welcome. Let's adjust this one to only hide user-role if needed,
+   or remove it if the above is sufficient. The screenshot shows user-role is visible.
+   Let's remove this media query for now and rely on the 767.98px breakpoint.
+@media (max-width: 575.98px) {
+  .navbar-text {
+    display: none;
+  }
+}
+*/
+
+/* -------------------------------------------------------------------------- */
+/* --- Consolidated Styles from layout-fix-comprehensive.css --- */
+/* -------------------------------------------------------------------------- */
+/*
+ * Water Academy Layout Fix - Comprehensive
+ * Fixes layout issues and ensures proper styling for all UI elements
+ */
+
+/* -------------------------------------------------------------------------- */
+/* --- Critical Layout Fixes --- */
+/* -------------------------------------------------------------------------- */
+/* These were already in main.css, keeping the main.css version */
+/*
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+*/
+
+/* Force layout to use our custom styling without gaps */
+.layout-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden; /* Critical for preventing horizontal scroll */
+}
+
+.layout-container {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+
+/* Fix the gap between sidebar and content */
+.menu.menu-vertical {
+  width: var(--sidebar-width);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  z-index: 1030;
+  transition: width 0.3s ease, transform 0.3s ease;
+}
+
+.layout-page {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  max-width: calc(100% - var(--sidebar-width));
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease, width 0.3s ease, max-width 0.3s ease;
+}
+
+/* Content wrapper should fill available space */
+/* This was already in main.css, keeping the main.css version */
+
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  min-height: calc(100vh - var(--dashboard-header-height) - 30px);
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+
+/* Ensure container doesn't cause overflow */
+/* This was already in main.css, keeping the main.css version */
+
+.container-xxl {
+  width: 100%;
+  max-width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+/* Fix the footer to always stay at the bottom */
+/* This was already in main.css, keeping the main.css version */
+
+.content-footer.footer {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  margin-top: auto;
+  z-index: 10;
+  height: 30px;
+  padding: 5px 0;
+  font-size: 0.75rem;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* --- Collapsed Sidebar Fixes --- */
+/* -------------------------------------------------------------------------- */
+.layout-menu-collapsed .menu.menu-vertical,
+.menu.menu-vertical.collapsed {
+  width: var(--sidebar-collapsed-width) !important;
+}
+
+.layout-menu-collapsed .layout-page {
+  margin-left: var(--sidebar-collapsed-width);
+  width: calc(100% - var(--sidebar-collapsed-width));
+  max-width: calc(100% - var(--sidebar-collapsed-width));
+}
+
+/* Hide text in collapsed sidebar */
+.layout-menu-collapsed .menu-inner > .menu-item > .menu-link .menu-text,
+.layout-menu-collapsed .menu-inner > .menu-item > .menu-link .menu-arrow,
+.layout-menu-collapsed .sidebar-footer,
+.menu.menu-vertical.collapsed .menu-text,
+.menu.menu-vertical.collapsed .menu-arrow,
+.menu.menu-vertical.collapsed .sidebar-footer {
+  display: none;
+}
+
+/* Fix logo size in collapsed sidebar */
+.layout-menu-collapsed .logo-container,
+.menu.menu-vertical.collapsed .logo-container {
+  width: 50px;
+  height: 50px;
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.layout-menu-collapsed .menu-inner > .menu-item > .menu-link,
+.menu.menu-vertical.collapsed .menu-inner > .menu-item > .menu-link {
+  justify-content: center;
+  padding: 10px;
+}
+
+.layout-menu-collapsed .menu-inner > .menu-item > .menu-link .menu-icon,
+.menu.menu-vertical.collapsed .menu-inner > .menu-item > .menu-link .menu-icon {
+  margin-right: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Mobile Sidebar Fixes --- */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 1199.98px) {
+  .menu.menu-vertical {
+    transform: translateX(-100%);
+    box-shadow: none;
+  }
+
+  .layout-menu-expanded .menu.menu-vertical {
+    transform: translateX(0);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .layout-overlay {
+    display: block !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 1029;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .layout-menu-expanded .layout-overlay {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Dashboard Stats Card Fixes --- */
+/* -------------------------------------------------------------------------- */
+/* This was already in main.css, keeping the main.css version */
+
+.dashboard-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.stat-card {
+  flex: 0 0 220px;
+  width: 220px;
+  height: 220px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+  background-color: var(--card-background);
+  border: 1px solid rgba(58, 165, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: var(--wa-gradient-blue);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.stat-icon {
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.stat-value {
+  font-family: 'Michroma', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: var(--text-primary);
+}
+
+.stat-label {
+  font-family: 'Michroma', sans-serif;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* --- Card Fixes --- */
+/* -------------------------------------------------------------------------- */
+/* This was already in main.css, keeping the main.css version */
+
+.card {
+  background-color: var(--card-background);
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-shadow);
+  margin-bottom: var(--spacing-between-cards);
+  border: 1px solid rgba(58, 165, 255, 0.3);
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  position: relative;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--wa-gradient-blue);
+  opacity: 0.8;
+}
+
+.card:hover {
+  box-shadow: var(--card-hover-shadow), 0 0 15px rgba(58, 165, 255, 0.3);
+  transform: translateY(-3px);
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* --- Table Fixes --- */
+/* -------------------------------------------------------------------------- */
+/* This was already in main.css, keeping the main.css version */
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  vertical-align: middle;
+  border-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--card-background);
+}
+
+.theme-dark .table {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.theme-dark .table > :not(caption) > * > * {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.theme-dark .table > thead {
+  background-color: rgba(56, 189, 248, 0.1);
+  border-bottom-color: rgba(56, 189, 248, 0.2);
+  color: var(--text-primary);
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* --- Light/Dark Theme Overrides --- */
+/* -------------------------------------------------------------------------- */
+/* Light Theme */
+.theme-light .menu.menu-vertical {
+  background: #ffffff !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%) !important;
+}
+
+.theme-light .menu.menu-vertical .menu-item {
+  color: var(--text-primary) !important;
+}
+
+.theme-light .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link {
+  color: var(--text-primary) !important;
+}
+
+.theme-light .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link .menu-icon {
+  color: var(--wa-primary) !important;
+}
+
+.theme-light #sidebarLogo {
+  display: block !important;
+}
+
+.theme-light #sidebarLogoDark {
+  display: none !important;
+}
+
+/* Dark Theme */
+.theme-dark .menu.menu-vertical {
+  background: var(--sidebar-gradient-top) !important;
+  background: linear-gradient(135deg, var(--sidebar-gradient-top) 0%, var(--sidebar-gradient-bottom) 100%) !important;
+}
+
+.theme-dark #sidebarLogo {
+  display: none !important;
+}
+
+.theme-dark #sidebarLogoDark {
+  display: block !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Sidebar Logo Container Fixes --- */
+/* -------------------------------------------------------------------------- */
+.menu.menu-vertical .app-brand.demo {
+  height: var(--sidebar-logo-container-height);
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: none;
+  margin-bottom: 20px;
+}
+
+.menu.menu-vertical .app-brand.demo .app-brand-link {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-container {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#sidebarLogo, #sidebarLogoDark {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: filter 0.3s ease;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Misc UI Element Fixes --- */
+/* -------------------------------------------------------------------------- */
+/* Fix button styling */
+.btn {
+  border-radius: 8px;
+  transition: all 0.25s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Fix form controls */
+.form-control, .form-select {
+  background-color: var(--card-background) !important;
+  color: var(--text-primary) !important;
+  border-color: rgba(0, 0, 0, 0.1);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.theme-dark .form-control,
+.theme-dark .form-select {
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(30, 41, 59, 0.8) !important;
+}
+
+/* Fix dropdowns */
+.dropdown-menu {
+  background-color: var(--card-background);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
+}
+
+.theme-dark .dropdown-menu {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item {
+  color: var(--text-primary);
+}
+
+.theme-dark .dropdown-item {
+  color: var(--text-primary);
+}
+
+.dropdown-item:hover {
+  background-color: var(--hover-bg);
+  color: var(--wa-primary);
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Consolidated Styles from header-fix.css --- */
+/* -------------------------------------------------------------------------- */
+/*
+ * Water Academy Header Fixes
+ * Addresses UI issues with the header, navbar, and sidebar toggle
+ * Consolidated header styles from main.css and layout-fix-comprehensive.css
+ */
+
+/* -------------------------------------------------------------------------- */
+/* --- Header and Navbar Specific Fixes --- */
+/* -------------------------------------------------------------------------- */
+
+/* Main navbar container */
+.layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached {
+  display: flex;
+  align-items: center;
+  height: var(--dashboard-header-height);
+  /* Use sticky positioning from layout-fix-comprehensive.css */
+  position: sticky;
+  top: 15px;
+  z-index: 1020;
+  /* Use width and margins from layout-fix-comprehensive.css */
+  width: calc(100% - 2rem);
+  max-width: calc(100% - 2rem);
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: var(--card-margin); /* Keep margin-top from main.css */
+  margin-bottom: var(--dashboard-header-margin-bottom); /* Keep margin-bottom from main.css */
+  /* Keep padding, border-radius, background, border, shadow from header-fix.css */
+  padding: 0 var(--card-padding);
+  border-radius: var(--card-border-radius);
+  background-color: var(--card-background);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: var(--dashboard-header-shadow);
+  transition: background-color 0.3s ease, color 0.3s ease; /* Keep transition from main.css */
+}
+
+.theme-dark .layout-navbar {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--card-background) !important; /* Keep from main.css */
+  color: var(--text-primary) !important; /* Keep from main.css */
+}
+
+/* Fix navbar content alignment */
+.navbar-nav-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navbar-nav-right ul.navbar-nav {
+  gap: 1rem; /* Add consistent spacing between items */
+}
+
+.navbar-nav-right ul.navbar-nav > li {
+  margin-left: 0; /* Remove existing margin */
+  margin-right: 0; /* Remove existing margin */
+}
+
+/* Hide mobile menu toggle on desktop */
+@media (min-width: 1200px) {
+  .layout-navbar .d-xl-none {
+    display: none !important;
+  }
+
+  /* Show desktop sidebar toggle */
+  /* This rule is in header-fix.css, keep it */
+  .layout-menu-toggle {
+    display: block !important;
+  }
+}
+
+/* Show mobile menu toggle on mobile only */
+@media (max-width: 1199.98px) {
+  .layout-navbar .d-xl-none {
+    display: block !important;
+  }
+}
+
+/* Theme toggle button */
+#theme-toggle-btn {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Keep styles from header-fix.css, add margin-right from main.css */
+  color: var(--text-primary);
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Use 0.3s from main.css */
+  margin-right: 0; /* Changed from 15px to 0 */
+}
+
+.theme-dark #theme-toggle-btn {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff; /* Keep from main.css */
+}
+
+#theme-toggle-btn:hover {
+  background-color: var(--hover-bg);
+  transform: rotate(30deg); /* Use 30deg from main.css */
+}
+
+/* Theme icons */
+.theme-icon-light, .theme-icon-dark {
+  font-size: 1.25rem;
+}
+
+.theme-dark .theme-icon-light {
+  display: none !important;
+}
+
+.theme-dark .theme-icon-dark {
+  display: block !important;
+}
+
+.theme-light .theme-icon-light {
+  display: block !important;
+}
+
+.theme-light .theme-icon-dark {
+  display: none !important;
+}
+
+/* User info section */
+/* Keep from header-fix.css */
+.navbar-text {
+  margin-right: 0; /* Changed from 0.5rem to 0 */
+}
+
+/* User welcome and role with better alignment */
+.user-welcome {
+  font-family: 'Michroma', sans-serif;
+  /* Use size from main.css */
+  font-size: 1rem;
+  /* Use color from main.css */
+  color: var(--text-primary);
+  /* Keep display from main.css */
+  display: inline-block;
+  /* Keep margin-right from main.css */
+  margin-right: 0.5rem;
+  /* Keep transition from main.css */
+  transition: color 0.3s ease;
+  /* Remove margin-bottom from header-fix.css */
+  /* font-weight: 500; // Keep from header-fix.css */
+}
+
+.user-role {
+  font-family: 'Michroma', sans-serif; /* Keep from main.css */
+  /* Use size from main.css */
+  font-size: 0.75rem;
+  /* Use color from main.css */
+  color: var(--wa-primary);
+  font-weight: bold; /* Keep from main.css */
+  display: inline-block; /* Keep from main.css */
+  padding: 0.1rem 0.5rem; /* Keep from main.css */
+  background-color: rgba(58, 165, 255, 0.1); /* Keep from main.css */
+  border-radius: 4px; /* Keep from main.css */
+  transition: color 0.3s ease, background-color 0.3s ease; /* Keep from main.css */
+}
+
+.theme-dark .user-role {
+  background-color: rgba(56, 189, 248, 0.2); /* Keep from main.css */
+  color: var(--wa-primary-light); /* Keep from main.css */
+}
+
+/* Avatar styling */
+/* Keep from main.css */
+.layout-navbar .avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--wa-primary);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.layout-navbar .avatar:hover {
+  box-shadow: 0 0 15px rgba(58, 165, 255, 0.5);
+}
+
+.layout-navbar .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* Page title */
+.page-title {
+  font-family: 'Michroma', sans-serif;
+  /* Use size and weight from main.css */
+  font-size: var(--font-size-dashboard-title);
+  font-weight: var(--font-weight-dashboard-title);
+  /* Use color from main.css */
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  transition: color 0.3s ease; /* Keep from main.css */
+  flex-grow: 1; /* Allow title to take available space */
+  margin-right: auto; /* Push other items to the right */
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Sidebar Toggle Fixes --- */
+/* -------------------------------------------------------------------------- */
+
+/* Ensure sidebar toggle buttons are visible */
+/* Keep from header-fix.css */
+.layout-menu-toggle,
+.js-layout-menu-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  transition: color 0.2s ease-in-out;
+}
+
+.layout-menu-toggle:hover,
+.js-layout-menu-toggle:hover {
+  color: var(--wa-primary);
+}
+
+/* Desktop sidebar toggle button */
+/* Keep from header-fix.css */
+.sidebar-toggle-desktop {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  color: var(--sidebar-text-color);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0;
+}
+
+.sidebar-toggle-desktop:hover {
+  transform: scale(1.1);
+}
+
+/* Only hide desktop toggle in mobile view */
+@media (max-width: 1199.98px) {
+  .sidebar-toggle-desktop {
+    display: none !important;
+  }
+}
+
+/* Rotate chevron icon in collapsed mode */
+/* Keep from header-fix.css */
+.layout-menu-collapsed .sidebar-toggle-desktop i.bx-chevron-left,
+.menu.menu-vertical.collapsed .sidebar-toggle-desktop i.bx-chevron-left {
+  transform: rotate(180deg);
+}
+
+/* Ensure mobile menu icon is visible only on mobile */
+/* Keep from header-fix.css */
+.bx-menu {
+  font-size: 1.5rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Dropdown Menu Fixes --- */
+/* -------------------------------------------------------------------------- */
+/* Keep from main.css, seems more complete */
+.dropdown-menu {
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+  min-width: 200px;
+  background-color: var(--card-background);
+  transition: background-color 0.3s ease;
+  z-index: 1030;
+}
+
+.theme-dark .dropdown-menu {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item {
+  padding: 0.75rem 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: var(--hover-bg);
+  color: var(--wa-primary);
+}
+
+.dropdown-item i,
+.dropdown-item .bx {
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.dropdown-item:hover i,
+.dropdown-item:hover .bx {
+  color: var(--wa-primary);
+}
+
+.dropdown-divider {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0.5rem 0;
+}
+
+.theme-dark .dropdown-divider {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* --- Media Queries for Responsive Behavior --- */
+/* -------------------------------------------------------------------------- */
+
+/* Tablet and below */
+@media (max-width: 991.98px) {
+  .layout-navbar .page-title {
+    font-size: calc(var(--font-size-dashboard-title) - 4px);
+  }
+
+  .user-welcome {
+    font-size: 0.9rem;
+  }
+
+  .user-role {
+    font-size: 0.7rem;
+  }
+
+  .layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767.98px) {
+  .layout-navbar .navbar-nav-right {
+    flex-wrap: wrap;
+  }
+
+  /* Hide user welcome on small mobile */
+  .user-welcome {
+    display: none;
+  }
+
+  .user-role {
+    font-size: 0.65rem;
+    padding: 0.05rem 0.4rem;
+  }
+
+  .page-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Very small devices */
+/* This media query in header-fix.css hides navbar-text, which contains user-welcome and user-role.
+   The previous media query already hides user-welcome. Let's adjust this one to only hide user-role if needed,
+   or remove it if the above is sufficient. The screenshot shows user-role is visible.
+   Let's remove this media query for now and rely on the 767.98px breakpoint.
+@media (max-width: 575.98px) {
+  .navbar-text {
+    display: none;
+  }
+}
+*/
+
+/* -------------------------------------------------------------------------- */
+/* --- Consolidated Styles from layout-fix-comprehensive.css --- */
+/* -------------------------------------------------------------------------- */
+/*
+ * Water Academy Layout Fix - Comprehensive
+ * Fixes layout issues and ensures proper styling for all UI elements
+ */
+
+/* -------------------------------------------------------------------------- */
+/* --- Critical Layout Fixes --- */
+/* -------------------------------------------------------------------------- */
+/* These were already in main.css, keeping the main.css version */
+/*
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+*/
+
+/* Force layout to use our custom styling without gaps */
+.layout-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden; /* Critical for preventing horizontal scroll */
+}
+
+.layout-container {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+
+/* Fix the gap between sidebar and content */
+.menu.menu-vertical {
+  width: var(--sidebar-width);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  z-index: 1030;
+  transition: width 0.3s ease, transform 0.3s ease;
+}
+
+.layout-page {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  max-width: calc(100% - var(--sidebar-width));
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease, width 0.3s ease, max-width 0.3s ease;
+}
+
+/* Content wrapper should fill available space */
+/* This was already in main.css, keeping the main.css version */
+
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  min-height: calc(100vh - var(--dashboard-header-height) - 30px);
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+
+/* Ensure container doesn't cause overflow */
+/* This was already in main.css, keeping the main.css version */
+
+.container-xxl {
+  width: 100%;
+  max-width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+/* Fix the footer to always stay at the bottom */
+/* This was already in main.css, keeping the main.css version */
+
+.content-footer.footer {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  margin-top: auto;
+  z-index: 10;
+  height: 30px;
+  padding: 5px 0;
+  font-size: 0.75rem;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* --- Collapsed Sidebar Fixes --- */
+/* -------------------------------------------------------------------------- */
+.layout-menu-collapsed .menu.menu-vertical,
+.menu.menu-vertical.collapsed {
+  width: var(--sidebar-collapsed-width);
+}
+
+.layout-menu-collapsed .layout-page {
+  margin-left: var(--sidebar-collapsed-width);
+  width: calc(100% - var(--sidebar-collapsed-width));
+  max-width: calc(100% - var(--sidebar-collapsed-width));
+}
+
+/* Hide text in collapsed sidebar */
+.layout-menu-collapsed .menu-inner > .menu-item > .menu-link .menu-text,
+.layout-menu-collapsed .menu-inner > .menu-item > .menu-link .menu-arrow,
+.layout-menu-collapsed .sidebar-footer,
+.menu.menu-vertical.collapsed .menu-text,
+.menu.menu-vertical.collapsed .menu-arrow,
+.menu.menu-vertical.collapsed .sidebar-footer {
+  display: none;
+}
+
+/* Fix logo size in collapsed sidebar */
+.layout-menu-collapsed .logo-container,
+.menu.menu-vertical.collapsed .logo-container {
+  width: 50px;
+  height: 50px;
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.layout-menu-collapsed .menu-inner > .menu-item > .menu-link,
+.menu.menu-vertical.collapsed .menu-inner > .menu-item > .menu-link {
+  justify-content: center;
+  padding: 10px;
+}
+
+.layout-menu-collapsed .menu-inner > .menu-item > .menu-link .menu-icon,
+.menu.menu-vertical.collapsed .menu-inner > .menu-item > .menu-link .menu-icon {
+  margin-right: 0;
+}

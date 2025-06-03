@@ -1,0 +1,134 @@
+/* 
+ * Typography Styles
+ * This file contains all typography-related styles including font imports and base text styles.
+ */
+
+/* Michroma Font (for headings and titles) */
+@font-face {
+    font-family: 'Michroma';
+    src: url('../fonts/Michroma webfont kit/michroma-regular-webfont.woff2') format('woff2'),
+         url('../fonts/Michroma webfont kit/michroma-regular-webfont.woff') format('woff');
+    font-weight: normal; /* Michroma typically only has a regular weight */
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Poppins Font (for Water Academy components) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* Define the Water Academy font family variable */
+:root {
+    --wa-font-family: 'Poppins', sans-serif;
+}
+
+/* Ubuntu Font (for regular text) */
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('../fonts/Ubuntu webfont kit/ubuntu-regular-webfont.woff2') format('woff2'),
+         url('../fonts/Ubuntu webfont kit/ubuntu-regular-webfont.woff') format('woff');
+    font-weight: 400; /* Regular */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('../fonts/Ubuntu webfont kit/ubuntu-italic-webfont.woff2') format('woff2'),
+         url('../fonts/Ubuntu webfont kit/ubuntu-italic-webfont.woff') format('woff');
+    font-weight: 400; /* Regular Italic */
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('../fonts/Ubuntu webfont kit/ubuntu-bold-webfont.woff2') format('woff2'),
+         url('../fonts/Ubuntu webfont kit/ubuntu-bold-webfont.woff') format('woff');
+    font-weight: 700; /* Bold */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('../fonts/Ubuntu webfont kit/ubuntu-bolditalic-webfont.woff2') format('woff2'),
+         url('../fonts/Ubuntu webfont kit/ubuntu-bolditalic-webfont.woff') format('woff');
+    font-weight: 700; /* Bold Italic */
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('../fonts/Ubuntu webfont kit/ubuntu-light-webfont.woff2') format('woff2'),
+         url('../fonts/Ubuntu webfont kit/ubuntu-light-webfont.woff') format('woff');
+    font-weight: 300; /* Light */
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Base Typography */
+body {
+    font-family: 'Ubuntu', sans-serif; /* Default body font */
+    font-size: var(--font-size-regular-text);
+    font-weight: var(--font-weight-regular-text);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6,
+.card-title, .info-card-title, .metric-label, /* Add other title/heading classes */
+.page-title /* Example for dashboard title */ {
+    font-family: 'Michroma', sans-serif; /* Headings and titles font */
+}
+
+/* Specific Typography Sizes (already defined as variables, can be applied here or in component CSS) */
+/* Example: */
+.page-title { /* This might be in _navbar.css or _general.css */
+    font-size: var(--font-size-dashboard-title);
+    font-weight: var(--font-weight-dashboard-title);
+}
+
+.card-title, .info-card-title { /* This might be in _cards.css */
+    font-size: var(--font-size-card-title);
+    font-weight: var(--font-weight-card-title);
+}
+
+/* Water Academy specific typography */
+.wa-card-title {
+    font-family: var(--wa-font-family);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.wa-section-title {
+    font-family: var(--wa-font-family);
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.wa-text {
+    font-family: var(--wa-font-family);
+    font-weight: 400;
+}
+
+.wa-text-bold {
+    font-family: var(--wa-font-family);
+    font-weight: 600;
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+    body {
+        font-size: calc(var(--font-size-regular-text) - 1px);
+    }
+    
+    .page-title {
+        font-size: calc(var(--font-size-dashboard-title) - 2px);
+    }
+    
+    .card-title, .info-card-title {
+        font-size: calc(var(--font-size-card-title) - 1px);
+    }
+}

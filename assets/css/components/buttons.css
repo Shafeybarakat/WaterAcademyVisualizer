@@ -1,0 +1,76 @@
+/*
+ * Water Academy Button Components Stylesheet
+ * Contains styles for general buttons and primary buttons.
+ * Adopted and refactored from assets/css/old/mainx.css and assets/css/old/ui-enhancements.css.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* --- Button Styles --- */
+/* -------------------------------------------------------------------------- */
+.btn {
+  border-radius: 12px; /* From ui-enhancements */
+  border: none; /* From ui-enhancements */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* From ui-enhancements */
+  position: relative;
+  overflow: hidden;
+  /* Inherited from Bootstrap's .btn in core.css, but overridden here */
+  --bs-btn-padding-x: 1.25rem;
+  --bs-btn-padding-y: 0.4812rem;
+  --bs-btn-font-size: 0.9375rem;
+  --bs-btn-font-weight: 500;
+  --bs-btn-line-height: 1.375;
+  --bs-btn-color: var(--bs-body-color);
+  --bs-btn-bg: transparent;
+  --bs-btn-border-width: var(--bs-border-width);
+  --bs-btn-border-color: transparent;
+  --bs-btn-border-radius: var(--bs-border-radius);
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-box-shadow: none;
+  --bs-btn-disabled-opacity: 0.45;
+  --bs-btn-focus-box-shadow: 0 0 0 0.05rem rgba(var(--bs-btn-focus-shadow-rgb), .5);
+  display: inline-block;
+  padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+  font-size: var(--bs-btn-font-size);
+  font-weight: var(--bs-btn-font-weight);
+  line-height: var(--bs-btn-line-height);
+  color: var(--bs-btn-color);
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  background-color: var(--bs-btn-bg);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.4s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn:hover {
+  transform: translateY(-2px); /* From mainx.css */
+}
+
+.btn:active {
+  transform: translateY(1px); /* From mainx.css */
+}
+
+.btn-primary {
+  color: #fff; /* Ensure white text for primary buttons */
+  background: linear-gradient(135deg, var(--wa-primary), var(--wa-info)); /* From ui-enhancements */
+  box-shadow: 0 0 15px rgba(58, 165, 255, 0.3); /* From ui-enhancements */
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px); /* From ui-enhancements */
+  box-shadow: 0 0 20px rgba(58, 165, 255, 0.5); /* From ui-enhancements */
+}

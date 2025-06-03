@@ -1,0 +1,53 @@
+/* assets/css/components/mobile-sidebar.css */
+
+/* Mobile Sidebar Core Fixes */
+@media (max-width: 1199.98px) {
+  /* Fix sidebar positioning and visibility */
+  .layout-menu-fixed .layout-menu,
+  .layout-menu-fixed-offcanvas .layout-menu {
+    position: fixed !important;
+    top: 0 !important;
+    height: 100% !important;
+    left: 0 !important;
+    z-index: 1050 !important; /* Higher than content but lower than modals */
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s ease-in-out !important;
+    pointer-events: none !important; /* Initially disable pointer events */
+  }
+
+  /* Show sidebar */
+  .layout-menu-expanded .layout-menu {
+    transform: translateX(0%) !important;
+    pointer-events: auto !important; /* Enable pointer events when expanded */
+  }
+
+  /* Overlay for mobile sidebar */
+  .layout-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    z-index: 1040 !important; /* Below sidebar, above content */
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out !important;
+  }
+
+  /* Show overlay when menu is expanded */
+  .layout-menu-expanded .layout-overlay {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* Ensure menu items are clickable */
+  .menu-item {
+    pointer-events: auto !important;
+  }
+
+  /* Adjust content wrapper when sidebar is expanded */
+  .layout-page {
+    transform: translateX(0) !important; /* No push effect, overlay handles it */
+  }
+}

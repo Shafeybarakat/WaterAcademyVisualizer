@@ -1,0 +1,152 @@
+/* assets/css/components/modals.css */
+
+/* General Modal Styling */
+.modal-content {
+    /* Override the gradient background with a solid one based on theme */
+    background-image: none !important; /* Remove any background image/gradient */
+    background-color: var(--bs-body-bg) !important; /* Use body background color */
+    color: var(--bs-body-color) !important; /* Use body text color */
+    border: 1px solid var(--bs-border-color) !important; /* Ensure a visible border */
+    box-shadow: var(--bs-box-shadow) !important; /* Use standard box shadow */
+}
+
+.modal-header {
+    background-color: var(--bs-tertiary-bg) !important; /* A slightly different background for header */
+    color: var(--bs-heading-color) !important; /* Heading color for modal title */
+    border-bottom: 1px solid var(--bs-border-color) !important;
+}
+
+.modal-title {
+    color: var(--bs-heading-color) !important; /* Ensure title color is correct */
+}
+
+/* Adjust close button color for dark mode */
+.btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%); /* Makes it white in dark mode */
+}
+
+[data-bs-theme="light"] .btn-close {
+    filter: none; /* Reset for light mode */
+}
+
+/* Ensure modal body text color is correct */
+.modal-body {
+    color: var(--bs-body-color) !important;
+}
+
+/* Specific styles for BS-Stepper (Group Wizard) within modals */
+.bs-stepper-content {
+    padding: 1.5rem; /* Add padding around the content of each step */
+}
+
+.bs-stepper-header {
+    padding: 1rem 0; /* Add vertical padding to the header */
+    background-color: var(--bs-tertiary-bg); /* Match modal header background */
+    border-bottom: 1px solid var(--bs-border-color);
+    border-top-left-radius: var(--bs-modal-border-radius);
+    border-top-right-radius: var(--bs-modal-border-radius);
+}
+
+.bs-stepper-label {
+    color: var(--bs-heading-color); /* Ensure step labels are visible */
+}
+
+.bs-stepper-circle {
+    background-color: var(--bs-primary); /* Highlight active step */
+    color: var(--bs-white);
+}
+
+.bs-stepper .step.active .bs-stepper-circle {
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+}
+
+.bs-stepper .step.active .bs-stepper-label {
+    color: var(--bs-primary); /* Active step label color */
+}
+
+.bs-stepper .step.active .bs-stepper-subtitle {
+    color: var(--bs-primary); /* Active step subtitle color */
+}
+
+.bs-stepper .step.completed .bs-stepper-circle {
+    background-color: var(--bs-success); /* Completed step color */
+    color: var(--bs-white);
+}
+
+.bs-stepper .step.completed .bs-stepper-label {
+    color: var(--bs-success); /* Completed step label color */
+}
+
+.bs-stepper .step.completed .bs-stepper-subtitle {
+    color: var(--bs-success); /* Completed step subtitle color */
+}
+
+.bs-stepper .line {
+    color: var(--bs-border-color); /* Line color between steps */
+}
+
+/* Adjust form-label color within the wizard */
+.bs-stepper-content .form-label {
+    color: var(--bs-body-color); /* Ensure form labels are readable */
+}
+
+/* Style for the course assignment cards within the wizard */
+.course-assignment-card {
+    background-color: var(--bs-secondary-bg-subtle); /* Slightly different background for nested cards */
+    border: 1px solid var(--bs-border-color);
+    box-shadow: none; /* Remove extra shadow */
+}
+
+.course-assignment-card .form-check-label {
+    color: var(--bs-heading-color); /* Make course names stand out */
+}
+
+.course-details-fields {
+    border-top: 1px dashed var(--bs-border-color);
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
+
+/* Modal Zoom Animation */
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.modal.fade .modal-dialog {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  transform: scale(0.9); /* Initial state for zoom-in */
+  opacity: 0;
+}
+
+.modal.show .modal-dialog {
+  animation: zoomIn 0.3s forwards;
+  transform: scale(1);
+  opacity: 1;
+}
+
+.modal.fade.show .modal-dialog {
+  animation: zoomIn 0.3s forwards;
+}
+
+.modal.fade:not(.show) .modal-dialog {
+  animation: zoomOut 0.3s forwards;
+}

@@ -1,0 +1,303 @@
+/**
+ * Report Print Styles
+ * 
+ * This stylesheet provides styles for both screen viewing and PDF generation
+ * of report pages.
+ */
+
+/* Report container - sets boundaries for the report content */
+.report-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Hide elements that shouldn't appear in the PDF */
+.no-print, .report-actions .dropdown-menu {
+  display: block;
+}
+
+/* Email form modal */
+#emailReportModal .modal-body {
+  padding: 20px;
+}
+
+#emailReportModal .form-group {
+  margin-bottom: 15px;
+}
+
+/* Report actions toolbar */
+.report-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+/* Report content for both screen and PDF */
+.report-content {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Report header */
+.report-header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  border-bottom: 3px solid #0056b3;
+}
+
+.report-logo-container {
+  width: 120px;
+  margin-right: 20px;
+}
+
+.report-logo {
+  width: 100%;
+  height: auto;
+}
+
+.report-header-text {
+  flex: 1;
+}
+
+.report-header-text h1 {
+  font-size: 24px;
+  margin: 0 0 5px 0;
+  color: #0056b3;
+}
+
+.report-header-text h3 {
+  font-size: 18px;
+  margin: 0;
+  color: #444;
+}
+
+/* Report body */
+.report-body {
+  padding: 20px;
+}
+
+/* Report footer */
+.report-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-top: 3px solid #0056b3;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Blue horizontal divider */
+.blue-divider {
+  height: 3px;
+  background-color: #0056b3;
+  margin: 10px 0;
+}
+
+/* Card styling for metrics */
+.metric-card {
+  text-align: center;
+  padding: 20px;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #0056b3;
+}
+
+.metric-title {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Progress bar styling */
+.report-progress-container {
+  width: 100%;
+  background-color: #f1f1f1;
+  height: 8px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.report-progress-bar {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.progress-bar-primary { background-color: #4361ee; }
+.progress-bar-success { background-color: #2ec4b6; }
+.progress-bar-warning { background-color: #ff9f1c; }
+.progress-bar-danger { background-color: #e71d36; }
+.progress-bar-info { background-color: #17a2b8; }
+
+/* Table styling for reports */
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.report-table th, 
+.report-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.report-table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+  text-align: left;
+}
+
+.report-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Responsive layout for metrics */
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px 20px;
+}
+
+.metrics-col {
+  flex: 1;
+  padding: 0 10px;
+  min-width: 200px;
+  margin-bottom: 20px;
+}
+
+/* PDF-specific styles that will be applied during PDF generation */
+.pdf-content {
+  display: none; /* Hidden by default, shown only in PDF */
+}
+
+/* Helper classes */
+.text-center { text-align: center; }
+.font-weight-bold { font-weight: bold; }
+.mb-20 { margin-bottom: 20px; }
+.mt-20 { margin-top: 20px; }
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .metrics-col {
+    flex: 0 0 100%;
+  }
+  
+  .report-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .report-logo-container {
+    margin: 0 0 15px 0;
+  }
+}
+
+/* Print styles */
+@media print {
+  @page {
+    size: A4;
+    margin: 1.5cm 1cm 2cm 1cm; /* top right bottom left */
+  }
+  
+  body {
+    font-size: 12pt;
+    background: white;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    width: 100%;
+  }
+  
+  /* Main container adjustments */
+  .container-xxl {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Hide elements not needed for printing */
+  .layout-navbar,
+  .layout-menu,
+  .content-footer,
+  .card-header,
+  .btn,
+  form,
+  .no-print,
+  th:last-child,
+  td:last-child {
+    display: none !important;
+  }
+  
+  /* Show print-only elements */
+  .print-only {
+    display: block !important;
+  }
+  
+  /* Ensure cards take full width */
+  .card {
+    width: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin-bottom: 20px !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .card-body {
+    padding: 0 !important;
+  }
+  
+  /* Adjust table for printing */
+  .table-responsive {
+    width: 100% !important;
+    overflow: visible !important;
+  }
+  
+  .table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    page-break-inside: auto !important;
+  }
+  
+  .table th, 
+  .table td {
+    padding: 8px !important;
+    border: 1px solid #ddd !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .table tr {
+    page-break-inside: avoid !important;
+  }
+  
+  /* Ensure charts are visible */
+  canvas {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Add page breaks where needed */
+  .page-break {
+    page-break-before: always !important;
+  }
+}

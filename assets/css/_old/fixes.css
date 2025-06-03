@@ -1,0 +1,141 @@
+/**
+ * Water Academy UI Fixes
+ * Date: May 31, 2025 - 9:58 PM
+ * 
+ * This file contains fixes for various UI issues:
+ * 1. Removes rounded corners on header and footer
+ * 2. Makes header and footer bg color match the sidebar
+ * 3. Makes footer sticky to the bottom with little padding and margin
+ * 4. Fixes user dropdown menu
+ * 5. Fixes action cards and aligns buttons to the bottom
+ */
+
+/* -------------------------------------------------------------------------- */
+/* --- Header & Footer Fixes --- */
+/* -------------------------------------------------------------------------- */
+
+/* Remove rounded corners from header and footer */
+.layout-navbar,
+.footer {
+  border-radius: 0 !important;
+}
+
+/* Make header and footer background match sidebar */
+.layout-navbar,
+.footer {
+  background: var(--bs-menu-bg) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Make footer sticky with minimal padding */
+.footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1020;
+  padding: 0.5rem 0 !important;
+  margin: 0 !important;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- User Dropdown Menu Fixes --- */
+/* -------------------------------------------------------------------------- */
+
+/* Ensure dropdown menu is visible and properly positioned */
+.dropdown-user .dropdown-menu {
+  position: absolute !important;
+  right: 0 !important;
+  left: auto !important;
+  top: 100% !important;
+  z-index: 1050 !important;
+  display: none;
+}
+
+.dropdown-user .dropdown-menu.show {
+  display: block !important;
+}
+
+/* Fix dropdown toggle clickability */
+.dropdown-user .dropdown-toggle {
+  cursor: pointer !important;
+}
+
+/* Ensure dropdown items are clickable */
+.dropdown-user .dropdown-menu .dropdown-item {
+  cursor: pointer !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Action Cards Fixes --- */
+/* -------------------------------------------------------------------------- */
+
+/* Ensure action card buttons are aligned at the bottom */
+.action-card {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+.action-card .card-body {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+}
+
+.action-card .card-text {
+  margin-bottom: auto !important;
+}
+
+/* Align buttons to the bottom */
+.action-card .btn,
+.action-card .form-select,
+.action-card form {
+  margin-top: auto !important;
+}
+
+/* Make both action cards the same height */
+.action-cards .col-md-6 {
+  display: flex !important;
+}
+
+/* Center align and make group dropdown taller */
+.select-group-container {
+  text-align: center !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.select-group-container .form-select {
+  height: 48px !important;
+  text-align: center !important;
+  font-weight: 500 !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Dark/Light Theme Compatibility --- */
+/* -------------------------------------------------------------------------- */
+
+/* Dark theme adjustments */
+.theme-dark .layout-navbar,
+.theme-dark .footer {
+  background: var(--bs-menu-bg) !important;
+  color: var(--bs-menu-link-color) !important;
+}
+
+.theme-dark .footer {
+  border-top-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Light theme adjustments */
+.theme-light .layout-navbar,
+.theme-light .footer {
+  background: var(--bs-menu-bg) !important;
+  color: var(--bs-menu-link-color) !important;
+}
+
+.theme-light .footer {
+  border-top-color: rgba(0, 0, 0, 0.1) !important;
+}

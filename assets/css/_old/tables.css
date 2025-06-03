@@ -1,0 +1,209 @@
+/* 
+ * Table Styles
+ * This file contains all styles related to tables and table components.
+ */
+
+/* General Table Styles */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    vertical-align: top;
+    border-color: var(--border-color);
+    transition: color 0.3s ease;
+}
+
+.table > :not(caption) > * > * {
+    padding: 0.75rem;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--border-color);
+}
+
+.table > tbody {
+    vertical-align: inherit;
+}
+
+.table > thead {
+    vertical-align: bottom;
+}
+
+/* Table Variants */
+.table-primary {
+    --bs-table-bg: var(--primary-blue-light);
+    --bs-table-striped-bg: var(--primary-blue-lighter);
+    --bs-table-active-bg: var(--primary-blue);
+    --bs-table-hover-bg: var(--primary-blue-hover);
+    color: var(--text-primary);
+}
+
+.table-secondary {
+    --bs-table-bg: var(--secondary-color-light);
+    --bs-table-striped-bg: var(--secondary-color-lighter);
+    --bs-table-active-bg: var(--secondary-color);
+    --bs-table-hover-bg: var(--secondary-color-hover);
+    color: var(--text-primary);
+}
+
+.table-success {
+    --bs-table-bg: var(--success-green-light);
+    --bs-table-striped-bg: var(--success-green-lighter);
+    --bs-table-active-bg: var(--success-green);
+    --bs-table-hover-bg: var(--success-green-hover);
+    color: var(--text-primary);
+}
+
+.table-danger {
+    --bs-table-bg: var(--danger-red-light);
+    --bs-table-striped-bg: var(--danger-red-lighter);
+    --bs-table-active-bg: var(--danger-red);
+    --bs-table-hover-bg: var(--danger-red-hover);
+    color: var(--text-primary);
+}
+
+.table-warning {
+    --bs-table-bg: var(--warning-yellow-light);
+    --bs-table-striped-bg: var(--warning-yellow-lighter);
+    --bs-table-active-bg: var(--warning-yellow);
+    --bs-table-hover-bg: var(--warning-yellow-hover);
+    color: var(--text-primary);
+}
+
+.table-info {
+    --bs-table-bg: var(--info-blue-light);
+    --bs-table-striped-bg: var(--info-blue-lighter);
+    --bs-table-active-bg: var(--info-blue);
+    --bs-table-hover-bg: var(--info-blue-hover);
+    color: var(--text-primary);
+}
+
+.table-light {
+    --bs-table-bg: var(--light-bg);
+    --bs-table-striped-bg: var(--light-bg-alt);
+    --bs-table-active-bg: var(--light-bg-active);
+    --bs-table-hover-bg: var(--light-bg-hover);
+    color: var(--text-primary);
+}
+
+.table-dark {
+    --bs-table-bg: var(--dark-bg);
+    --bs-table-striped-bg: var(--dark-bg-alt);
+    --bs-table-active-bg: var(--dark-bg-active);
+    --bs-table-hover-bg: var(--dark-bg-hover);
+    color: #fff;
+}
+
+/* Table Modifiers */
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table-hover > tbody > tr:hover > * {
+    background-color: rgba(0, 0, 0, 0.075);
+    cursor: pointer;
+}
+
+.table-bordered {
+    border: 1px solid var(--border-color);
+}
+
+.table-bordered > :not(caption) > * {
+    border-width: 1px 0;
+}
+
+.table-bordered > :not(caption) > * > * {
+    border-width: 0 1px;
+}
+
+.table-borderless > :not(caption) > * > * {
+    border-bottom-width: 0;
+}
+
+.table-sm > :not(caption) > * > * {
+    padding: 0.3rem;
+}
+
+/* Responsive Tables */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Table Captions */
+.table > caption {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    color: var(--text-secondary);
+    text-align: left;
+    caption-side: bottom;
+}
+
+/* Table Header and Footer */
+.table > thead {
+    border-bottom: 2px solid var(--border-color);
+}
+
+.table > tfoot {
+    border-top: 2px solid var(--border-color);
+}
+
+/* Table Row Spacing */
+.table-border-bottom-0 > :not(caption) > tr:last-child > * {
+    border-bottom-width: 0;
+}
+
+/* Water Academy Custom Table Styles */
+.wa-table {
+    border-radius: var(--wa-border-radius);
+    overflow: hidden;
+    box-shadow: var(--wa-card-shadow);
+}
+
+.wa-table thead th {
+    background-color: var(--primary-blue-light);
+    color: var(--text-primary);
+    font-weight: 600;
+    border-top: none;
+}
+
+.wa-table tbody tr:hover {
+    background-color: var(--primary-blue-lighter);
+}
+
+.wa-table-compact > :not(caption) > * > * {
+    padding: 0.5rem;
+}
+
+/* Dark Theme Adjustments */
+.theme-dark .table {
+    color: var(--text-light);
+    border-color: var(--dark-border);
+}
+
+.theme-dark .table > :not(caption) > * > * {
+    border-bottom-color: var(--dark-border);
+}
+
+.theme-dark .table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.theme-dark .table-hover > tbody > tr:hover > * {
+    background-color: rgba(255, 255, 255, 0.075);
+}
+
+.theme-dark .table-light {
+    --bs-table-bg: var(--dark-bg-light);
+    --bs-table-striped-bg: var(--dark-bg-light-alt);
+    --bs-table-active-bg: var(--dark-bg-light-active);
+    --bs-table-hover-bg: var(--dark-bg-light-hover);
+    color: var(--text-light);
+}
+
+.theme-dark .wa-table thead th {
+    background-color: var(--primary-blue-dark);
+    color: var(--text-light);
+}
+
+.theme-dark .wa-table tbody tr:hover {
+    background-color: var(--primary-blue-darker);
+}

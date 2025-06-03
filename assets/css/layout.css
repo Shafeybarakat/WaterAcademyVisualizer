@@ -1,0 +1,657 @@
+/*
+ * Water Academy Layout Stylesheet
+ * Contains styles for the main application layout and structure.
+ * Adopted and refactored from assets/css/old/mainx.css.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* --- Layout & Structure --- */
+/* -------------------------------------------------------------------------- */
+.layout-wrapper {
+  min-height: 100vh; /* Ensures full viewport height */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  overflow: hidden; /* Prevent any overflow on the wrapper */
+  transition: var(--wa-transition); /* Use the defined transition variable */
+}
+
+.layout-container {
+  display: flex;
+  flex: 1 0 auto;
+}
+
+.layout-page {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  padding-left: 0; /* Override padding from layout.css */
+  margin-right: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease, width 0.3s ease, max-width 0.3s ease;
+  position: relative;
+  width: calc(100% - var(--sidebar-width)); /* Fixes the gap by accounting for margin */
+  max-width: calc(100% - var(--sidebar-width));
+  min-height: 100vh; /* Crucial for sticky footer: ensures .layout-page tries to fill viewport height */
+  box-sizing: border-box; /* Ensure padding doesn't add to width */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-y: auto; /* Allow vertical scrolling for main content */
+  left: 0; /* Ensure no left positioning adds gap */
+}
+
+.content-wrapper {
+  flex: 1;
+  padding: var(--spacing-between-sections) var(--spacing-between-cards);
+  background-color: var(--background-color); /* Removed !important */
+  transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Allows content-wrapper to take available space */
+  align-items: stretch;
+  min-height: calc(100vh - 56px - 30px); /* 100vh - header height - footer height */
+  overflow-y: visible; /* Don't add a second scrollbar */
+}
+
+/* Dark theme specific background for content wrapper */
+.theme-dark .content-wrapper {
+  background-color: var(--bs-body-bg); /* Ensure dark background in dark theme */
+}
+
+/* Light theme specific background for content wrapper */
+.theme-light .content-wrapper {
+  background-color: var(--bs-body-bg); /* Ensure light background in light theme */
+}
+
+.container-xxl {
+  width: 100%;
+  padding-right: var(--spacing-unit);
+  padding-left: var(--spacing-unit); /* Revert this, as padding for title is on navbar-nav */
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 100%;
+}
+
+.footer {
+  background-color: var(--card-background);
+  padding: 0; /* Removed padding */
+  margin: 0; /* Removed margin */
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  margin-top: auto;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+  height: 40px; /* Increased footer height */
+  width: 100%; /* Ensure it extends to max width */
+  border-radius: 0; /* Ensure no rounded corners as per user request */
+}
+
+.theme-dark .footer {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Collapsed Sidebar Layout Adjustments (Desktop) */
+body.layout-menu-collapsed .layout-page {
+  margin-left: var(--sidebar-collapsed-width);
+  width: calc(100% - var(--sidebar-collapsed-width));
+  max-width: calc(100% - var(--sidebar-collapsed-width));
+}
+
+body.layout-menu-collapsed .menu.menu-vertical {
+  width: var(--sidebar-collapsed-width);
+}
+
+/* This class is toggled by JS for visual effect, not directly for width */
+.menu.menu-vertical.collapsed {
+  width: var(--sidebar-collapsed-width);
+}
+
+/* Mobile Layout Adjustments */
+@media (max-width: 1199.98px) {
+  /* Default mobile sidebar state (hidden) */
+  .menu.menu-vertical {
+    transform: translateX(-100%);
+    width: var(--sidebar-width);
+    z-index: 1080;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+  }
+  
+  /* Mobile sidebar visibility when layout-menu-expanded is on body */
+  body.layout-menu-expanded .menu.menu-vertical {
+    transform: translateX(0);
+  }
+  
+  /* Mobile layout page adjustments */
+  .layout-page {
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Mobile overlay visibility when layout-menu-expanded is on body */
+  body.layout-menu-expanded .layout-overlay {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto; /* Allow clicks when expanded (to close sidebar) */ 
+  }
+  
+  /* Default overlay state (hidden) */
+  .layout-overlay {
+    display: none; /* Hidden by default on mobile */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1070;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none; /* Prevent clicks by default */
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* Desktop specific adjustments for layout-page when sidebar is collapsed */
+/* This media query is now redundant as the rule is applied directly to body.layout-menu-collapsed */
+/* @media (min-width: 1200px) {
+  body.layout-menu-collapsed .layout-page {
+    margin-left: var(--sidebar-collapsed-width);
+    width: calc(100% - var(--sidebar-collapsed-width));
+    max-width: calc(100% - var(--sidebar-collapsed-width));
+  }
+} */
+
+/* Row and Column Spacing */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.75rem;
+  margin-left: -0.75rem;
+}
+
+.col, .col-auto, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6,
+.col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col-sm,
+.col-sm-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5,
+.col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11,
+.col-sm-12, .col-md, .col-md-auto, .col-md-1, .col-md-2, .col-md-3,
+.col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9,
+.col-md-10, .col-md-11, .col-md-12, .col-lg, .col-lg-auto, .col-lg-1,
+.col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7,
+.col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-xl,
+.col-xl-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5,
+.col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11,
+.col-xl-12 {
+  position: relative;
+  width: 100%;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Sidebar Styling --- */
+/* -------------------------------------------------------------------------- */
+.menu.menu-vertical {
+  width: var(--sidebar-width);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 1030;
+  transition: width 0.3s ease, transform 0.3s ease;
+  border-right: none;
+  background: linear-gradient(135deg, var(--sidebar-gradient-top) 0%, var(--sidebar-gradient-bottom) 100%);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  color: var(--sidebar-text-color);
+  overflow-y: auto; /* Allow vertical scrolling for sidebar content */
+  overflow-x: hidden;
+  /* Custom Scrollbar Styling */
+  scrollbar-width: thin; /* "auto" or "thin" */
+  scrollbar-color: var(--wa-primary) var(--sidebar-gradient-bottom); /* thumb and track color */
+}
+
+/* Webkit browsers (Chrome, Safari) */
+.menu.menu-vertical::-webkit-scrollbar {
+  width: 8px; /* width of the entire scrollbar */
+}
+
+.menu.menu-vertical::-webkit-scrollbar-track {
+  background: var(--sidebar-gradient-bottom); /* color of the tracking area */
+  border-radius: 10px;
+}
+
+.menu.menu-vertical::-webkit-scrollbar-thumb {
+  background-color: var(--wa-primary); /* color of the scroll thumb */
+  border-radius: 10px; /* roundness of the scroll thumb */
+  border: 2px solid var(--sidebar-gradient-bottom); /* creates padding around scroll thumb */
+}
+
+/* Logo Container */
+.menu.menu-vertical .app-brand.demo {
+  height: 190px;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: none;
+  margin-bottom: 20px;
+}
+
+.menu.menu-vertical .app-brand.demo .app-brand-link {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Logo Image */
+.logo-container {
+  width: 190px;
+  height: 190px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#sidebarLogo, #sidebarLogoDark {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: filter 0.3s ease;
+}
+
+.theme-dark #sidebarLogo {
+  display: none;
+}
+
+.theme-dark #sidebarLogoDark {
+  display: block;
+}
+
+.theme-light #sidebarLogo {
+  display: block;
+}
+
+.theme-light #sidebarLogoDark {
+  display: none;
+}
+
+/* Navigation Items */
+/* Remove bullets from sidebar navigation */
+.menu-inner {
+    list-style: none;
+    padding-left: 0;
+}
+
+/* Navigation Items */
+.menu.menu-vertical .menu-inner > .menu-item {
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.menu.menu-vertical .menu-inner > .menu-item > .menu-link {
+  height: var(--sidebar-nav-item-height);
+  padding: 10px 18px;
+  color: var(--sidebar-text-color);
+  font-size: var(--font-size-navigation-text);
+  font-weight: var(--font-weight-navigation-text);
+  border-radius: 8px; /* Slightly less rounded than 12px for a more modern look */
+  margin: 0 12px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+  z-index: 1; /* Ensure hover effect is visible */
+}
+
+.menu.menu-vertical .menu-inner > .menu-item > .menu-link .menu-icon {
+  font-size: 1.4rem; /* Slightly larger icons */
+  width: var(--sidebar-icon-size);
+  height: var(--sidebar-icon-size);
+  color: var(--sidebar-icon-color);
+  margin-right: 12px; /* Adjusted spacing */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+/* Hover effect for sidebar items */
+.menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link:hover {
+    background-color: var(--hover-bg);
+    color: var(--wa-primary);
+    transform: translateY(-2px); /* Subtle lift effect */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow on hover */
+}
+
+.menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link:hover .menu-icon {
+    color: var(--wa-primary);
+    transform: scale(1.05); /* Subtle icon scale */
+}
+
+/* Active state for sidebar items */
+.menu.menu-vertical .menu-inner > .menu-item.active > .menu-link {
+    background: var(--wa-gradient-blue); /* Gradient background for active item */
+    color: #ffffff; /* White text for active item */
+    box-shadow: var(--button-shadow); /* Stronger shadow for active item */
+    transform: translateY(-1px); /* Slight lift */
+    border-left: 5px solid var(--wa-primary-light); /* Highlight border */
+    padding-left: 13px; /* Adjust padding due to border */
+}
+
+.menu.menu-vertical .menu-inner > .menu-item.active > .menu-link .menu-icon {
+    color: #ffffff; /* White icon for active item */
+}
+
+/* Dark theme specific adjustments for sidebar items */
+.theme-dark .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link:hover {
+    background-color: rgba(56, 189, 248, 0.1); /* Darker hover for dark theme */
+    color: var(--wa-primary-light);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.theme-dark .menu.menu-vertical .menu-inner > .menu-item.active > .menu-link {
+    background: linear-gradient(135deg, var(--wa-primary-dark) 0%, var(--wa-primary) 100%); /* Darker gradient for active */
+    border-left-color: var(--wa-primary-light);
+}
+
+/* Light Mode Sidebar */
+.theme-light .menu.menu-vertical {
+  background: #ffffff;
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.theme-light .menu.menu-vertical .menu-item {
+  color: var(--text-primary);
+}
+
+.theme-light .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link {
+  color: var(--text-primary);
+}
+
+.theme-light .menu.menu-vertical .menu-inner > .menu-item:not(.active) > .menu-link .menu-icon {
+  color: var(--wa-primary);
+}
+
+.theme-light #sidebarLogo {
+  display: block;
+}
+
+.theme-light #sidebarLogoDark {
+  display: none;
+}
+
+/* Dark Theme */
+.theme-dark .menu.menu-vertical {
+  background: var(--sidebar-gradient-top);
+  background: linear-gradient(135deg, var(--sidebar-gradient-top) 0%, var(--sidebar-gradient-bottom) 100%);
+}
+
+.theme-dark #sidebarLogo {
+  display: none;
+}
+
+.theme-dark #sidebarLogoDark {
+  display: block;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Sidebar Logo Container Fixes --- */
+/* -------------------------------------------------------------------------- */
+.menu.menu-vertical .app-brand.demo {
+  height: var(--sidebar-logo-container-height);
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: none;
+  margin-bottom: 20px;
+}
+
+.menu.menu-vertical .app-brand.demo .app-brand-link {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Logo Image */
+.logo-container {
+  width: 190px;
+  height: 190px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#sidebarLogo, #sidebarLogoDark {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: filter 0.3s ease;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Navbar and Header Styling --- */
+/* -------------------------------------------------------------------------- */
+.layout-navbar {
+  height: var(--dashboard-header-height);
+  box-shadow: var(--dashboard-header-shadow);
+  background-color: var(--card-background);
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(135deg, var(--wa-primary), var(--wa-info)) 1;
+  border-radius: 0; /* Ensure no rounded corners as per user request */
+  width: 100%; /* Ensure it extends to max width */
+}
+
+.navbar-nav-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%; /* Ensure it takes full height for vertical centering */
+}
+
+.navbar-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Vertically center align items */
+  height: 100%; /* Ensure it takes full height for vertical centering */
+  padding-left: 1rem; /* Added for indentation */
+}
+
+/* Page Title Styling */
+.navbar-nav .page-title {
+  display: flex; /* Use flexbox for vertical centering */
+  align-items: center; /* Vertically center align */
+  height: 100%; /* Take full height of parent */
+  margin: 0; /* Remove default margin */
+  line-height: 70px; /* Explicitly set line-height for vertical centering */
+}
+
+/* User welcome and role styling */
+.user-welcome {
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
+  display: flex; /* Use flexbox for vertical centering */
+  align-items: center; /* Vertically center align */
+  height: 100%; /* Take full height of parent */
+}
+
+.user-role {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+/* User Avatar Styling */
+.avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar.avatar-online::before {
+  content: '';
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--wa-success);
+  border: 2px solid var(--card-background);
+  z-index: 1;
+}
+
+/* Theme toggle button */
+#theme-toggle-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none; /* Removed border */
+  box-shadow: 0 0 10px rgba(58, 165, 255, 0.2);
+}
+
+#theme-toggle-btn:hover {
+  box-shadow: 0 0 15px rgba(58, 165, 255, 0.4);
+}
+
+.theme-dark #theme-toggle-btn {
+  background-color: rgba(30, 41, 59, 0.9);
+}
+
+.theme-light #theme-toggle-btn {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Header Icons Color */
+.layout-navbar .nav-link i {
+  color: var(--bs-body-color); /* Use body color for icons in header */
+}
+
+/* Login page specific styles - isolated from main layout */
+body.login-page {
+  background-color: #000; /* Fallback solid color */
+  background: linear-gradient(to bottom right, #00d0ff, #a078ea); /* Magical blue gradient fallback */
+  background-image: url('../img/bg/01x.png'); /* Image on top */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Authentication wrapper */
+.authentication-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Authentication inner container */
+.authentication-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 0;
+}
+
+/* Login page specific styles - isolated from main layout */
+body.login-page .login-title {
+  font-family: 'Michroma', sans-serif;
+  color: white;
+  font-size: 3.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  position: fixed;
+  top: 50px; /* Fixed position from top of page */
+  width: 100%;
+  text-align: center;
+  z-index: 1000; /* Ensure it's above other elements */
+  /* Override any layout-related positioning that might affect centering */
+  transform: none;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Ensure login page containers don't inherit sidebar-related width calculations */
+body.login-page .container-xxl,
+body.login-page .authentication-wrapper,
+body.login-page .authentication-inner {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  left: 0;
+  right: 0;
+  /* Override any sidebar-related margin or width calculations */
+  transform: none;
+}
+
+/* Visualizer logo at bottom */
+.visu-overlay-logo {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 200px;
+  height: auto;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+@media (min-width: 1200px) {
+  .layout-navbar .d-xl-none {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767.98px) { /* Mobile breakpoint for smaller screens */
+  .navbar-nav .page-title {
+    font-size: 1.2rem; /* Smaller font size on mobile */
+  }
+
+/* Import mobile sidebar fixes */
+@import 'components/mobile-sidebar.css';
+}

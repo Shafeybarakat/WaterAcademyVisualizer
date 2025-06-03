@@ -1,0 +1,371 @@
+/*
+ * Water Academy Header Fixes
+ * Addresses UI issues with the header, navbar, and sidebar toggle
+ * Consolidated header styles from main.css and layout-fix-comprehensive.css
+ */
+
+/* -------------------------------------------------------------------------- */
+/* --- Header and Navbar Specific Fixes --- */
+/* -------------------------------------------------------------------------- */
+
+/* Main navbar container */
+.layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached {
+  display: flex;
+  align-items: center;
+  height: var(--dashboard-header-height);
+  /* Use sticky positioning from layout-fix-comprehensive.css */
+  position: sticky;
+  top: 15px;
+  z-index: 1020;
+  /* Use width and margins from layout-fix-comprehensive.css */
+  width: calc(100% - 2rem);
+  max-width: calc(100% - 2rem);
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: var(--card-margin); /* Keep margin-top from main.css */
+  margin-bottom: var(--dashboard-header-margin-bottom); /* Keep margin-bottom from main.css */
+  /* Keep padding, border-radius, background, border, shadow from header-fix.css */
+  padding: 0 var(--card-padding);
+  border-radius: var(--card-border-radius);
+  background-color: var(--card-background);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: var(--dashboard-header-shadow);
+  transition: background-color 0.3s ease, color 0.3s ease; /* Keep transition from main.css */
+}
+
+.theme-dark .layout-navbar {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--card-background) !important; /* Keep from main.css */
+  color: var(--text-primary) !important; /* Keep from main.css */
+}
+
+/* Fix navbar content alignment */
+.navbar-nav-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Hide mobile menu toggle on desktop */
+@media (min-width: 1200px) {
+  .layout-navbar .d-xl-none {
+    display: none !important;
+  }
+
+  /* Show desktop sidebar toggle */
+  /* This rule is in header-fix.css, keep it */
+  .layout-menu-toggle {
+    display: block !important;
+  }
+}
+
+/* Show mobile menu toggle on mobile only */
+@media (max-width: 1199.98px) {
+  .layout-navbar .d-xl-none {
+    display: block !important;
+  }
+}
+
+/* Theme toggle button */
+#theme-toggle-btn {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Keep styles from header-fix.css, add margin-right from main.css */
+  color: var(--text-primary);
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Use 0.3s from main.css */
+  margin-right: 15px; /* Keep from main.css */
+}
+
+.theme-dark #theme-toggle-btn {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff; /* Keep from main.css */
+}
+
+#theme-toggle-btn:hover {
+  background-color: var(--hover-bg);
+  transform: rotate(30deg); /* Use 30deg from main.css */
+}
+
+/* Theme icons */
+.theme-icon-light, .theme-icon-dark {
+  font-size: 1.25rem;
+}
+
+.theme-dark .theme-icon-light {
+  display: none !important;
+}
+
+.theme-dark .theme-icon-dark {
+  display: block !important;
+}
+
+.theme-light .theme-icon-light {
+  display: block !important;
+}
+
+.theme-light .theme-icon-dark {
+  display: none !important;
+}
+
+/* User info section */
+/* Keep from header-fix.css */
+.navbar-text {
+  margin-right: 0.5rem;
+}
+
+/* User welcome and role with better alignment */
+.user-welcome {
+  font-family: 'Michroma', sans-serif;
+  /* Use size from main.css */
+  font-size: 1rem;
+  /* Use color from main.css */
+  color: var(--text-primary);
+  /* Keep display from main.css */
+  display: inline-block;
+  /* Keep margin-right from main.css */
+  margin-right: 0.5rem;
+  /* Keep transition from main.css */
+  transition: color 0.3s ease;
+  /* Remove margin-bottom from header-fix.css */
+  /* font-weight: 500; // Keep from header-fix.css */
+}
+
+.user-role {
+  font-family: 'Michroma', sans-serif; /* Keep from main.css */
+  /* Use size from main.css */
+  font-size: 0.75rem;
+  /* Use color from main.css */
+  color: var(--wa-primary);
+  font-weight: bold; /* Keep from main.css */
+  display: inline-block; /* Keep from main.css */
+  padding: 0.1rem 0.5rem; /* Keep from main.css */
+  background-color: rgba(58, 165, 255, 0.1); /* Keep from main.css */
+  border-radius: 4px; /* Keep from main.css */
+  transition: color 0.3s ease, background-color 0.3s ease; /* Keep from main.css */
+}
+
+.theme-dark .user-role {
+  background-color: rgba(56, 189, 248, 0.2); /* Keep from main.css */
+  color: var(--wa-primary-light); /* Keep from main.css */
+}
+
+/* Avatar styling */
+/* Keep from main.css */
+.layout-navbar .avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--wa-primary);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.layout-navbar .avatar:hover {
+  box-shadow: 0 0 15px rgba(58, 165, 255, 0.5);
+}
+
+.layout-navbar .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* Page title */
+.page-title {
+  font-family: 'Michroma', sans-serif;
+  /* Use size and weight from main.css */
+  font-size: var(--font-size-dashboard-title);
+  font-weight: var(--font-weight-dashboard-title);
+  /* Use color from main.css */
+  color: var(--text-primary);
+  /* Remove margin-right: auto; from main.css */
+  margin: 0; /* Keep from header-fix.css */
+  padding: 0; /* Keep from header-fix.css */
+  transition: color 0.3s ease; /* Keep from main.css */
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Sidebar Toggle Fixes --- */
+/* -------------------------------------------------------------------------- */
+
+/* Ensure sidebar toggle buttons are visible */
+/* Keep from header-fix.css */
+.layout-menu-toggle,
+.js-layout-menu-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  transition: color 0.2s ease-in-out;
+}
+
+.layout-menu-toggle:hover,
+.js-layout-menu-toggle:hover {
+  color: var(--wa-primary);
+}
+
+/* Desktop sidebar toggle button */
+/* Keep from header-fix.css */
+.sidebar-toggle-desktop {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  color: var(--sidebar-text-color);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0;
+}
+
+.sidebar-toggle-desktop:hover {
+  transform: scale(1.1);
+}
+
+/* Only hide desktop toggle in mobile view */
+@media (max-width: 1199.98px) {
+  .sidebar-toggle-desktop {
+    display: none !important;
+  }
+}
+
+/* Rotate chevron icon in collapsed mode */
+/* Keep from header-fix.css */
+.layout-menu-collapsed .sidebar-toggle-desktop i.bx-chevron-left,
+.menu.menu-vertical.collapsed .sidebar-toggle-desktop i.bx-chevron-left {
+  transform: rotate(180deg);
+}
+
+/* Ensure mobile menu icon is visible only on mobile */
+/* Keep from header-fix.css */
+.bx-menu {
+  font-size: 1.5rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Dropdown Menu Fixes --- */
+/* -------------------------------------------------------------------------- */
+/* Keep from main.css, seems more complete */
+.dropdown-menu {
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+  min-width: 200px;
+  background-color: var(--card-background);
+  transition: background-color 0.3s ease;
+  z-index: 1030;
+}
+
+.theme-dark .dropdown-menu {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item {
+  padding: 0.75rem 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: var(--hover-bg);
+  color: var(--wa-primary);
+}
+
+.dropdown-item i,
+.dropdown-item .bx {
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.dropdown-item:hover i,
+.dropdown-item:hover .bx {
+  color: var(--wa-primary);
+}
+
+.dropdown-divider {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0.5rem 0;
+}
+
+.theme-dark .dropdown-divider {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* --- Media Queries for Responsive Behavior --- */
+/* -------------------------------------------------------------------------- */
+
+/* Tablet and below */
+@media (max-width: 991.98px) {
+  .layout-navbar .page-title {
+    font-size: calc(var(--font-size-dashboard-title) - 4px);
+  }
+
+  .user-welcome {
+    font-size: 0.9rem;
+  }
+
+  .user-role {
+    font-size: 0.7rem;
+  }
+
+  .layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767.98px) {
+  .layout-navbar .navbar-nav-right {
+    flex-wrap: wrap;
+  }
+
+  /* Hide user welcome on small mobile */
+  .user-welcome {
+    display: none;
+  }
+
+  .user-role {
+    font-size: 0.65rem;
+    padding: 0.05rem 0.4rem;
+  }
+
+  .page-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Very small devices */
+/* This media query in header-fix.css hides navbar-text, which contains user-welcome and user-role.
+   The previous media query already hides user-welcome. Let's adjust this one to only hide user-role if needed,
+   or remove it if the above is sufficient. The screenshot shows user-role is visible.
+   Let's remove this media query for now and rely on the 767.98px breakpoint.
+@media (max-width: 575.98px) {
+  .navbar-text {
+    display: none;
+  }
+}
+*/

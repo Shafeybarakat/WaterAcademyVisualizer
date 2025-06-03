@@ -1,0 +1,287 @@
+/*
+ * Water Academy UI Enhancements
+ * Added: May 31, 2025
+ * Features: Rounded corners, neon shadows, hover effects, and transition effects
+ */
+
+/* -------------------------------------------------------------------------- */
+/* --- Card Enhancements --- */
+/* -------------------------------------------------------------------------- */
+
+/* Stats Cards with Neon Shadow */
+.stat-card {
+  border-radius: 25px !important; /* More rounded corners */
+  border: none !important; /* Remove border */
+  box-shadow: 0 0 20px rgba(58, 165, 255, 0.4), 0 0 30px rgba(58, 165, 255, 0.2), inset 0 0 15px rgba(58, 165, 255, 0.1) !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--wa-primary), var(--wa-info));
+  border-radius: 25px 25px 0 0;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px) scale(1.02) !important;
+  box-shadow: 0 0 25px rgba(58, 165, 255, 0.6), 0 0 40px rgba(58, 165, 255, 0.3), inset 0 0 20px rgba(58, 165, 255, 0.15) !important;
+}
+
+/* Action Cards with Neon Shadow */
+.action-card {
+  border-radius: 25px !important;
+  border: none !important;
+  box-shadow: 0 0 20px rgba(58, 165, 255, 0.4), 0 0 30px rgba(58, 165, 255, 0.2), inset 0 0 15px rgba(58, 165, 255, 0.1) !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.action-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--wa-primary), var(--wa-secondary));
+  border-radius: 25px 25px 0 0;
+}
+
+.action-card:hover {
+  transform: translateY(-5px) scale(1.02) !important;
+  box-shadow: 0 0 25px rgba(58, 165, 255, 0.6), 0 0 40px rgba(58, 165, 255, 0.3), inset 0 0 20px rgba(58, 165, 255, 0.15) !important;
+}
+
+/* All cards (generic) */
+.card {
+  border-radius: 25px !important;
+  border: none !important;
+  box-shadow: 0 0 20px rgba(58, 165, 255, 0.4), 0 0 30px rgba(58, 165, 255, 0.2), inset 0 0 15px rgba(58, 165, 255, 0.1) !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 0 25px rgba(58, 165, 255, 0.6), 0 0 40px rgba(58, 165, 255, 0.3), inset 0 0 20px rgba(58, 165, 255, 0.15) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Header Enhancements --- */
+/* -------------------------------------------------------------------------- */
+
+/* Header background to match sidebar */
+.layout-navbar {
+  background: linear-gradient(135deg, var(--sidebar-gradient-top) 0%, var(--sidebar-gradient-bottom) 100%) !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important; /* Remove rounded corners */
+  border-image: none !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  color: var(--sidebar-text-color) !important;
+}
+
+/* Theme toggle button without border */
+#theme-toggle-btn {
+  width: 45px !important;
+  height: 45px !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background: var(--card-background) !important;
+  box-shadow: 0 0 15px rgba(58, 165, 255, 0.4), 0 0 25px rgba(58, 165, 255, 0.2), inset 0 0 10px rgba(58, 165, 255, 0.1) !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+#theme-toggle-btn:hover {
+  transform: scale(1.1) rotate(15deg) !important;
+  box-shadow: 0 0 20px rgba(58, 165, 255, 0.6), 0 0 30px rgba(58, 165, 255, 0.3), inset 0 0 15px rgba(58, 165, 255, 0.15) !important;
+}
+
+/* User dropdown enhancements */
+.dropdown-user .dropdown-toggle {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.dropdown-user .dropdown-toggle:hover {
+  transform: scale(1.05) !important;
+}
+
+.avatar {
+  box-shadow: 0 0 15px rgba(58, 165, 255, 0.3) !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.avatar:hover {
+  box-shadow: 0 0 20px rgba(58, 165, 255, 0.5) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Button Enhancements --- */
+/* -------------------------------------------------------------------------- */
+
+.btn {
+  border-radius: 12px !important;
+  border: none !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.4s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--wa-primary), var(--wa-info)) !important;
+  box-shadow: 0 0 15px rgba(58, 165, 255, 0.3) !important;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 0 20px rgba(58, 165, 255, 0.5) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Page Transition Effects --- */
+/* -------------------------------------------------------------------------- */
+
+/* Base transition for content wrapper */
+.content-wrapper {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Transition for cards */
+.stat-card, .action-card, .card {
+  animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation-fill-mode: both;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Staggered animation for multiple cards */
+.dashboard-stats .stat-card:nth-child(1) { animation-delay: 0.1s; }
+.dashboard-stats .stat-card:nth-child(2) { animation-delay: 0.2s; }
+.dashboard-stats .stat-card:nth-child(3) { animation-delay: 0.3s; }
+.dashboard-stats .stat-card:nth-child(4) { animation-delay: 0.4s; }
+.dashboard-stats .stat-card:nth-child(5) { animation-delay: 0.5s; }
+
+.action-cards .action-card:nth-child(1) { animation-delay: 0.6s; }
+.action-cards .action-card:nth-child(2) { animation-delay: 0.7s; }
+
+/* Table animation */
+table {
+  animation: fadeIn 0.8s ease-in-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Footer Enhancements --- */
+/* -------------------------------------------------------------------------- */
+
+/* Footer styling to match sidebar */
+.footer {
+  background: linear-gradient(135deg, var(--sidebar-gradient-bottom) 0%, var(--sidebar-gradient-top) 100%) !important;
+  color: var(--sidebar-text-color) !important;
+  border-radius: 0 !important; /* Remove rounded corners */
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0.5rem 0 !important;
+  margin: 0 !important;
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Action Card Enhancements --- */
+/* -------------------------------------------------------------------------- */
+
+/* Ensure action card buttons are aligned at the bottom */
+.action-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.action-card-content {
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+
+.action-card-footer {
+  margin-top: auto;
+  width: 100%;
+}
+
+/* Group dropdown filter styling */
+.select-group-container {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.select-group-container .form-select {
+  height: 48px !important; /* Make dropdown taller */
+  text-align: center; /* Center text */
+  font-weight: 500;
+}
+
+/* -------------------------------------------------------------------------- */
+/* --- Dark Theme Specific Adjustments --- */
+/* -------------------------------------------------------------------------- */
+
+.theme-dark .stat-card,
+.theme-dark .action-card,
+.theme-dark .card {
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.3), 0 0 30px rgba(56, 189, 248, 0.15), inset 0 0 15px rgba(56, 189, 248, 0.05) !important;
+}
+
+.theme-dark .stat-card:hover,
+.theme-dark .action-card:hover,
+.theme-dark .card:hover {
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.4), 0 0 40px rgba(56, 189, 248, 0.2), inset 0 0 20px rgba(56, 189, 248, 0.1) !important;
+}
+
+.theme-dark .layout-navbar {
+  box-shadow: none !important;
+}
+
+.theme-dark .footer {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.theme-dark #theme-toggle-btn {
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3), 0 0 25px rgba(56, 189, 248, 0.15), inset 0 0 10px rgba(56, 189, 248, 0.05) !important;
+}
+
+.theme-dark #theme-toggle-btn:hover {
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.4), 0 0 30px rgba(56, 189, 248, 0.2), inset 0 0 15px rgba(56, 189, 248, 0.1) !important;
+}

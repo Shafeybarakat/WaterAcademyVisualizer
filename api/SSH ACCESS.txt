@@ -1,0 +1,8 @@
+SSH Access  - Websites - wa.shafey.net - Advanced - SSH Access
+
+SSH details
+
+IP		89.116.192.161
+Port		65002
+Username	u652025084
+Password	Afb@1976

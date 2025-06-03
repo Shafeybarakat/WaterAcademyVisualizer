@@ -1,0 +1,219 @@
+/* 
+ * Theme Enhancements
+ * Additional styling for dark/light mode specific features
+ */
+
+/* Card border styling for dark mode */
+body:not(.theme-light) .card {
+    border: 1px solid rgba(32, 156, 255, 0.6) !important; /* Neon blue with silver tint */
+    box-shadow: 0 0 10px rgba(32, 156, 255, 0.2) !important; /* Subtle glow effect */
+    color: #f8f9fa !important; /* Light text for dark mode */
+}
+
+body:not(.theme-light) .card h1,
+body:not(.theme-light) .card h2,
+body:not(.theme-light) .card h3,
+body:not(.theme-light) .card h4,
+body:not(.theme-light) .card h5,
+body:not(.theme-light) .card h6,
+body:not(.theme-light) .card .card-title,
+body:not(.theme-light) .card .card-header {
+    color: #ffffff !important;
+}
+
+body:not(.theme-light) .card p,
+body:not(.theme-light) .card span,
+body:not(.theme-light) .card div,
+body:not(.theme-light) .card td,
+body:not(.theme-light) .card th,
+body:not(.theme-light) .card label,
+body:not(.theme-light) .card small {
+    color: #f8f9fa !important;
+}
+
+/* Card border styling for light mode */
+body.theme-light .card {
+    border: 1px solid #0062cc !important; /* Dark shining blue */
+    box-shadow: 0 1px 8px rgba(41, 128, 185, 0.15) !important; /* Subtle shadow effect */
+}
+
+/* Dashboard cards layout */
+.dashboard-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Distribute items evenly */
+    gap: 20px; /* Increased gap for better spacing */
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    flex: 1 1 180px; /* Allow cards to grow/shrink, with a base width */
+    max-width: 220px; /* Increased max-width slightly */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 15px;
+    background: rgba(25, 33, 48, 0.95) !important;
+    border-radius: 8px;
+}
+
+.stat-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+}
+
+.stat-icon.groups-icon { color: #4e73df; }
+.stat-icon.courses-icon { color: #1cc88a; }
+.stat-icon.trainees-icon { color: #36b9cc; }
+.stat-icon.instructors-icon { color: #f6c23e; }
+.stat-icon.coordinators-icon { color: #e74a3b; }
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 1rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Events layout */
+.events-section {
+    display: flex;
+    gap: 20px;
+}
+
+.events-card {
+    flex: 2;
+}
+
+.new-group-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.new-group-icon {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    color: #4e73df;
+}
+
+.new-group-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin-top: 15px;
+}
+
+/* Light mode footer adjustments */
+body.theme-light .sidebar-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.05);
+}
+
+body.theme-light .version {
+    background: rgba(41, 128, 185, 0.15);
+    border: 1px solid rgba(41, 128, 185, 0.2);
+    color: #2c3e50;
+}
+
+/* Light mode submenu styling */
+body.theme-light .menu-sub {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.theme-light .menu-sub .menu-item:hover {
+    background: rgba(41, 128, 185, 0.1);
+}
+
+body.theme-light .menu-sub .menu-link {
+    color: #2c3e50 !important;
+}
+
+/* Mobile Responsiveness Improvements */
+@media screen and (max-width: 768px) { /* Adjusted breakpoint for tablets and phones */
+    /* Reduce header title size on mobile */
+    .content-header h1,
+    .content-header h2,
+    .content-header h3,
+    .page-title {
+        font-size: 1.4rem !important; /* Slightly smaller */
+    }
+    
+    /* Reduce user name text size in header */
+    .user-name, 
+    .user-status,
+    .app-brand-text {
+        font-size: 0.85rem !important; /* Slightly smaller */
+    }
+    
+    /* Fix navigation buttons on mobile */
+    .menu.menu-vertical .menu-inner > .menu-item > .menu-link {
+        pointer-events: auto !important;
+        position: relative !important;
+        z-index: 50 !important;
+    }
+    
+    .menu.menu-vertical {
+        z-index: 1080 !important;
+    }
+    
+    /* Make sure the icons remain visible and clickable */
+    .menu-icon {
+        pointer-events: auto !important;
+    }
+    
+    /* Ensure mobile menu toggle is clickable */
+    .layout-menu-toggle {
+        position: fixed !important;
+        z-index: 1090 !important;
+    }
+    
+    /* Fix dark mode text contrast in cards on mobile */
+    body:not(.theme-light) .card {
+        color: #ffffff !important;
+    }
+    
+    /* Make stat cards stack better on mobile */
+    .dashboard-stats {
+        justify-content: center;
+        flex-direction: column; /* Stack cards vertically on mobile */
+        align-items: center;
+    }
+    
+    .stat-card {
+        min-width: 80%; /* Make cards wider on mobile */
+        max-width: 95%;
+        margin-bottom: 15px; /* Add space between stacked cards */
+    }
+    
+    .stat-value {
+        font-size: 2rem; /* Adjusted size */
+    }
+    
+    .stat-label {
+        font-size: 0.9rem; /* Adjusted size */
+    }
+
+    /* Adjust events and new group section for mobile */
+    .events-section {
+        flex-direction: column; /* Stack events and new group cards */
+        gap: 15px;
+    }
+
+    .events-card,
+    .new-group-card {
+        flex: none; /* Remove flex-basis */
+        width: 100%; /* Full width on mobile */
+    }
+}

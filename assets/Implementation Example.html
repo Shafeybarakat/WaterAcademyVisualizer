@@ -1,0 +1,77 @@
+<!-- Include in your HTML head -->
+<link rel="stylesheet" href="path/to/water-academy-styles.css">
+
+<!-- In your report page content -->
+<div class="container-xxl flex-grow-1 container-p-y">
+    <!-- Stats Cards Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-sm-6 col-xl-3">
+            <div class="wa-card">
+                <div class="wa-card-body">
+                    <div class="d-flex align-items-start justify-content-between">
+                        <div>
+                            <span class="wa-stats-label">Total Trainees</span>
+                            <h4 class="wa-stats-value">128</h4>
+                            <small class="wa-stats-description">Across all groups</small>
+                        </div>
+                        <div class="wa-stats-icon">
+                            <i class="bx bx-user bx-sm"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- More stat cards here -->
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <div class="wa-card">
+                <div class="wa-card-header">
+                    <h5 class="wa-card-title">Performance Distribution</h5>
+                </div>
+                <div class="wa-card-body">
+                    <div class="wa-chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="wa-card">
+                <div class="wa-card-header">
+                    <h5 class="wa-card-title">Attendance Summary</h5>
+                </div>
+                <div class="wa-card-body">
+                    <div class="wa-chart-container">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include at the end of your page before closing body -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="path/to/water-academy-charts.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Performance Chart Example
+        const performanceLabels = ["90-100 (A)", "80-89 (B)", "70-79 (C)", "60-69 (D)", "<60 (F)"];
+        const performanceData = [15, 25, 20, 10, 5];
+        createBarChart('performanceChart', performanceLabels, performanceData, 'Performance Distribution');
+        
+        // Attendance Chart Example
+        const attendanceLabels = ['Present', 'Late', 'Absent', 'Excused'];
+        const attendanceData = [75, 10, 8, 7];
+        const attendanceColors = [
+            waChartColors.status.success,
+            waChartColors.status.warning,
+            waChartColors.status.danger,
+            waChartColors.status.secondary
+        ];
+        createDoughnutChart('attendanceChart', attendanceLabels, attendanceData, 'Attendance Summary', attendanceColors);
+    });
+</script>

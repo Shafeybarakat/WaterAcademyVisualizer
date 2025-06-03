@@ -1,0 +1,17 @@
+# Ensure report pages are not redirected to index.php
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # If the request is for an actual file or directory, serve it directly
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+    
+    # Specifically allow report pages to be accessed directly
+    RewriteCond %{REQUEST_URI} report_.*\.php [NC,OR]
+    RewriteCond %{REQUEST_URI} trainee_report.*\.php [NC,OR]
+    RewriteCond %{REQUEST_URI} group-analytics\.php [NC]
+    RewriteRule ^ - [L]
+    
+    # For all other requests, you can add your existing rules here
+</IfModule>
