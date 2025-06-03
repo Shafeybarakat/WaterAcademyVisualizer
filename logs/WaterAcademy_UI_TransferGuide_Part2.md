@@ -3,9 +3,9 @@
 - [x] Phase 4: Page-by-Page Migration & Testing
   - [x] Step 4.1: Migrate report_group_performance.php
   - [x] Step 4.2: Migrate report_trainee_performance.php
-  - [ ] Step 4.3: Migrate report_attendance_summary.php
-  - [ ] Step 4.4: Migrate attendance.php
-  - [ ] Step 4.5: Migrate instructor_dashboard.php & coordinator_dashboard.php
+  - [x] Step 4.3: Migrate report_attendance_summary.php
+  - [x] Step 4.4: Migrate attendance.php
+  - [x] Step 4.5: Migrate instructor_dashboard.php & coordinator_dashboard.php
 - [ ] Phase 5: Finalization, Testing, & Documentation
   - [ ] Step 5.1: Write Verification Checklists
   - [ ] Step 5.2: Remove Deprecated Files Permanently
@@ -336,8 +336,10 @@
              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trainee Name</th>
              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Group</th>
              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Present Hours</th>
+             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Late Hours</th>
+             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Excused Hours</th>
              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Absent Hours</th>
-             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Taken Sessions</th>
+             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Sessions</th>
              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Attendance %</th>
              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
            </tr>
@@ -348,15 +350,30 @@
                <td class="px-4 py-4 whitespace-nowrap"><?= htmlspecialchars($row['Name']) ?></td>
                <td class="px-4 py-4 whitespace-nowrap"><?= htmlspecialchars($row['GroupName']) ?></td>
                <td class="px-4 py-4 whitespace-nowrap">
-                 <input type="number" min="0" x-model.number="present" class="w-16 border rounded px-2 py-1 text-sm" />
+                 <input type="number" min="0" x-model.number="present" class="w-20 border rounded px-2 py-1 text-sm" 
+                                           name="present_hours[]" min="0" step="0.5" required>
                </td>
                <td class="px-4 py-4 whitespace-nowrap">
-                 <input type="number" min="0" x-model.number="absent" class="w-16 border rounded px-2 py-1 text-sm" />
+                 <input type="number" class="w-20 border rounded px-2 py-1 text-sm" 
+                                           name="late_hours[]" min="0" step="0.5" value="0" required>
                </td>
-               <td class="px-4 py-4 whitespace-nowrap"><?= $row['TakenSessions'] ?></td>
-               <td class="px-4 py-4 whitespace-nowrap"><?= $row['AttendancePercentage'] ?>%</td>
                <td class="px-4 py-4 whitespace-nowrap">
-                 <button @click="$dispatch('save-attendance', { id: <?= $row['AttendanceID'] ?>, present, absent })" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">Save</button>
+                 <input type="number" class="w-20 border rounded px-2 py-1 text-sm" 
+                                           name="excused_hours[]" min="0" step="0.5" value="0" required>
+               </td>
+               <td class="px-4 py-4 whitespace-nowrap">
+                 <input type="number" class="w-20 border rounded px-2 py-1 text-sm" 
+                                           x-model.number="absent" name="absent_hours[]" min="0" step="0.5" required>
+               </td>
+               <td class="px-4 py-4 whitespace-nowrap">
+                 <input type="number" class="w-20 border rounded px-2 py-1 text-sm" 
+                                           name="taken_sessions[]" min="1" step="1" value="<?= $row['TakenSessions'] ?>" required>
+               </td>
+               <td class="px-4 py-4 whitespace-nowrap">
+                 <span x-text="((present + (0.5 * 0) + 0) / (present + 0 + 0 + absent) * 100).toFixed(1) + '%'"></span>
+               </td>
+               <td class="px-4 py-4 whitespace-nowrap">
+                 <button type="button" @click="$dispatch('save-attendance', { id: <?= $row['AttendanceID'] ?>, present: present, absent: absent })" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">Save</button>
                </td>
              </tr>
            <?php endforeach; ?>
