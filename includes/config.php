@@ -40,6 +40,9 @@ if ($conn->connect_error) {
 // Define BASE_ASSET_PATH for consistent asset linking
 define('BASE_ASSET_PATH', '/wa/assets/');
 
+// Explicitly set session cookie path to ensure it's scoped correctly for the subdirectory
+ini_set('session.cookie_path', '/wa/');
+
 // Note: $conn will be used by other scripts that include this file.
 // The connection is typically closed in a global footer or at the end of script execution.
 ?>
