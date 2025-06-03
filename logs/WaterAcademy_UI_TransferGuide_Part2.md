@@ -2,7 +2,7 @@
 
 - [x] Phase 4: Page-by-Page Migration & Testing
   - [x] Step 4.1: Migrate report_group_performance.php
-  - [ ] Step 4.2: Migrate report_trainee_performance.php
+  - [x] Step 4.2: Migrate report_trainee_performance.php
   - [ ] Step 4.3: Migrate report_attendance_summary.php
   - [ ] Step 4.4: Migrate attendance.php
   - [ ] Step 4.5: Migrate instructor_dashboard.php & coordinator_dashboard.php

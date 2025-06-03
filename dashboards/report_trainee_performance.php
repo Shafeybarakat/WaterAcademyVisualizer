@@ -1,400 +1,79 @@
 <?php
 $pageTitle = "Trainee Performance Report"; // Set page title
-include_once("../includes/config.php");
-include_once("../includes/auth.php"); // Ensure user is logged in and sets $_SESSION["user_id"], $_SESSION["role"]
-
-// Define allowed roles for this report
-$allowed_roles = ["Super Admin", "Admin", "Instructor", "Coordinator"];
-if (!isset($_SESSION["user_role"]) || !in_array($_SESSION["user_role"], $allowed_roles)) {
-    // Redirect to dashboard with error message instead of login page
-    // This prevents redirect loop when user is logged in but doesn't have the required role
-    $_SESSION['access_denied_message'] = 'You do not have permission to access the Trainee Performance Report. Required roles: Super Admin, Admin, Instructor, or Coordinator.';
-    header("Location: index.php?error=permission_denied");
-    exit();
-}
-
-// Include the new header - this also includes the sidebar
-include_once("../includes/header.php"); 
+require_once __DIR__ . '/../includes/auth.php';
+require_permission('access_trainee_reports', '../login.php'); // RBAC guard
+require_once __DIR__ . '/../includes/config.php';
+require_once 'report_functions.php'; // PHP functions to fetch data
 
 $user_role = $_SESSION["user_role"];
 $user_id = $_SESSION["user_id"]; // Assuming user ID is stored in session
 
-// Base SQL query
-$sql = "SELECT tg.TID, CONCAT(t.FirstName, ' ', t.LastName) AS FullName, tg.CourseID, tg.CourseName, tg.GroupName, tg.PreTest, tg.AttGrade, tg.Participation, tg.Quiz1, tg.Quiz2, tg.Quiz3, tg.QuizAv, tg.Final, tg.Total, tg.LGI, tg.PositiveFeedback, tg.AreasToImprove 
-        FROM vw_TraineeGrades tg
-        JOIN Trainees t ON tg.TID = t.TID";
+// Example dummy data for demonstration. Replace with actual PHP variables.
+$avgPreTest = 75;
+$avgQuiz = 80;
+$avgFinal = 85;
+$avgLGI = 70;
 
-$params = [];
-$types = "";
+// Example dummy data for demonstration. Replace with actual PHP data from database.
+$trainees = [
+    ['Name' => 'John Doe', 'GroupName' => 'Group Alpha', 'PreTestScore' => 70, 'QuizAverage' => 78, 'FinalExamScore' => 85, 'AttendancePercentage' => 92, 'LGI' => 65],
+    ['Name' => 'Jane Smith', 'GroupName' => 'Group Beta', 'PreTestScore' => 80, 'QuizAverage' => 85, 'FinalExamScore' => 90, 'AttendancePercentage' => 95, 'LGI' => 75],
+];
 
-// Apply filtering based on role
-// The view already includes joins to GroupCourses and Groups tables
-// We need to join to these tables again to filter by InstructorID or CoordinatorID
-if ($user_role === "Instructor" || $user_role === "Coordinator") {
-    $sql .= " JOIN GroupCourses gc ON tg.CourseID = gc.CourseID AND tg.GroupID = gc.GroupID";
-    
-    if ($user_role === "Instructor") {
-        $sql .= " WHERE gc.InstructorID = ?";
-        $params[] = $user_id;
-        $types .= "i";
-    } elseif ($user_role === "Coordinator") {
-        $sql .= " JOIN Groups g ON tg.GroupID = g.GroupID WHERE g.CoordinatorID = ?";
-        $params[] = $user_id;
-        $types .= "i";
-    }
-}
-// Admins, Editors, Designer Admins see all data - no WHERE clause needed
-
-$sql .= " ORDER BY FullName, tg.CourseName";
-
-// Prepare and execute the statement
-$stmt = $conn->prepare($sql);
-
-if ($stmt === false) {
-    // In a real app, log this error instead of dying
-    error_log("Error preparing statement: " . $conn->error);
-    // Display user-friendly error within the layout
-    echo "<div class=\"container-xxl flex-grow-1 container-p-y\"><div class=\"alert alert-danger\">Error loading report data. Please contact support.</div></div>";
-    include_once("../includes/footer.php");
-    exit(); 
-}
-
-if (!empty($params)) {
-    $stmt->bind_param($types, ...$params);
-}
-
-$stmt->execute();
-$result = $stmt->get_result();
-
+include_once '../includes/header.php';
 ?>
 
-<!-- Include Google Fonts for Canva-like styling -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<div class="ml-0 md:ml-64 transition-all duration-200">
+  <main class="p-6 bg-gray-50 min-h-screen">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6"><?= htmlspecialchars($pageTitle); ?></h1>
 
-<!-- Include Select2 CSS and JS -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<!-- Content specific to this page -->
-<div class="container-xxl flex-grow-1 container-p-y">
-    <!-- Back to Reports Button -->
-    <div class="mb-4">
-        <a href="reports.php?group_id=<?= $_GET['group_id'] ?? '' ?>&course_id=<?= $_GET['course_id'] ?? '' ?>" class="btn btn-primary" style="font-weight: bold; padding: 10px 20px; font-size: 16px;">
-            <i class="bi bi-arrow-left me-1"></i> Back to Reports
-        </a>
+    <!-- KPI Cards Row -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <?php
+      $cards = [
+        ['Pre-Test Avg', 'bx bx-pen-alt text-indigo-500', $avgPreTest, 'chartPreTest'],
+        ['Quiz Avg', 'bx bx-question-circle text-purple-500', $avgQuiz, 'chartQuizAvg'],
+        ['Final Exam Avg', 'bx bx-file-alt text-red-500', $avgFinal, 'chartFinalExam'],
+        ['LGI', 'bx bx-line-chart text-yellow-500', $avgLGI, 'chartLGI'],
+      ];
+      foreach ($cards as $c) {
+        [$title, $iconClass, $value, $chartId] = $c;
+        // For items without charts, set $chartId = '' and modify kpi-card to hide canvas when ID is empty
+        include __DIR__ . '/../includes/components/kpi-card.php';
+      }
+      ?>
     </div>
 
-    <!-- Report Actions -->
-    <div class="card mb-4">
-        <h5 class="card-header">Report Actions</h5>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <button type="button" id="printReportBtn" class="btn btn-outline-primary w-100">
-                        <i class="bi bi-file-pdf"></i> Export PDF
-                    </button>
-                </div>
-                <div class="col-md-6">
-                    <a href="trainee_report_all.php?id=<?php echo isset($_GET['trainee_id']) ? $_GET['trainee_id'] : ''; ?>" class="btn btn-outline-secondary w-100">
-                        <i class="bi bi-list-ul"></i> View All Courses
-                    </a>
-                </div>
-            </div>
-        </div>
+    <!-- Trainees Table -->
+    <div class="bg-white rounded-lg shadow overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trainee Name</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Group Name</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pre-Test Score</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quiz Avg</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Final Exam</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Attendance %</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">LGI</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <?php foreach ($trainees as $t): ?>
+            <tr>
+              <td class="px-4 py-4 whitespace-nowrap"><?= htmlspecialchars($t['Name']) ?></td>
+              <td class="px-4 py-4 whitespace-nowrap"><?= htmlspecialchars($t['GroupName']) ?></td>
+              <td class="px-4 py-4 whitespace-nowrap"><?= $t['PreTestScore'] ?>%</td>
+              <td class="px-4 py-4 whitespace-nowrap"><?= $t['QuizAverage'] ?>%</td>
+              <td class="px-4 py-4 whitespace-nowrap"><?= $t['FinalExamScore'] ?>%</td>
+              <td class="px-4 py-4 whitespace-nowrap"><?= $t['AttendancePercentage'] ?>%</td>
+              <td class="px-4 py-4 whitespace-nowrap"><?= $t['LGI'] ?>%</td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
     </div>
-    <!-- / Report Actions -->
-
-    <!-- Trainee Performance Table -->
-    <div class="card">
-        <h5 class="card-header">Trainee Performance Summary</h5>
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead class="table-light">
-                    <tr>
-                        <th>Trainee Name</th>
-                        <th>Course</th>
-                        <th>Group</th>
-                        <th>Att.</th>
-                        <th>Part.</th>
-                        <th>Q1</th>
-                        <th>Q2</th>
-                        <th>Q3</th>
-                        <th>Quiz Avg</th>
-                        <th>Final</th>
-                        <th>Total</th>
-                        <th>Pre-Test</th>
-                        <th>LGI (%)</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="table-border-bottom-0">
-                    <?php
-                    // Create a new SQL query for filters
-                    $filterSql = $sql; // Start with the base SQL
-                    $filterParams = $params; // Start with the base params
-                    $filterTypes = $types; // Start with the base types
-                    
-                    // Create a new query for filtering
-                    $filterSql = "SELECT tg.TID, CONCAT(t.FirstName, ' ', t.LastName) AS FullName, tg.CourseID, tg.CourseName, tg.GroupName, tg.PreTest, tg.AttGrade, tg.Participation, tg.Quiz1, tg.Quiz2, tg.Quiz3, tg.QuizAv, tg.Final, tg.Total, tg.LGI, tg.PositiveFeedback, tg.AreasToImprove 
-                                  FROM vw_TraineeGrades tg
-                                  JOIN Trainees t ON tg.TID = t.TID";
-                    
-                    $whereConditions = [];
-                    $filterParams = [];
-                    $filterTypes = "";
-                    
-                    // For trainee filtering (highest priority)
-                    if (isset($_GET['trainee_id']) && !empty($_GET['trainee_id'])) {
-                        $traineeId = $_GET['trainee_id'];
-                        $whereConditions[] = "tg.TID = ?";
-                        $filterParams[] = $traineeId;
-                        $filterTypes .= "i";
-                        error_log("Added trainee filter for TID: " . $traineeId);
-                    }
-                    
-                    // For course filtering
-                    if (isset($_GET['course_id']) && !empty($_GET['course_id'])) {
-                        $courseId = $_GET['course_id'];
-                        $whereConditions[] = "tg.CourseID = ?";
-                        $filterParams[] = $courseId;
-                        $filterTypes .= "s";
-                        error_log("Added course filter for CourseID: " . $courseId);
-                    }
-                    
-                    // For group filtering - Fixed SQL syntax error
-                    if (isset($_GET['group_id']) && !empty($_GET['group_id'])) {
-                        $groupId = $_GET['group_id'];
-                        // Direct filter on GroupID rather than using a subquery
-                        $whereConditions[] = "tg.GroupID = ?";
-                        $filterParams[] = $groupId;
-                        $filterTypes .= "i";
-                        error_log("Added group filter for GroupID: " . $groupId);
-                    }
-                    
-                    // Role-based filtering
-                    if ($user_role === "Instructor") {
-                        $whereConditions[] = "EXISTS (SELECT 1 FROM GroupCourses gc WHERE gc.CourseID = tg.CourseID AND gc.GroupID = tg.GroupID AND gc.InstructorID = ?)";
-                        $filterParams[] = $user_id;
-                        $filterTypes .= "i";
-                    } elseif ($user_role === "Coordinator") {
-                        $whereConditions[] = "EXISTS (SELECT 1 FROM Groups g WHERE g.GroupID = tg.GroupID AND g.CoordinatorID = ?)";
-                        $filterParams[] = $user_id;
-                        $filterTypes .= "i";
-                    }
-                    
-                    // Add WHERE clause if any conditions exist
-                    if (!empty($whereConditions)) {
-                        $filterSql .= " WHERE " . implode(" AND ", $whereConditions);
-                    }
-                    
-                    // Add ORDER BY clause
-                    $filterSql .= " ORDER BY FullName, tg.CourseName";
-                    
-                    // Debug: Log the final SQL and parameters
-                    error_log("Final filter SQL: " . $filterSql);
-                    error_log("Filter params count: " . count($filterParams));
-                    
-                    // Re-prepare and execute the statement with filters if any filter is applied
-                    if (count($filterParams) > count($params)) {
-                        $stmt = $conn->prepare($filterSql);
-                        if ($stmt === false) {
-                            // Log the error and display a user-friendly message
-                            error_log("Error preparing filtered statement: " . $conn->error);
-                            error_log("SQL Query: " . $filterSql);
-                            echo "<tr><td colspan=\"14\" class=\"text-center\">Error applying filters. Please try again or contact support.</td></tr>";
-                        } else {
-                            if (!empty($filterParams)) {
-                                $stmt->bind_param($filterTypes, ...$filterParams);
-                            }
-                            $stmt->execute();
-                            $result = $stmt->get_result();
-                        }
-                    }
-                    
-                    if ($result && $result->num_rows > 0) {
-                        // Output data of each row
-                        while($row = $result->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td><strong>" . htmlspecialchars($row["FullName"]) . "</strong><br><small class=\"text-muted\">ID: " . htmlspecialchars($row["TID"]) . "</small></td>";
-                            echo "<td>" . htmlspecialchars($row["CourseName"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["GroupName"]) . "</td>";
-                            // Use null coalescing operator and number_format
-                            echo "<td>" . htmlspecialchars(number_format($row["AttGrade"] ?? 0, 1)) . "</td>";
-                            echo "<td>" . htmlspecialchars(number_format($row["Participation"] ?? 0, 1)) . "</td>";
-                            echo "<td>" . htmlspecialchars(number_format($row["Quiz1"] ?? 0, 1)) . "</td>";
-                            echo "<td>" . htmlspecialchars(number_format($row["Quiz2"] ?? 0, 1)) . "</td>";
-                            echo "<td>" . htmlspecialchars(number_format($row["Quiz3"] ?? 0, 1)) . "</td>";
-                            echo "<td>" . htmlspecialchars(number_format($row["QuizAv"] ?? 0, 1)) . "</td>";
-                            echo "<td>" . htmlspecialchars(number_format($row["Final"] ?? 0, 1)) . "</td>";
-                            echo "<td><strong>" . htmlspecialchars(number_format($row["Total"] ?? 0, 1)) . "</strong></td>";
-                            echo "<td>" . htmlspecialchars(number_format($row["PreTest"] ?? 0, 1)) . "</td>";
-                            echo "<td>" . htmlspecialchars(number_format($row["LGI"] ?? 0, 1)) . "</td>";
-                            // Add action buttons
-                            echo "<td>";
-                            echo "<a href='trainee_report.php?id=" . $row["TID"] . "&course_id=" . $row["CourseID"] . "' class='btn btn-sm btn-primary me-1'><i class='bi bi-bar-chart'></i> Course Report</a>";
-                            echo "<a href='trainee_report_all.php?id=" . $row["TID"] . "' class='btn btn-sm btn-outline-primary'><i class='bi bi-list-ul'></i> All Courses</a>";
-                            echo "</td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan=\"14\" class=\"text-center\">No trainee performance data found matching your criteria.</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <!--/ Trainee Performance Table -->
-
+  </main>
 </div>
-<!-- / Content specific to this page -->
 
-<!-- Add custom styling to match group-analytics.php -->
-<style>
-.card {
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-}
-
-.card-header {
-    border-bottom: none;
-    background-color: transparent;
-    padding-bottom: 0;
-}
-
-.card-title {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    color: #333;
-}
-
-.btn {
-    border-radius: 8px;
-    font-family: 'Poppins', sans-serif;
-    transition: all 0.3s ease;
-}
-
-.btn-primary {
-    background-color: #3aa5ff;
-    border-color: #3aa5ff;
-}
-
-.btn-primary:hover {
-    background-color: #2e96f2;
-    border-color: #2e96f2;
-}
-
-.btn-outline-primary {
-    color: #3aa5ff;
-    border-color: #3aa5ff;
-}
-
-.btn-outline-primary:hover {
-    background-color: #3aa5ff;
-    border-color: #3aa5ff;
-}
-
-.table th {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-}
-
-.select2-container--default .select2-selection--single {
-    height: 38px;
-    border-radius: 8px;
-    border: 1px solid #ced4da;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 38px;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 36px;
-}
-</style>
-
-<script>
-$(document).ready(function() {
-    // Initialize Select2 for trainee search
-    $('#trainee_search').select2({
-        placeholder: 'Search for a trainee...',
-        allowClear: true,
-        minimumInputLength: 1,
-        ajax: {
-            url: 'ajax_search_trainees.php',
-            dataType: 'json',
-            delay: 250,
-            data: function(params) {
-                return {
-                    term: params.term
-                };
-            },
-            processResults: function(data) {
-                return {
-                    results: data.results
-                };
-            },
-            cache: true
-        }
-    });
-
-    // Handle group filter change to update course options and auto-submit
-    $('#group_filter').change(function() {
-        const groupId = $(this).val();
-        const courseSelect = $('#course_filter');
-        
-        if (groupId) {
-            // Enable course select
-            courseSelect.prop('disabled', false);
-            
-            // Fetch courses for the selected group
-            $.ajax({
-                url: 'ajax_get_courses_by_group.php',
-                data: { group_id: groupId },
-                dataType: 'json',
-                success: function(data) {
-                    courseSelect.empty().append('<option value="">All Courses</option>');
-                    
-                    if (data.courses && data.courses.length > 0) {
-                        $.each(data.courses, function(i, course) {
-                            courseSelect.append($('<option></option>').val(course.CourseID).text(course.CourseName));
-                        });
-                    }
-                    
-                    // Auto-submit the form after populating the course dropdown
-                    $('#filterForm').submit();
-                },
-                error: function() {
-                    console.error('Failed to fetch courses');
-                }
-            });
-        } else {
-            // Disable and reset course select
-            courseSelect.prop('disabled', true).empty().append('<option value="">All Courses</option>');
-            
-            // Auto-submit the form when group is cleared
-            $('#filterForm').submit();
-        }
-    });
-
-    // Configure print button
-    $('#printReportBtn').click(function() {
-        window.print();
-    });
-});
-</script>
-
-<?php
-if (isset($stmt)) $stmt->close();
-// Don't close $conn here, let footer.php handle it
-// Include the new footer
-include_once("../includes/footer.php"); 
-?>
+<?php include_once '../includes/footer.php'; ?>
