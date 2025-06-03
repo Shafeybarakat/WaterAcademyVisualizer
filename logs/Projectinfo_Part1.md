@@ -1,3 +1,9 @@
+### Documentation Verification
+
+- [ ] Section 1: Overview complete
+- [ ] Section 2: File Structure & Purpose complete
+- [ ] Section 3: Database Schema & Views complete
+
 # Projectinfo\_Part1.md
 
 ## 1. Overview
@@ -29,33 +35,40 @@ Below is the full project hierarchy. Each item includes a short description of i
 │   ├── header.php             # Current Bootstrap-based header (will be replaced by Tailwind header)
 │   ├── sidebar.php            # Current Bootstrap-based sidebar (will be replaced)
 │   ├── footer.php             # Current footer include
-│   ├── report_functions.php   # PHP helpers for computing LGI, composite scores, attendance % (keep unchanged)
-│   ├── email_functions.php    # Helpers to send email, HTML templates (used by report-print)
+│   ├── report_functions.php   # Business logic for LGI, attendance % (keep unchanged)
+│   ├── email_functions.php    # Helpers for email (unchanged)
 │   └── components/            # Reusable UI fragments (to be updated)
 │       └── kpi-card.php       # Tailwind+Alpine KPI card partial (new component)
 ├── dashboards/                # All report, dashboard, and data-entry pages
-│   ├── ajax_get_courses_by_group.php      # Returns JSON for courses by group (used in dropdowns)
-│   ├── ajax_search_trainees.php           # Returns JSON results for trainee search/filter
+│   ├── ajax_get_courses_by_group.php      # Returns JSON list of courses by GroupID (unchanged)
+│   ├── ajax_search_trainees.php           # Returns JSON search results for trainees (unchanged)
 │   ├── attendance.php                    # Attendance entry page (shows the spreadsheet UI)
-│   ├── coordinator_dashboard.php         # Dashboard for coordinators (charts + KPIs)
+│   ├── coordinator_dashboard.php         # Coordinator dashboard (charts + KPIs)
 │   ├── group-analytics.php               # Alias for report_group_performance.php (old Bootstrap UI)
-│   ├── get_group_report_data.php         # Loads PHP data ($groups array) for group report views
+│   ├── get_group_report_data.php         # Loads PHP $groups for reports (unchanged)
 │   ├── instructor_dashboard.php          # Instructor dashboard (attendance & grade links)
-│   ├── manage_groups.php                 # Page to create/edit/delete groups (wizard flow)
-│   ├── manage_trainees.php               # Page to add/edit/delete trainees (calls stored procedure)
-│   ├── report_attendance_summary.php     # Displays attendance summary report (table + chart)
-│   ├── report_group_performance.php      # Displays group performance report (doughnut charts + table)
-│   ├── report_trainee_performance.php    # Displays trainee performance report (KPIs + table)
-│   ├── report_print_modal.php            # Partial used to show "Export PDF / Email" modal
-│   ├── report_print.php                  # AJAX endpoint to generate PDF base64 and send via email
-│   ├── attendance_grades.php             # Grade entry page for instructors (per‐component input)
-│   ├── trainees.php                      # List of all trainees (Admin view) with filters
-│   └── user_management.php               # Create/edit/delete user accounts (SuperAdmin & Admin)
+│   ├── manage_courses.php                # Manage courses CRUD (Tailwind forms)
+│   ├── manage_groups.php                 # Manage groups CRUD (Tailwind wizard)
+│   ├── manage_trainees.php               # Manage trainees CRUD (Tailwind forms)
+│   ├── report_attendance_summary.php     # Attendance summary report (Tailwind+Chart.js)
+│   ├── report_group_performance.php      # Group performance report (doughnut charts + table)
+│   ├── report_trainee_performance.php    # Trainee performance report (KPIs + table)
+│   ├── report_print_modal.php            # Modal partial for Export PDF / Email (Tailwind+Alpine)
+│   ├── report_print.php                  # AJAX endpoint to generate/send PDF (unchanged)
+│   └── trainees.php                      # List all trainees (Tailwind table with filters)
 ├── assets/
 │   ├── css/
-│   │   ├── (DELETED) old Sneat/Bootstrap CSS files
-│   │   ├── tailwind.css     # Generated Tailwind CSS (build artifact or CDN)
-│   │   └── custom.css       # Minimal overrides / component styles (explicit `@apply` usage)
+│   │   ├── (DELETED) badges.css           # old Sneat/Bootstrap CSS
+│   │   ├── (DELETED) buttons.css          # old
+│   │   ├── (DELETED) cards.css            # old
+│   │   ├── (DELETED) layout.css           # old
+│   │   ├── (DELETED) navbar.css           # old
+│   │   ├── (DELETED) progress.css         # old
+│   │   ├── (DELETED) sidebar.css          # old
+│   │   ├── (DELETED) tables.css           # old
+│   │   ├── (DELETED) typography.css       # old
+│   │   ├── tailwind.css                   # Generated Tailwind CSS (build artifact)  
+│   │   └── custom.css                     # Minimal overrides and @apply utilities  
 │   ├── js/
 │   │   ├── (DELETED) old jQuery-driven JS modules
 │   │   ├── alpine.min.js    # Alpine.js (via CDN)
@@ -68,7 +81,7 @@ Below is the full project hierarchy. Each item includes a short description of i
 │   │   ├── waLogoBlue.png   # Water Academy logo used in header/sidebar
 │   │   └── (other icons, backgrounds, avatars)
 │   └── fonts/               # (If any custom fonts; otherwise omitted)
-├── settings/                 # Email templates & settings UI (Admin only)
+├── settings/                 # Email templates & system settings UI  
 │   └── email_templates.php   # Manage saved email templates (used by report_print)
 ├── Srcs/                     # Legacy scripts (database batch import, data entry) – untouched
 │   ├── batch_load.php
@@ -76,7 +89,7 @@ Below is the full project hierarchy. Each item includes a short description of i
 │   ├── data_entry.php
 │   └── show_tables.php
 ├── logs/
-│   └── Migration_Log.txt      # (Optional: record of migration steps and notes)
+│   └── Migration_Log.txt      # (Optional) record migration notes  
 └── u652025084_new_wa_db.sql  # Full database schema (for local setup)
 ```
 

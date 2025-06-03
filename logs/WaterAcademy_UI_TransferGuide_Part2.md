@@ -1,6 +1,18 @@
-# WaterAcademy\_UI\_TransferGuide\_Part2.md
+### Migration Status
 
-## III. Phase-by-Phase Migration Plan (continued)
+- [ ] Phase 4: Page-by-Page Migration & Testing
+  - [ ] Step 4.1: Migrate report_group_performance.php
+  - [ ] Step 4.2: Migrate report_trainee_performance.php
+  - [ ] Step 4.3: Migrate report_attendance_summary.php
+  - [ ] Step 4.4: Migrate attendance.php
+  - [ ] Step 4.5: Migrate instructor_dashboard.php & coordinator_dashboard.php
+- [ ] Phase 5: Finalization, Testing, & Documentation
+  - [ ] Step 5.1: Write Verification Checklists
+  - [ ] Step 5.2: Remove Deprecated Files Permanently
+  - [ ] Step 5.3: Create Pull Request & Code Review
+  - [ ] Step 5.4: Post-Migration Smoke Testing & Performance Check
+
+## III. Phase-by-Page Migration Plan (continued)
 
 ### Phase 4: Page-by-Page Migration & Testing (Steps 4.1–4.5)
 
@@ -135,6 +147,7 @@
        ];
        foreach ($cards as $c) {
          [$title, $iconClass, $value, $chartId] = $c;
+         // For items without charts, set $chartId = '' and modify kpi-card to hide canvas when ID is empty
          include __DIR__ . '/../includes/components/kpi-card.php';
        }
        ?>
@@ -379,14 +392,14 @@
 
 4. **Verification:**
 
-   * **Sample Data Test:** Update one attendance record:
+   *   **Sample Data Test:** Update one attendance record:
 
      ```sql
      UPDATE Attendance SET PresentHours = 10, AbsentHours = 10 WHERE AttendanceID = 1;
      ```
 
-     * Load `attendance.php`, modify values via inputs, click "Save" → confirm DB updates.
-   * **Console Check:** No errors, network tab shows a 200 response from `save_attendance.php` with `{"success":true}`.
+     *   Load `attendance.php`, modify values via inputs, click "Save" → confirm DB updates.
+   *   **Console Check:** No errors, network tab shows a 200 response from `save_attendance.php` with `{"success":true}`.
 
 5. **Git Commit:**
 
@@ -437,9 +450,9 @@
    ```
 4. **Verification:**
 
-   * As an Instructor, ensure only KPIs relevant to their assigned courses show.
-   * No “Add Trainee” or “Manage Groups” links appear in sidebar.
-   * Charts (if any) reflect correct percentages.
+   *   As an Instructor, ensure only KPIs relevant to their assigned courses show.
+   *   No “Add Trainee” or “Manage Groups” links appear in sidebar.
+   *   Charts (if any) reflect correct percentages.
 5. **Git Commit:**
 
    ```
@@ -451,201 +464,201 @@
 
 #### Step 5.1: Write Verification Checklists
 
-* **Action:** In the `docs/` folder, create `Verification_Checklist.md` with detailed tests for each page:
+*   **Action:** In the `docs/` folder, create `Verification_Checklist.md` with detailed tests for each page:
 
-  1. **Group Performance Report:**
+    1.  **Group Performance Report:**
 
-     * Check KPI card values match DB data.
-     * Check chart slices correspond to percentages.
-     * Check table rows and columns align properly and scroll horizontally at small widths.
-  2. **Trainee Performance Report:** … (similar pattern)
-  3. **Attendance Summary:** …
-  4. **Attendance Entry / Grade Entry:** validate CRUD operations.
-  5. **Dashboards:** Confirm KPIs render correctly.
+        *   Check KPI card values match DB data.
+        *   Check chart slices correspond to percentages.
+        *   Check table rows and columns align properly and scroll horizontally at small widths.
+    2.  **Trainee Performance Report:** … (similar pattern)
+    3.  **Attendance Summary:** …
+    4.  **Attendance Entry / Grade Entry:** validate CRUD operations.
+    5.  **Dashboards:** Confirm KPIs render correctly.
 
-* **Verification:** Ensure `Verification_Checklist.md` is present in `docs/` and lists at least one test case per migrated page.
+*   **Verification:** Ensure `Verification_Checklist.md` is present in `docs/` and lists at least one test case per migrated page.
 
-* **Git Commit:**
+*   **Git Commit:**
 
-  ```
-  docs: add Verification_Checklist.md with tests for all migrated pages
-  ```
+    ```
+    docs: add Verification_Checklist.md with tests for all migrated pages
+    ```
 
 #### Step 5.2: Remove Deprecated Files Permanently
 
-* **Action:**
+*   **Action:**
 
-  ```bash
-  git rm -r assets/css/base.css assets/css/components/ assets/js/dashboards-analytics.js assets/js/group-performance-report.js report-fixes.js
-  git commit -m "chore: remove deprecated Bootstrap and jQuery files"
-  ```
-* **Verification:**
+    ```bash
+    git rm -r assets/css/base.css assets/css/components/ assets/js/dashboards-analytics.js assets/js/group-performance-report.js report-fixes.js
+    git commit -m "chore: remove deprecated Bootstrap and jQuery files"
+    ```
+*   **Verification:**
 
-  * Run a global search (`grep -R "badge.css" -n .`) → no hits.
-  * Open each page → no broken references to old assets.
-* **Testing:**
+    *   Run a global search (`grep -R "badge.css" -n .`) → no hits.
+    *   Open each page → no broken references to old assets.
+*   **Testing:**
 
-  * Clear browser cache → Reload multiple pages to ensure no missing-file errors.
-* **Git Commit:** (as above)
+    *   Clear browser cache → Reload multiple pages to ensure no missing-file errors.
+*   **Git Commit:** (as above)
 
 #### Step 5.3: Create Pull Request & Code Review
 
-* **Action:** Push `feature/tailwind-rebuild`, then open a PR against `main`. Use this PR template:
+*   **Action:** Push `feature/tailwind-rebuild`, then open a PR against `main`. Use this PR template:
 
-  ```markdown
-  ## Summary of Changes
-  - Migrated all frontend pages from Bootstrap/jQuery to Tailwind CSS + Alpine.js + Chart.js.
-  - Removed old assets.
-  - Added new components: Header, Sidebar, KPI Card, Verification Checklist.
+    ```markdown
+    ## Summary of Changes
+    - Migrated all frontend pages from Bootstrap/jQuery to Tailwind CSS + Alpine.js + Chart.js.
+    - Removed old assets.
+    - Added new components: Header, Sidebar, KPI Card, Verification Checklist.
 
-  ## Checklist Before Merge
-  - [ ] All sample data tests for each page passed.
-  - [ ] No console errors on any migrated page.
-  - [ ] Responsive layout verified at 320px, 768px, 1024px, 1440px.
-  - [ ] RBAC checks confirmed: roles see only allowed links.
-  - [ ] PDF/email export tested for group, trainee, attendance reports.
+    ## Checklist Before Merge
+    - [ ] All sample data tests for each page passed.
+    - [ ] No console errors on any migrated page.
+    - [ ] Responsive layout verified at 320px, 768px, 1024px, 1440px.
+    - [ ] RBAC checks confirmed: roles see only allowed links.
+    - [ ] PDF/email export tested for group, trainee, attendance reports.
 
-  ## After Merge
-  - Tag release: `git tag v2.0-ui-tailwind`
-  - Ensure CI/CD pipeline excludes `assets/css/tailwind.css` from lint-only rules if it is generated.
-  ```
-* **Verification:** Peer review session; address any requested changes.
-* **Testing:** Reviewer manually checks a random sample of migrated pages.
+    ## After Merge
+    - Tag release: `git tag v2.0-ui-tailwind`
+    - Ensure CI/CD pipeline excludes `assets/css/tailwind.css` from lint-only rules if it is generated.
+    ```
+*   **Verification:** Peer review session; address any requested changes.
+*   **Testing:** Reviewer manually checks a random sample of migrated pages.
 
 #### Step 5.4: Post-Migration Smoke Testing & Performance Check
 
-* **Action:** After merging and deploying to staging:
+*   **Action:** After merging and deploying to staging:
 
-  1. **Role-based navigation check:** Log in as Super Admin, Admin, Instructor, Coordinator. Verify sidebar links are correct per role.
-  2. **Sample Data Scenarios:**
+    1.  **Role-based navigation check:** Log in as Super Admin, Admin, Instructor, Coordinator. Verify sidebar links are correct per role.
+    2.  **Sample Data Scenarios:**
 
-     * Create a new group, assign courses, add trainees, record attendance/grades, then run each report.
-     * Verify UI matches expected output for each combination.
-  3. **PDF/Email Export Test:**
+        *   Create a new group, assign courses, add trainees, record attendance/grades, then run each report.
+        *   Verify UI matches expected output for each combination.
+    3.  **PDF/Email Export Test:**
 
-     * Click “Export PDF” on group report → ensure PDF downloads or previews.
-     * Click “Email Report” → send to a test email; confirm reception.
-  4. **Responsive QA:**
+        *   Click “Export PDF” on group report → ensure PDF downloads or previews.
+        *   Click “Email Report” → send to a test email; confirm reception.
+    4.  **Responsive QA:**
 
-     * Resize to mobile/tablet/desktop → ensure no overlap or overflowing content.
-  5. **Performance:**
+        *   Resize to mobile/tablet/desktop → ensure no overlap or overflowing content.
+    5.  **Performance:**
 
-     * Run Lighthouse audit (Mobile & Desktop) → Ensure no major warnings (e.g., render-blocking CSS, unused JS).
-     * Verify page load times are within acceptable thresholds (<2s for dashboard pages).
+        *   Run Lighthouse audit (Mobile & Desktop) → Ensure no major warnings (e.g., render-blocking CSS, unused JS).
+        *   Verify page load times are within acceptable thresholds (<2s for dashboard pages).
 
-* **Verification:** Document results in `docs/PostMigration_QA.md`. Include screenshots if possible.
+*   **Verification:** Document results in `docs/PostMigration_QA.md`. Include screenshots if possible.
 
-* **Testing:** Use Chrome DevTools Lighthouse.
+*   **Testing:** Use Chrome DevTools Lighthouse.
 
-* **Git Commit:**
+*   **Git Commit:**
 
-  ```
-  test: add PostMigration_QA.md with smoke test results and performance metrics
-  ```
+    ```
+    test: add PostMigration_QA.md with smoke test results and performance metrics
+    ```
 
 ---
 
 ## IV. Git Workflow & Commit Guidelines
 
-1. **Branch Naming:** Always prefix feature branches with `feature/` (e.g., `feature/tailwind-rebuild`).
-2. **Commit Scopes & Types:** Use conventional commit messages:
+1.  **Branch Naming:** Always prefix feature branches with `feature/` (e.g., `feature/tailwind-rebuild`).
+2.  **Commit Scopes & Types:** Use conventional commit messages:
 
-   * `feat:` for new features or migrated pages
-   * `fix:` for bug fixes in migration
-   * `chore:` for non-code changes (removal of old assets)
-   * `docs:` for documentation changes
-   * `test:` for adding/updating tests or QA docs
-3. **Pull Requests:**
+    *   `feat:` for new features or migrated pages
+    *   `fix:` for bug fixes in migration
+    *   `chore:` for non-code changes (removal of old assets)
+    *   `docs:` for documentation changes
+    *   `test:` for adding/updating tests or QA docs
+3.  **Pull Requests:**
 
-   * Include PR template from Step 5.3.
-   * Assign at least one reviewer.
-   * Link to relevant QA docs.
-4. **Merging:** Use “Squash and Merge” or true merge commits per team policy. After merge, tag version `v2.0-ui-tailwind`.
+    *   Include PR template from Step 5.3.
+    *   Assign at least one reviewer.
+    *   Link to relevant QA docs.
+4.  **Merging:** Use “Squash and Merge” or true merge commits per team policy. After merge, tag version `v2.0-ui-tailwind`.
 
 ## V. Tailwind Build & Deployment Instructions
 
 ### V.1 Installing Tools
 
-1. Install Node.js (v14+).
-2. In project root:
+1.  Install Node.js (v14+).
+2.  In project root:
 
-   ```bash
-   npm init -y
-   npm install tailwindcss postcss autoprefixer --save-dev
-   npx tailwindcss init
-   ```
-3. Create `postcss.config.js`:
+    ```bash
+    npm init -y
+    npm install tailwindcss postcss autoprefixer --save-dev
+    npx tailwindcss init
+    ```
+3.  Create `postcss.config.js`:
 
-   ```js
-   module.exports = {
-     plugins: [
-       require('tailwindcss'),
-       require('autoprefixer'),
-     ]
-   };
-   ```
-4. Edit `tailwind.config.js`:
+    ```js
+    module.exports = {
+      plugins: [
+        require('tailwindcss'),
+        require('autoprefixer'),
+      ]
+    };
+    ```
+4.  Edit `tailwind.config.js`:
 
-   ```js
-   module.exports = {
-     mode: 'jit',
-     purge: [
-       './dashboards/**/*.php',
-       './includes/**/*.php',
-       './assets/js/**/*.js',
-     ],
-     safelist: [
-       'bg-blue-500', 'bg-green-500', 'bg-yellow-500', // e.g., for dynamic icon colors
-     ],
-     theme: {
-       extend: {
-         colors: {
-           'primary-wa': '#0D3B66',
-           'secondary-wa': '#F4D35E',
-           'accent-wa': '#EE964B',
-         },
-         fontFamily: {
-           sans: ['Lato', 'sans-serif'],
-           heading: ['Poppins', 'sans-serif'],
-         },
-       },
-     },
-     variants: {},
-     plugins: [],
-   };
-   ```
-5. Create `assets/css/input.css` with:
+    ```js
+    module.exports = {
+      mode: 'jit',
+      purge: [
+        './dashboards/**/*.php',
+        './includes/**/*.php',
+        './assets/js/**/*.js',
+      ],
+      safelist: [
+        'bg-blue-500', 'bg-green-500', 'bg-yellow-500', // e.g., for dynamic icon colors
+      ],
+      theme: {
+        extend: {
+          colors: {
+            'primary-wa': '#0D3B66',
+            'secondary-wa': '#F4D35E',
+            'accent-wa': '#EE964B',
+          },
+          fontFamily: {
+            sans: ['Lato', 'sans-serif'],
+            heading: ['Poppins', 'sans-serif'],
+          },
+        },
+      },
+      variants: {},
+      plugins: [],
+    };
+    ```
+5.  Create `assets/css/input.css` with:
 
-   ```css
-   @tailwind base;
-   @tailwind components;
-   @tailwind utilities;
-   ```
-6. Update `package.json` scripts:
+    ```css
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+    ```
+6.  Update `package.json` scripts:
 
-   ```json
-   "scripts": {
-     "build:css": "postcss assets/css/input.css -o assets/css/tailwind.css --minify"
-   }
-   ```
+    ```json
+    "scripts": {
+      "build:css": "postcss assets/css/input.css -o assets/css/tailwind.css --minify"
+    }
+    ```
 
 ### V.2 Building Tailwind on Local
 
-* Run:
+*   Run:
 
-  ```bash
-  npm run build:css
-  ```
-* Check that `assets/css/tailwind.css` is generated and contains used classes.
+    ```bash
+    npm run build:css
+    ```
+*   Check that `assets/css/tailwind.css` is generated and contains used classes.
 
 ### V.3 CI/CD Considerations
 
-* **.gitignore:**
+*   **.gitignore:**
 
-  * Add `assets/css/tailwind.css` if you want to generate on deploy instead of storing in Git.
-* **Deployment Script:**
+    *   Add `assets/css/tailwind.css` if you want to generate on deploy instead of storing in Git.
+*   **Deployment Script:**
 
-  * Ensure `npm ci && npm run build:css` runs before sending files to production.
+    *   Ensure `npm ci && npm run build:css` runs before sending files to production.
 
 ## VI. Appendices
 
@@ -869,3 +882,27 @@ document.addEventListener('DOMContentLoaded', () => {
 ---
 
 *End of WaterAcademy\_UI\_TransferGuide\_Part2.md*
+
+</final_file_content>
+
+IMPORTANT: For any future changes to this file, use the final_file_content shown above as your reference. This content reflects the current state of the file, including any auto-formatting (e.g., if you used single quotes but the formatter converted them to double quotes). Always base your SEARCH/REPLACE operations on this final version to ensure accuracy.<environment_details>
+# VSCode Visible Files
+logs/Projectinfo_Part2.md
+
+# VSCode Open Tabs
+logs/WaterAcademy_UI_TransferGuide_Part1.md
+logs/Projectinfo_Part1.md
+logs/Projectinfo_Part2.md
+
+# Actively Running Terminals
+## Original command: `git push -u origin main`
+
+# Current Time
+6/3/2025, 6:09:04 PM (Asia/Riyadh, UTC+3:00)
+
+# Context Window Usage
+977,174 / 1,048.576K tokens used (93%)
+
+# Current Mode
+ACT MODE
+</environment_details>
