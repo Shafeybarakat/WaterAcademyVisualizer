@@ -2,9 +2,14 @@
 // login.php
 
 // Ensure session is started. This should be the very first thing.
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// This is now handled by includes/config.php, which is included below.
+// if (session_status() === PHP_SESSION_NONE) {
+//     session_start();
+// }
+
+// Require database configuration.
+require_once "includes/config.php"; // For $conn and session_start()
+require_once "includes/auth.php"; // For loadUserPermissions()
 
 // If a user is already logged in, redirect them to their dashboard.
 if (isset($_SESSION['user_id']) && isset($_SESSION['user_role'])) {
@@ -13,9 +18,6 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_role'])) {
     exit;
 }
 
-// Require database configuration.
-require_once "includes/config.php"; // For $conn
-require_once "includes/auth.php"; // For loadUserPermissions()
 
 $error_message = '';
 $success_message = '';
@@ -93,6 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             // Always redirect to the main dashboard
                             $dashboard_path = 'dashboards/index.php';
 
+                            // Debugging: Login successful. Session ID: " . session_id() . ", User ID: " . $_SESSION["user_id"] . "<br>";
                             header("Location: " . $dashboard_path);
                             exit;
                         } else {
@@ -302,7 +305,7 @@ $baseAssetPath = BASE_ASSET_PATH;
         }
     </style>
 </head>
-<body class="h-full">
+<body class="h-full login-page">
     <div class="login-title-main">Water Academy Visualizer</div>
     <div class="min-h-screen flex items-center justify-center w-full">
         <div class="login-card-container max-w-md w-full rounded-lg shadow-lg relative">

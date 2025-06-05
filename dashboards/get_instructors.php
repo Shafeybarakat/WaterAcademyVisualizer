@@ -1,5 +1,13 @@
 <?php
 include_once "../includes/config.php";
+include_once "../includes/auth.php"; // Add auth.php
+
+// RBAC guard: Only users with 'view_users' permission can access this page.
+if (!hasPermission('view_users')) {
+    // For AJAX requests, return an empty response or a specific error message
+    echo '<option value="">Access Denied</option>'; // Or return JSON error
+    die(); 
+}
 
 // Get all active instructors
 $instructorsQuery = "SELECT UserID, FirstName, LastName FROM Users 

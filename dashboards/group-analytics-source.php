@@ -3,9 +3,14 @@
 $pageTitle = "Group Analytics";
 
 // 1) Authentication, config and header (which includes your sidebar)
-require_once "../includes/auth.php";
-require_once "../includes/config.php";
 include_once "../includes/header.php";
+
+// RBAC guard: Only users with 'access_group_analytics' permission can access this page.
+if (!require_permission('access_group_analytics', '../login.php')) {
+    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . ($_SESSION['access_denied_message'] ?? 'You do not have permission to access this page.') . '</div></div>';
+    include_once "../includes/footer.php"; // Ensure footer is included
+    die(); // Terminate script
+}
 ?>
 <div class="container-xxl flex-grow-1 container-p-y">
     <?php

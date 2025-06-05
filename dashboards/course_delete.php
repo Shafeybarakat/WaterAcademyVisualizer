@@ -2,9 +2,12 @@
 require_once "../includes/config.php";
 require_once "../includes/auth.php";
 
-// Check if user is logged in
-if (!isLoggedIn()) {
-    header("Location: ../login.php");
+// RBAC guard: Only users with 'manage_courses' permission can access this page.
+if (!require_permission('manage_courses', '../login.php')) {
+    // Since this is a redirect-only page, we can just redirect to login with an error.
+    // If logged in but no permission, redirect to dashboard with error.
+    $_SESSION['access_denied_message'] = 'You do not have permission to delete courses.';
+    header("Location: courses.php"); // Redirect to a relevant dashboard
     exit;
 }
 

@@ -1,9 +1,14 @@
 <?php
 $pageTitle = "Trainee Course Report";
-include_once "../includes/config.php"; // Contains $conn
-include_once "../includes/auth.php";   // Session and permission checks
+// Include config.php and auth.php via header.php
 include_once "../includes/header.php"; // Includes session checks, header HTML
-include_once "../includes/sidebar.php";
+
+// RBAC guard: Only users with 'access_trainee_reports' permission can access this page.
+if (!require_permission('access_trainee_reports', '../login.php')) {
+    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . ($_SESSION['access_denied_message'] ?? 'You do not have permission to access this page.') . '</div></div>';
+    include_once "../includes/footer.php"; // Ensure footer is included
+    die(); // Terminate script
+}
 
 // Get trainee ID and course ID from URL parameters
 $traineeId = isset($_GET['id']) ? intval($_GET['id']) : 0;

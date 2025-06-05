@@ -1,2 +1,10 @@
+/* TailwindCSS Base - for basic reset */
 @import "tailwindcss/preflight";
-@tailwind utilities;
+
+/* Tailwind Components (not available in v4) */
+/* Note: Custom components should be defined in custom.css */
+
+/* Tailwind Utilities */
+@import "tailwindcss/utilities";
+
+/* Custom components will be in custom.css */

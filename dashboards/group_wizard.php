@@ -12,6 +12,14 @@ if (!isset($conn)) {
     // For now, we'll include config to get $conn for local testing/development.
     require_once '../includes/config.php';
 }
+require_once '../includes/auth.php'; // Add auth.php
+
+// RBAC guard: Only users with 'manage_groups' permission can access this page.
+if (!hasPermission('manage_groups')) {
+    // Since this is loaded via AJAX, we should output an error message and exit.
+    echo '<div class="alert alert-danger" role="alert">You do not have permission to create groups.</div>';
+    die();
+}
 
 // Fetch coordinators for Step 1
 $coordinators = [];

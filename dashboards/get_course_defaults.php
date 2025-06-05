@@ -2,6 +2,14 @@
 include_once "../includes/config.php";
 include_once "../includes/auth.php"; // For session and permission checks if necessary
 
+// RBAC guard: Only users with 'view_courses' permission can access this page.
+if (!hasPermission('view_courses')) {
+    // For AJAX requests, return a JSON error or simply an empty response
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'Access denied. You do not have permission to view course defaults.']);
+    die(); 
+}
+
 // Get course ID
 $courseId = $_GET['course_id'] ?? '';
 

@@ -35,12 +35,18 @@ function getCurrentUser(): array {
 function hasPermission(string $permissionName): bool {
     global $conn;
     
-    if (!isLoggedIn()) {
+    $isLoggedIn = isLoggedIn();
+    $roleID = getUserRoleID();
+    
+    error_log("hasPermission called for '" . $permissionName . "'. UserID: " . ($_SESSION['user_id'] ?? 'N/A') . ", RoleID: " . ($roleID ?? 'N/A') . ", LoggedIn: " . ($isLoggedIn ? 'Yes' : 'No'));
+    
+    if (!$isLoggedIn) {
+        error_log("hasPermission: User not logged in, returning false.");
         return false;
     }
     
-    $roleID = getUserRoleID();
     if (!$roleID) {
+        error_log("hasPermission: RoleID is null, returning false.");
         return false;
     }
     
@@ -53,7 +59,7 @@ function hasPermission(string $permissionName): bool {
     ");
     
     if (!$stmt) {
-        error_log("Error preparing permission check statement: " . $conn->error);
+        error_log("hasPermission: Error preparing permission check statement: " . $conn->error);
         return false;
     }
     
@@ -61,16 +67,21 @@ function hasPermission(string $permissionName): bool {
     $stmt->execute();
     $result = $stmt->get_result();
     
-    return $result->num_rows > 0;
+    $hasPerm = $result->num_rows > 0;
+    error_log("hasPermission: Result for '" . $permissionName . "': " . ($hasPerm ? 'True' : 'False'));
+    return $hasPerm;
 }
 
 // Check if current user has one of the specified permissions
 function hasAnyPermission(array $permissionNames): bool {
+    error_log("hasAnyPermission called for permissions: " . implode(', ', $permissionNames));
     foreach ($permissionNames as $permission) {
         if (hasPermission($permission)) {
+            error_log("hasAnyPermission: User has permission '" . $permission . "'. Returning true.");
             return true;
         }
     }
+    error_log("hasAnyPermission: User does not have any of the required permissions. Returning false.");
     return false;
 }
 
@@ -141,6 +152,30 @@ function require_role(array $allowed_roles, string $login_redirect_url_if_not_lo
     return true; // Access granted
 }
 
+// New function to enforce any of the given permissions
+function enforceAnyPermission(array $permissionNames, string $login_redirect_url = '../login.php?message=login_required'): void {
+    error_log("enforceAnyPermission called for permissions: " . implode(', ', $permissionNames));
+    
+    if (!isLoggedIn()) {
+        error_log("enforceAnyPermission: User not logged in, redirecting.");
+        redirect($login_redirect_url);
+    }
+
+    if (!hasAnyPermission($permissionNames)) {
+        error_log("enforceAnyPermission: User does not have any of the required permissions.");
+        $_SESSION['page_access_denied'] = true; 
+        $_SESSION['access_denied_message'] = 'You do not have permission to access this page. Required permissions: ' . implode(', ', $permissionNames) . '.';
+        
+        // Display error message and terminate
+        echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . $_SESSION['access_denied_message'] . '</div></div>';
+        // Note: footer.php needs to be included by the calling script before die()
+        die(); 
+    }
+    error_log("enforceAnyPermission: User has required permissions.");
+    unset($_SESSION['page_access_denied']);
+    unset($_SESSION['access_denied_message']);
+}
+
 // Global check for authenticated areas
 function protect_authenticated_area(string $login_url = '../login.php?message=login_required'): void {
     $is_protected = false;
@@ -183,13 +218,16 @@ function protect_authenticated_area(string $login_url = '../login.php?message=lo
 // Load user permissions into session for faster access
 function loadUserPermissions(): void {
     global $conn;
+    error_log("loadUserPermissions called. UserID: " . ($_SESSION['user_id'] ?? 'N/A') . ", RoleID: " . ($_SESSION['role_id'] ?? 'N/A') . ", Role: " . ($_SESSION['user_role'] ?? 'N/A'));
     
     if (!isLoggedIn()) {
+        error_log("loadUserPermissions: User not logged in.");
         return;
     }
     
     $roleID = getUserRoleID();
     if (!$roleID) {
+        error_log("loadUserPermissions: RoleID is null.");
         return;
     }
     
@@ -201,7 +239,7 @@ function loadUserPermissions(): void {
     ");
     
     if (!$stmt) {
-        error_log("Error preparing permissions loading statement: " . $conn->error);
+        error_log("loadUserPermissions: Error preparing permissions loading statement: " . $conn->error);
         return;
     }
     
@@ -215,6 +253,7 @@ function loadUserPermissions(): void {
     }
     
     $_SESSION['user_permissions'] = $permissions;
+    error_log("loadUserPermissions: Loaded permissions for RoleID " . $roleID . ": " . implode(', ', $permissions));
 }
 
 // Check if user has permission (using session cache)

@@ -4,6 +4,13 @@
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/config.php';
 
+// RBAC guard: Only users with 'manage_groups' permission can access this page.
+if (!hasPermission('manage_groups')) {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'error' => 'Access denied. You do not have permission to manage groups.']);
+    exit;
+}
+
 // We expect a POST from the modal form
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);

@@ -3,10 +3,11 @@
 require_once "../includes/config.php";
 require_once "../includes/auth.php";
 
-// Check if user is logged in and has appropriate permission
-if (!isLoggedIn() || !hasPermission('manage_system_settings')) {
-    echo "Access denied. You must have system management permissions to access this page.";
-    exit;
+// RBAC guard
+if (!require_permission('manage_system_settings', '../login.php')) {
+    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . ($_SESSION['access_denied_message'] ?? 'Access denied. You must have system management permissions to access this page.') . '</div></div>';
+    // This page doesn't include header/footer, so just die.
+    die(); 
 }
 
 echo "<h1>Database Table Check</h1>";

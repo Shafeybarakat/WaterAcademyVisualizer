@@ -1,20 +1,13 @@
 <?php
 $pageTitle = "Users Management";
-include_once "../includes/config.php";
-include_once "../includes/auth.php";   // Session and permission checks
+// Include config.php and auth.php via header.php
 include_once "../includes/header.php";
 
 // Check if user is logged in and has permission to manage users
-if (!isLoggedIn()) {
-    // isLoggedIn() is defined in auth.php, protect_authenticated_area in header.php should also catch this.
-    // This is an additional safeguard.
-    redirect($baseLinkPath . "login.php?message=login_required_for_page"); // $baseLinkPath from header.php
-} elseif (!hasPermission('manage_users')) {
-    // User is logged in but does not have the required permission.
-    // Display access denied message within the layout.
-    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">You do not have permission to access this page.</div></div>';
-    include_once "../includes/footer.php";
-    exit;
+if (!require_permission('manage_users', '../login.php')) {
+    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . ($_SESSION['access_denied_message'] ?? 'You do not have permission to access this page.') . '</div></div>';
+    include_once "../includes/footer.php"; // Ensure footer is included
+    die(); // Terminate script
 }
 
 // Process user actions (add, edit, delete)
@@ -170,15 +163,20 @@ $usersResult = $conn->query($usersQuery);
             </div>
         <?php endif; ?>
 
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Users List</h5>
-                <div class="input-group" style="width: 250px;">
-                    <span class="input-group-text"><i class="bx bx-search"></i></span>
-                    <input type="text" id="userSearch" data-search-input data-search-target="usersTable" class="form-control" placeholder="Search users...">
+        <div class="action-card mb-4">
+            <div class="action-card-header d-flex justify-content-between align-items-center">
+                <h5 class="action-card-title">Users List</h5>
+                <div class="d-flex align-items-center">
+                    <div class="input-group" style="width: 250px;">
+                        <span class="input-group-text"><i class="bx bx-search"></i></span>
+                        <input type="text" id="userSearch" data-search-input data-search-target="usersTable" class="form-control" placeholder="Search users...">
+                    </div>
+                    <button type="button" class="btn btn-primary ms-2" onclick="addUser()">
+                        <i class="bx bx-plus me-1"></i> Add User
+                    </button>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="action-card-content p-0">
                 <div class="table-responsive">
                     <table id="usersTable" data-table class="table table-striped table-hover align-middle">
                         <thead>
@@ -253,15 +251,29 @@ $usersResult = $conn->query($usersQuery);
 </div>
 
 <!-- User Modal -->
-<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+<div x-data="{ open: false }" id="userModal" 
+    x-show="open" 
+    class="fixed inset-0 z-50 overflow-y-auto" 
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0">
+    
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-black bg-opacity-50" @click="open = false"></div>
+    
+    <!-- Modal content -->
+    <div class="relative flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-auto overflow-hidden">
+            <!-- Header -->
+            <div class="bg-primary text-white px-6 py-4 flex justify-between items-center">
                 <h5 class="modal-title" id="userModalLabel"><i class="bx bx-user-plus me-2"></i>Add New User</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" @click="open = false" aria-label="Close"></button>
             </div>
             <form id="userForm" method="post" action="">
-                <div class="modal-body">
+                <div class="modal-body p-6">
                     <input type="hidden" id="action" name="action" value="add">
                     <input type="hidden" id="user_id" name="user_id">
                     
@@ -336,8 +348,8 @@ $usersResult = $conn->query($usersQuery);
                         </select>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <div class="modal-footer bg-gray-50 px-6 py-3 flex justify-end space-x-2">
+                    <button type="button" class="btn btn-secondary" @click="open = false">Cancel</button>
                     <button type="submit" class="btn btn-primary">Save User</button>
                 </div>
             </form>
@@ -346,59 +358,44 @@ $usersResult = $conn->query($usersQuery);
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
+<div x-data="{ open: false }" id="deleteModal" 
+    x-show="open" 
+    class="fixed inset-0 z-50 overflow-y-auto" 
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0">
+    
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-black bg-opacity-50" @click="open = false"></div>
+    
+    <!-- Modal content -->
+    <div class="relative flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-auto overflow-hidden">
+            <!-- Header -->
+            <div class="bg-danger text-white px-6 py-4 flex justify-between items-center">
                 <h5 class="modal-title" id="deleteModalLabel"><i class="bx bx-trash me-2"></i>Confirm Delete</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" @click="open = false" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-6">
                 <p>Are you sure you want to delete the user <strong id="deleteUserName"></strong>?</p>
                 <p class="text-danger">This action cannot be undone.</p>
-            </div>
-            <div class="modal-footer">
-                <form method="post" action="">
+                <form id="deleteUserForm" method="post" action="">
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" id="delete_user_id" name="user_id">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger">Delete User</button>
                 </form>
+            </div>
+            <div class="modal-footer bg-gray-50 px-6 py-3 flex justify-end space-x-2">
+                <button type="button" class="btn btn-secondary" @click="open = false">Cancel</button>
+                <button type="submit" form="deleteUserForm" class="btn btn-danger">Delete User</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// Listen for DOM ready
-document.addEventListener('DOMContentLoaded', function() {
-    // Debug logging
-    console.log('Theme toggle button exists:', document.getElementById('theme-toggle-btn') !== null);
-    console.log('Sidebar toggle desktop exists:', document.querySelector('.sidebar-toggle-desktop') !== null);
-    console.log('Layout wrapper exists:', document.querySelector('.layout-wrapper') !== null);
-    console.log('WA_Modal exists:', typeof WA_Modal !== 'undefined');
-    console.log('WA_DataTable exists:', typeof WA_DataTable !== 'undefined');
-    
-    // Force theme
-    if (document.cookie.indexOf('wa_theme=dark') !== -1 && !document.body.classList.contains('theme-dark')) {
-        document.body.classList.remove('theme-light');
-        document.body.classList.add('theme-dark');
-        console.log('Manually applied dark theme');
-    }
-    
-    // Fix modal labels in dark mode
-    if (document.body.classList.contains('theme-dark')) {
-        document.querySelectorAll('.modal-body label').forEach(label => {
-            label.style.color = '#ffffff';
-        });
-        
-        // Also fix card background
-        document.querySelectorAll('.card').forEach(card => {
-            card.style.backgroundColor = '#1e293b';
-        });
-    }
-});
-
 // Function to add a new user
 function addUser() {
     // Reset form fields
@@ -418,15 +415,7 @@ function addUser() {
     document.getElementById('status_container').style.display = 'none';
     
     // Show the modal
-    if (typeof WA_Modal !== 'undefined') {
-        console.log('Using WA_Modal to show userModal');
-        WA_Modal.show('userModal');
-    } else {
-        console.log('Falling back to bootstrap Modal');
-        var modalEl = document.getElementById('userModal');
-        var modal = new bootstrap.Modal(modalEl);
-        modal.show();
-    }
+    document.getElementById('userModal').__x.$data.open = true;
 }
 
 // Function to populate form for editing
@@ -450,15 +439,7 @@ function editUser(id, username, firstName, lastName, email, role, phone, special
     document.getElementById('status_container').style.display = 'block';
     
     // Show the modal
-    if (typeof WA_Modal !== 'undefined') {
-        console.log('Using WA_Modal to show userModal');
-        WA_Modal.show('userModal');
-    } else {
-        console.log('Falling back to bootstrap Modal');
-        var modalEl = document.getElementById('userModal');
-        var modal = new bootstrap.Modal(modalEl);
-        modal.show();
-    }
+    document.getElementById('userModal').__x.$data.open = true;
 }
 
 // Function to confirm delete
@@ -468,15 +449,7 @@ function confirmDelete(id, name) {
     document.getElementById('delete_user_id').value = id;
     
     // Show the modal
-    if (typeof WA_Modal !== 'undefined') {
-        console.log('Using WA_Modal to show deleteModal');
-        WA_Modal.show('deleteModal');
-    } else {
-        console.log('Falling back to bootstrap Modal');
-        var modalEl = document.getElementById('deleteModal');
-        var modal = new bootstrap.Modal(modalEl);
-        modal.show();
-    }
+    document.getElementById('deleteModal').__x.$data.open = true;
 }
 </script>
 

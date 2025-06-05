@@ -7,18 +7,119 @@
 // Alpine.js layout data
 function layout() {
   return {
-    sidebarOpen: window.innerWidth >= 768,
+    sidebarOpen: window.innerWidth >= 768, // Open on desktop, closed on mobile
+    isDarkMode: false, // Default to light mode
+    sidebarCollapsed: localStorage.getItem('sidebarCollapsed') === 'true', // Sidebar collapse state
     initLayout() {
-      if (window.innerWidth < 768) {
-        this.sidebarOpen = false;
+      // Check for dark mode preference
+      this.isDarkMode = localStorage.getItem('darkMode') === 'true';
+      if (this.isDarkMode) {
+        document.documentElement.classList.add('dark');
       }
+      
+      // Check for sidebar collapsed state
+      if (this.sidebarCollapsed) {
+        document.documentElement.classList.add('layout-menu-collapsed');
+      }
+      
+      // Listen for sidebar toggle events
+      window.addEventListener('sidebar-toggle', (event) => {
+        const collapsed = event.detail.collapsed;
+        localStorage.setItem('sidebarCollapsed', collapsed);
+        
+        if (collapsed) {
+          document.documentElement.classList.add('layout-menu-collapsed');
+        } else {
+          document.documentElement.classList.remove('layout-menu-collapsed');
+        }
+      });
+      
+      // Add resize listener to handle responsive behavior
       window.addEventListener('resize', () => {
-        if (window.innerWidth >= 768) {
+        // Don't auto-close sidebar on desktop when resizing window
+        if (window.innerWidth >= 768 && !this.sidebarOpen) {
           this.sidebarOpen = true;
         }
       });
+      
+      // Force sidebar to be visible after a short delay on desktop
+      setTimeout(() => {
+        if (window.innerWidth >= 768) {
+          this.sidebarOpen = true;
+          // Force Alpine to update the DOM
+          this.$nextTick(() => {
+            console.log('Sidebar should be visible on desktop');
+          });
+        }
+      }, 300);
+      
+      console.log('Layout initialized, sidebar state:', this.sidebarOpen, 'dark mode:', this.isDarkMode);
+    },
+    
+    // Toggle dark mode
+    toggleDarkMode() {
+      this.isDarkMode = !this.isDarkMode;
+      localStorage.setItem('darkMode', this.isDarkMode);
+      
+      if (this.isDarkMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     }
   };
+}
+
+// Function to fetch event details for modal
+function fetchEventDetails(eventId, eventType) {
+  const loading = document.getElementById('eventDetailsLoading');
+  const error = document.getElementById('eventDetailsError');
+  const content = document.getElementById('eventDetailsContent');
+  const sendEmailBtn = document.getElementById('sendEmailBtn');
+  const extendDateBtn = document.getElementById('extendDateBtn');
+  
+  if (!loading || !error || !content) return;
+  
+  // Show loading, hide others
+  loading.classList.remove('hidden');
+  error.classList.add('hidden');
+  content.classList.add('hidden');
+  
+  if (sendEmailBtn) sendEmailBtn.classList.add('hidden');
+  if (extendDateBtn) extendDateBtn.classList.add('hidden');
+  
+  fetch(`${BASE_URL}dashboards/get_event_details.php?event_id=${eventId}&event_type=${eventType}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      loading.classList.add('hidden');
+      content.classList.remove('hidden');
+      
+      // Populate content
+      content.innerHTML = data.content;
+      
+      // Show/hide action buttons
+      if (data.allowEmail && sendEmailBtn) {
+        sendEmailBtn.classList.remove('hidden');
+      }
+      
+      if (data.allowExtend && extendDateBtn) {
+        extendDateBtn.classList.remove('hidden');
+      }
+    })
+    .catch(error => {
+      loading.classList.add('hidden');
+      errorContent.classList.remove('hidden');
+      
+      const errorMessage = document.getElementById('eventDetailsErrorMessage');
+      if (errorMessage) {
+        errorMessage.textContent = error.message;
+      }
+    });
 }
 
 // Utility to initialize a Doughnut chart
@@ -62,54 +163,8 @@ function initBarChart(chartId, labelsArray, dataArray) {
   });
 }
 
-
 document.addEventListener('DOMContentLoaded', function() {
   console.log('app.js: Initializing Water Academy application.');
-
-  // Initialize UI Components module (only if present)
-  if (typeof UI_Components_Module !== 'undefined' && typeof UI_Components_Module.init === 'function') {
-    UI_Components_Module.init();
-  } else if (document.body.classList.contains('login-page')) {
-    // Suppress error for login page where UI_Components is not expected
-  } else {
-    console.error('app.js: UI_Components module not found or not initialized.');
-  }
-
-  // Initialize Layout module (only if present)
-  if (typeof Layout_Module !== 'undefined' && typeof Layout_Module.init === 'function') {
-    Layout_Module.init();
-  } else if (document.body.classList.contains('login-page')) {
-    // Suppress error for login page where Layout_Module is not expected
-  } else {
-    console.error('app.js: Layout_Module not found or not initialized.');
-  }
-
-  // Initialize WA_Table module (only if present)
-  if (typeof WA_Table !== 'undefined' && typeof WA_Table.init === 'function') {
-    WA_Table.init();
-  } else if (document.body.classList.contains('login-page')) {
-    // Suppress error for login page where WA_Table is not expected
-  } else {
-    console.error('app.js: WA_Table module not found or not initialized.');
-  }
-
-  // Initialize Theme Switcher (only if present)
-  if (typeof initThemeSwitcher === 'function') {
-    initThemeSwitcher();
-  } else if (document.body.classList.contains('login-page')) {
-    // Suppress warning for login page where Theme Switcher is not expected
-  } else {
-    console.warn('app.js: initThemeSwitcher function not found. Theme switching may not work.');
-  }
-
-  // Initialize Sidebar Toggle (only if present)
-  if (typeof initSidebarToggle === 'function') {
-    initSidebarToggle();
-  } else if (document.body.classList.contains('login-page')) {
-    // Suppress warning for login page where Sidebar Toggle is not expected
-  } else {
-    console.warn('app.js: initSidebarToggle function not found. Sidebar toggle may not work.');
-  }
 
   // Initialize charts for Group Performance Report
   if (document.getElementById('chartAvgScore')) {
@@ -134,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Listen for saving attendance via Alpine event
   document.addEventListener('save-attendance', event => {
     const { id, present, absent } = event.detail;
-    fetch('/dashboards/save_attendance.php', {
+    fetch(window.location.origin + BASE_URL + 'dashboards/save_attendance.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ AttendanceID: id, PresentHours: present, AbsentHours: absent }),

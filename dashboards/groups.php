@@ -1,21 +1,10 @@
 <?php
 $pageTitle = "System Groups"; // Set the page title for the header
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/header.php';
 
-// Check if user is logged in and has permission to view groups
-if (!isLoggedIn()) {
-    // isLoggedIn() is defined in auth.php, protect_authenticated_area in header.php should also catch this.
-    // This is an additional safeguard.
-    redirect($baseLinkPath . "login.php?message=login_required_for_page"); // $baseLinkPath from header.php
-} elseif (!hasPermission('view_groups')) {
-    // User is logged in but does not have the required permission.
-    // Display access denied message within the layout.
-    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">You do not have permission to access this page.</div></div>';
-    require_once __DIR__ . '/../includes/footer.php';
-    exit;
-}
+// Enforce permissions
+enforceAnyPermission(['view_groups']);
+// If execution continues, permissions are granted.
 
 // Function to format date to dd/mm/yyyy
 function formatDateToDDMMYYYY($dateStr) {
@@ -48,17 +37,20 @@ foreach ($groups as &$group) {
 <!-- Content wrapper for the page -->
 <div class="container-xxl flex-grow-1 container-p-y pt-0">
   
-  <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <h5 class="mb-0">All Groups</h5>
+  <div class="action-card mb-4">
+    <div class="action-card-header d-flex justify-content-between align-items-center">
+      <h5 class="action-card-title">All Groups</h5>
       <div class="d-flex align-items-center">
         <div class="input-group me-2" style="width: 250px;">
           <span class="input-group-text"><i class="bx bx-search"></i></span>
           <input type="text" id="tableSearch" class="form-control" placeholder="Search groups...">
         </div>
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('addGroupModal').__x.$data.open = true;">
+            <i class="bx bx-plus me-1"></i> Add New Group
+        </button>
       </div>
     </div>
-    <div class="card-body">
+    <div class="action-card-content p-0">
       <div class="table-responsive">
         <table id="groupsTable" class="table table-striped table-hover align-middle">
           <thead>
@@ -83,14 +75,12 @@ foreach ($groups as &$group) {
                   <div class="d-flex">
                     <button
                       class="btn btn-primary edit-group-btn me-2"
-                      data-bs-toggle="modal"
-                      data-bs-target="#groupDetailModal"
-                      data-group-id="<?= $g['id'] ?>"
+                      onclick="document.getElementById('groupDetailModal').__x.$data.open = true; fetchGroupDetails(<?= $g['id'] ?>);"
                     ><i class="bx bx-edit-alt me-1"></i> Edit</button>
                     <a
                       href="../delete_group.php?id=<?= $g['id'] ?>"
                       class="btn btn-danger"
-                      onclick="return confirm('Are you sure you want to delete this group? This action cannot be undone.');"
+                      onclick="return confirm('Are you sure you want to delete the group: ' + <?= json_encode($g['name']) ?> + '? This action cannot be undone.');"
                     ><i class="bx bx-trash me-1"></i> Delete</a>
                   </div>
                 </td>
@@ -104,87 +94,151 @@ foreach ($groups as &$group) {
 </div>
 
 <!-- Edit Group Modal -->
-<div class="modal fade" id="groupDetailModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title"><i class="bx bx-edit me-2"></i>Edit Group</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div id="groupDetailContent">
-          <div class="text-center py-5">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
+<div x-data="{ open: false }" id="groupDetailModal" 
+    x-show="open" 
+    class="fixed inset-0 z-50 overflow-y-auto" 
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0">
+    
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-black bg-opacity-50" @click="open = false"></div>
+    
+    <!-- Modal content -->
+    <div class="relative flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-xl mx-auto overflow-hidden">
+            <!-- Header -->
+            <div class="modal-header bg-primary text-white px-6 py-4 flex justify-between items-center">
+                <h5 class="modal-title"><i class="bx bx-edit me-2"></i>Edit Group</h5>
+                <button type="button" class="btn-close btn-close-white" @click="open = false" aria-label="Close"></button>
             </div>
-            <p class="mt-3 text-muted">Loading group data...</p>
-          </div>
+            <div class="modal-body p-6">
+                <div id="groupDetailContent">
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-3 text-muted">Loading group data...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-gray-50 px-6 py-3 flex justify-end space-x-2">
+                <button type="button" class="btn btn-secondary" @click="open = false">
+                    <i class="bx bx-x me-1"></i>Cancel
+                </button>
+                <button id="saveGroupBtn" type="button" class="btn btn-primary">
+                    <i class="bx bx-save me-1"></i>Save Changes
+                </button>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          <i class="bx bx-x me-1"></i>Cancel
-        </button>
-        <button id="saveGroupBtn" type="button" class="btn btn-primary">
-          <i class="bx bx-save me-1"></i>Save Changes
-        </button>
-      </div>
     </div>
-  </div>
 </div>
 
 <!-- Add Group Modal -->
-<div class="modal fade" id="addGroupModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title"><i class="bx bx-plus-circle me-2"></i>Add New Group</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form id="addGroupForm" action="add_group.php" method="post">
-        <div class="modal-body">
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label class="form-label">Group Name <span class="text-danger">*</span></label>
-              <input type="text" name="group_name" class="form-control" required>
+<div x-data="{ open: false }" id="addGroupModal" 
+    x-show="open" 
+    class="fixed inset-0 z-50 overflow-y-auto" 
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0">
+    
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-black bg-opacity-50" @click="open = false"></div>
+    
+    <!-- Modal content -->
+    <div class="relative flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-auto overflow-hidden">
+            <!-- Header -->
+            <div class="modal-header bg-primary text-white px-6 py-4 flex justify-between items-center">
+                <h5 class="modal-title"><i class="bx bx-plus-circle me-2"></i>Add New Group</h5>
+                <button type="button" class="btn-close btn-close-white" @click="open = false" aria-label="Close"></button>
             </div>
-            <div class="col-md-6">
-              <label class="form-label">Room Number</label>
-              <input type="text" name="room_number" class="form-control">
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label class="form-label">Start Date</label>
-              <input type="date" name="start_date" class="form-control">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">End Date</label>
-              <input type="date" name="end_date" class="form-control">
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Description</label>
-            <textarea name="description" class="form-control" rows="4"></textarea>
-          </div>
+            <form id="addGroupForm" action="add_group.php" method="post">
+                <div class="modal-body p-6">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Group Name <span class="text-danger">*</span></label>
+                            <input type="text" name="group_name" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Room Number</label>
+                            <input type="text" name="room_number" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Start Date</label>
+                            <input type="date" name="start_date" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">End Date</label>
+                            <input type="date" name="end_date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="4"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer bg-gray-50 px-6 py-3 flex justify-end space-x-2">
+                    <button type="button" class="btn btn-secondary" @click="open = false">
+                        <i class="bx bx-x me-1"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bx bx-check me-1"></i>Create Group
+                    </button>
+                </div>
+            </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            <i class="bx bx-x me-1"></i>Cancel
-          </button>
-          <button type="submit" class="btn btn-primary">
-            <i class="bx bx-check me-1"></i>Create Group
-          </button>
-        </div>
-      </form>
     </div>
-  </div>
 </div>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
 <script src="../assets/js/groupModal.js"></script>
 
 <script>
+// Function to fetch group details for the edit modal
+function fetchGroupDetails(groupId) {
+    const groupDetailContent = document.getElementById('groupDetailContent');
+    groupDetailContent.innerHTML = `
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3 text-muted">Loading group data...</p>
+        </div>
+    `; // Show loading spinner
+
+    fetch(`get_group.php?id=${groupId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(html => {
+            groupDetailContent.innerHTML = html;
+            // Re-execute scripts within the loaded content (if any)
+            const scripts = groupDetailContent.querySelectorAll('script');
+            scripts.forEach(script => {
+                const newScript = document.createElement('script');
+                Array.from(script.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                newScript.appendChild(document.createTextNode(script.innerHTML));
+                script.parentNode.replaceChild(newScript, script);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading group details:', error);
+            groupDetailContent.innerHTML = `<p class="text-danger">Failed to load group details: ${error.message}</p>`;
+        });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   // Table search functionality
   const searchInput = document.getElementById('tableSearch');

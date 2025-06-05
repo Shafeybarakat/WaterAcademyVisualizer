@@ -6,9 +6,10 @@ require_once "../includes/auth.php";
 // Set content type to JSON
 header('Content-Type: application/json');
 
-// Check if user is logged in
-if (!isLoggedIn()) {
-    echo json_encode(['error' => 'Authentication required']);
+// RBAC guard: Only users with 'access_group_reports' permission can access this page.
+if (!hasPermission('access_group_reports')) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Access denied. You do not have permission to access group reports.']);
     exit;
 }
 

@@ -1,16 +1,13 @@
 <?php
 $pageTitle = "System Settings"; // Set page title
-include("../includes/config.php");
-include("../includes/auth.php"); // Ensure user is logged in and sets $_SESSION["user_id"], $_SESSION["role"]
+// Include the header - this also includes config.php and auth.php
+include("../includes/header.php"); 
 
-// Define allowed roles for this page
-$allowed_roles = ["Super Admin"];
-if (!isset($_SESSION["user_role"]) || !in_array($_SESSION["user_role"], $allowed_roles)) {
-    // Redirect to dashboard with error message instead of login page
-    // This prevents redirect loop when user is logged in but doesn't have Super Admin role
-    $_SESSION['access_denied_message'] = 'You do not have permission to access the Settings page. Super Admin role is required.';
-    header("Location: index.php?error=permission_denied");
-    exit();
+// RBAC guard: Only users with 'access_settings' permission can access this page.
+if (!require_permission('access_settings', '../login.php')) {
+    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . ($_SESSION['access_denied_message'] ?? 'You do not have permission to access this page.') . '</div></div>';
+    include_once "../includes/footer.php"; // Ensure footer is included
+    die(); // Terminate script
 }
 
 // Process theme change if submitted
@@ -24,9 +21,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'change_theme') {
     header("Location: settings.php?tab=themes&success=theme_updated");
     exit();
 }
-
-// Include the new header - this also includes the sidebar
-include("../includes/header.php"); 
 
 // Determine which tab to show
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'general';

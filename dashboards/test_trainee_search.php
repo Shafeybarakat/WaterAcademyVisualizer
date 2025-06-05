@@ -1,15 +1,11 @@
 <?php
 // test_trainee_search.php - Simple test page for AJAX trainee search
-require_once "../includes/auth.php";
-require_once "../includes/config.php";
+// Include the header - this also includes config.php and auth.php
 include_once "../includes/header.php";
 
-// Check permissions
-$can_see_reports = hasAnyPermission(['access_group_reports', 'access_trainee_reports', 'access_attendance_reports']);
-if (!$can_see_reports) {
-    header("Location: ../login.php?message=access_denied");
-    exit;
-}
+// Enforce permissions
+enforceAnyPermission(['access_group_reports', 'access_trainee_reports', 'access_attendance_reports']);
+// If execution continues, permissions are granted.
 ?>
 
 <div class="container-xxl flex-grow-1 container-p-y">

@@ -1,4 +1,13 @@
 <?php
+// --- Error Reporting and Logging Configuration ---
+ini_set('display_errors', 'Off'); // IMPORTANT: Never show errors in production
+ini_set('log_errors', 'On');     // Enable error logging
+ini_set('error_reporting', E_ALL); // Report all errors, warnings, and notices
+
+// Define custom log file path
+define('DEBUG_LOG_FILE', __DIR__ . '/../debug.log'); // Path to debug.log in the root directory
+ini_set('error_log', DEBUG_LOG_FILE); // Set the error log file
+
 // Attempt to start the session if not already started.
 // This should be one of the very first things your application does.
 
@@ -10,6 +19,13 @@ ini_set('session.cookie_path', '/wa/');
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+
+// Debugging: Check if session is active after session_start()
+if (session_status() === PHP_SESSION_ACTIVE) {
+    error_log(date('[Y-m-d H:i:s]') . " DEBUG: Session started successfully in config.php. Session ID: " . session_id() . " (File: " . basename($_SERVER['PHP_SELF']) . ")", 3, DEBUG_LOG_FILE);
+} else {
+    error_log(date('[Y-m-d H:i:s]') . " DEBUG: Session NOT started in config.php. Session status: " . session_status() . " (File: " . basename($_SERVER['PHP_SELF']) . ")", 3, DEBUG_LOG_FILE);
 }
 
 // --- Database Configuration ---
@@ -26,7 +42,7 @@ $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 if ($conn->connect_error) {
     // Log detailed error to server's error log.
     // Avoid displaying detailed DB errors to the public in a production environment.
-    error_log("Database Connection Failed: " . $conn->connect_errno . " - " . $conn->connect_error);
+    error_log(date('[Y-m-d H:i:s]') . " Database Connection Failed: " . $conn->connect_errno . " - " . $conn->connect_error . " (File: " . basename($_SERVER['PHP_SELF']) . ")", 3, DEBUG_LOG_FILE);
     
     // For development, you might want to see the error directly, but disable for production.
     // die("Database Connection Failed. Please check server logs or contact support."); 
@@ -36,7 +52,7 @@ if ($conn->connect_error) {
 } else {
     // Set charset to utf8mb4 for broader character support.
     if (!$conn->set_charset("utf8mb4")) {
-        error_log("Error loading character set utf8mb4: " . $conn->error);
+        error_log(date('[Y-m-d H:i:s]') . " Error loading character set utf8mb4: " . $conn->error . " (File: " . basename($_SERVER['PHP_SELF']) . ")", 3, DEBUG_LOG_FILE);
     }
     // Optionally, set collation for the connection if needed, though usually handled by table/db defaults.
     // if (!$conn->query("SET collation_connection = 'utf8mb4_unicode_ci'")) {
@@ -46,6 +62,9 @@ if ($conn->connect_error) {
 
 // Define BASE_ASSET_PATH for consistent asset linking
 define('BASE_ASSET_PATH', '/wa/assets/');
+
+// Define BASE_URL for consistent internal linking to PHP pages/APIs
+define('BASE_URL', '/wa/');
 
 
 // Note: $conn will be used by other scripts that include this file.

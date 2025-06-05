@@ -1,14 +1,13 @@
 <?php
 $pageTitle = "Trainees";
-include_once "../includes/config.php";
-include_once "../includes/auth.php";   // Session and permission checks
+// Include config.php and auth.php via header.php
 include_once "../includes/header.php";
 
 // Check if user has appropriate permission
-if (!isLoggedIn() || !hasPermission('view_trainees')) {
-    echo "<div class='alert alert-danger'>You do not have permission to access this page.</div>";
-    include_once "../includes/footer.php";
-    exit;
+if (!require_permission('view_trainees', '../login.php')) {
+    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . ($_SESSION['access_denied_message'] ?? 'You do not have permission to access this page.') . '</div></div>';
+    include_once "../includes/footer.php"; // Ensure footer is included
+    die(); // Terminate script
 }
 
 // Get groups for filter dropdown
@@ -62,11 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 <div class="container-xxl flex-grow-1 container-p-y pt-0">
         
         <!-- Filters -->
-        <div class="card mb-4">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Search Trainees</h5>
+        <div class="action-card mb-4">
+            <div class="action-card-header">
+                <h5 class="action-card-title">Search Trainees</h5>
             </div>
-            <div class="card-body">
+            <div class="action-card-content">
                 <form method="get" class="d-flex align-items-center">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bx bx-search"></i></span>
@@ -79,16 +78,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         </div>
         
         <!-- Trainees Table -->
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">All Trainees</h5>
+        <div class="action-card mb-4">
+            <div class="action-card-header d-flex justify-content-between align-items-center">
+                <h5 class="action-card-title">All Trainees</h5>
                 <?php if (hasPermission('manage_trainees')): ?>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTraineeModal">
+                <button class="btn btn-primary" onclick="document.getElementById('addTraineeModal').__x.$data.open = true;">
                     <i class="bx bx-plus me-1"></i> Add Trainee
                 </button>
                 <?php endif; ?>
             </div>
-            <div class="card-body">
+            <div class="action-card-content p-0">
                 <div class="table-responsive">
                     <table id="traineesTable" class="table table-striped table-hover align-middle">
                         <thead class="table-light">
@@ -149,38 +148,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
+<div x-data="{ open: false }" id="deleteModal" 
+    x-show="open" 
+    class="fixed inset-0 z-50 overflow-y-auto" 
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0">
+    
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-black bg-opacity-50" @click="open = false"></div>
+    
+    <!-- Modal content -->
+    <div class="relative flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-auto overflow-hidden">
+            <!-- Header -->
+            <div class="bg-danger text-white px-6 py-4 flex justify-between items-center">
                 <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" @click="open = false" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-6">
                 <p>Are you sure you want to delete the trainee <strong id="deleteTraineeName"></strong>?</p>
                 <p class="text-danger">This action cannot be undone.</p>
-            </div>
-            <div class="modal-footer">
-                <form method="post" action="trainee_delete.php">
+                <form id="deleteTraineeForm" method="post" action="trainee_delete.php">
                     <input type="hidden" id="deleteTraineeId" name="trainee_id">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger">Delete Trainee</button>
                 </form>
+            </div>
+            <div class="modal-footer bg-gray-50 px-6 py-3 flex justify-end space-x-2">
+                <button type="button" class="btn btn-secondary" @click="open = false">Cancel</button>
+                <button type="submit" form="deleteTraineeForm" class="btn btn-danger">Delete Trainee</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Edit Trainee Modal -->
-<div class="modal fade" id="editTraineeModal" tabindex="-1" aria-labelledby="editTraineeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+<div x-data="{ open: false }" id="editTraineeModal" 
+    x-show="open" 
+    class="fixed inset-0 z-50 overflow-y-auto" 
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0">
+    
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-black bg-opacity-50" @click="open = false"></div>
+    
+    <!-- Modal content -->
+    <div class="relative flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-auto overflow-hidden">
+            <!-- Header -->
+            <div class="bg-primary text-white px-6 py-4 flex justify-between items-center">
                 <h5 class="modal-title" id="editTraineeModalLabel"><i class="bx bx-edit me-2"></i>Edit Trainee</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" @click="open = false" aria-label="Close"></button>
             </div>
             <form id="editTraineeForm" method="post">
-                <div class="modal-body">
+                <div class="modal-body p-6">
                     <input type="hidden" name="action" value="edit_trainee">
                     <input type="hidden" id="edit_tid" name="tid">
                     
@@ -237,9 +264,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <div class="modal-footer bg-gray-50 px-6 py-3 flex justify-end space-x-2">
+                    <button type="button" class="btn btn-secondary" @click="open = false">Cancel</button>
                     <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add Trainee Modal -->
+<div x-data="{ open: false }" id="addTraineeModal" 
+    x-show="open" 
+    class="fixed inset-0 z-50 overflow-y-auto" 
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0">
+    
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-black bg-opacity-50" @click="open = false"></div>
+    
+    <!-- Modal content -->
+    <div class="relative flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-auto overflow-hidden">
+            <!-- Header -->
+            <div class="bg-primary text-white px-6 py-4 flex justify-between items-center">
+                <h5 class="modal-title" id="addTraineeModalLabel"><i class="bx bx-plus-circle me-2"></i>Add New Trainee</h5>
+                <button type="button" class="btn-close btn-close-white" @click="open = false" aria-label="Close"></button>
+            </div>
+            <form id="addTraineeForm" method="post" action="add_trainee.php">
+                <div class="modal-body p-6">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="add_first_name" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="add_first_name" name="first_name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="add_last_name" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="add_last_name" name="last_name" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="add_email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="add_email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="add_phone" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="add_phone" name="phone">
+                    </div>
+                    <div class="mb-3">
+                        <label for="add_group_id" class="form-label">Assign to Group</label>
+                        <select class="form-select" id="add_group_id" name="group_id">
+                            <option value="">-- Select Group --</option>
+                            <?php
+                            $groupsForAddQuery = "SELECT GroupID, GroupName FROM Groups ORDER BY GroupName";
+                            $groupsForAddResult = $conn->query($groupsForAddQuery);
+                            while ($group = $groupsForAddResult->fetch_assoc()) {
+                                echo '<option value="' . $group['GroupID'] . '">' . htmlspecialchars($group['GroupName']) . '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer bg-gray-50 px-6 py-3 flex justify-end space-x-2">
+                    <button type="button" class="btn btn-secondary" @click="open = false">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Trainee</button>
                 </div>
             </form>
         </div>
@@ -250,9 +342,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     function confirmDelete(id, name) {
         document.getElementById('deleteTraineeId').value = id;
         document.getElementById('deleteTraineeName').textContent = name;
-        
-        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-        deleteModal.show();
+        document.getElementById('deleteModal').__x.$data.open = true;
     }
     
     function editTrainee(id) {
@@ -296,8 +386,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                     }
                     
                     // Show modal
-                    var editModal = new bootstrap.Modal(document.getElementById('editTraineeModal'));
-                    editModal.show();
+                    document.getElementById('editTraineeModal').__x.$data.open = true;
                 } else {
                     alert('Error: ' + data.message);
                 }

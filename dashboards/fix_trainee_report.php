@@ -7,6 +7,13 @@
 
 // Connect to the database
 require_once "../includes/config.php";
+require_once "../includes/auth.php"; // Add auth.php
+
+// RBAC guard: Only users with 'manage_system_settings' permission can access this page.
+if (!require_permission('manage_system_settings', '../login.php')) {
+    echo "Access denied. You must have system management permissions to access this page.";
+    die(); // Terminate script
+}
 
 // Check if the GradeComponents table exists
 $tableCheckQuery = "SHOW TABLES LIKE 'GradeComponents'";

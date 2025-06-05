@@ -1,25 +1,13 @@
 <?php
 $pageTitle = "Manage Courses";
-include_once "../includes/config.php"; // Database connection
-include_once "../includes/auth.php";   // Session and permission checks
+// Include the header - this also includes config.php and auth.php
 include_once "../includes/header.php"; // Header, session checks
 
-// Start session if not already started (header.php might do this)
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Check if user is logged in and has permission to view courses
-if (!isLoggedIn()) {
-    // isLoggedIn() is defined in auth.php, protect_authenticated_area in header.php should also catch this.
-    // This is an additional safeguard.
-    redirect($baseLinkPath . "login.php?message=login_required_for_page"); // $baseLinkPath from header.php
-} elseif (!hasPermission('view_courses')) {
-    // User is logged in but does not have the required permission.
-    // Display access denied message within the layout.
-    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">You do not have permission to access this page.</div></div>';
-    include_once "../includes/footer.php";
-    exit;
+// RBAC guard
+if (!require_permission('view_courses', '../login.php')) {
+    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . ($_SESSION['access_denied_message'] ?? 'You do not have permission to access this page.') . '</div></div>';
+    include_once "../includes/footer.php"; // Ensure footer is included
+    die(); // Terminate script
 }
 
 
@@ -94,9 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
     ?>
 
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">All Courses</h5>
+    <div class="action-card mb-4">
+        <div class="action-card-header d-flex justify-content-between align-items-center">
+            <h5 class="action-card-title">All Courses</h5>
             <div class="d-flex align-items-center">
                 <div class="input-group" style="width: 250px;">
                     <span class="input-group-text"><i class="bx bx-search"></i></span>
@@ -104,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 </div>
             </div>
         </div>
-        <div class="card-body">
+        <div class="action-card-content p-0">
                 <?php if (!empty($courses)): ?>
                     <div class="table-responsive">
                         <table id="coursesTable" class="table table-striped table-hover align-middle">
@@ -149,15 +137,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 </div>
 
 <!-- Edit Course Modal -->
-<div class="modal fade" id="editCourseModal" tabindex="-1" aria-labelledby="editCourseModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+<div x-data="{ open: false }" id="editCourseModal" 
+    x-show="open" 
+    class="fixed inset-0 z-50 overflow-y-auto" 
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0">
+    
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-black bg-opacity-50" @click="open = false"></div>
+    
+    <!-- Modal content -->
+    <div class="relative flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-auto overflow-hidden">
+            <!-- Header -->
+            <div class="bg-primary text-white px-6 py-4 flex justify-between items-center">
                 <h5 class="modal-title" id="editCourseModalLabel"><i class="bx bx-edit me-2"></i>Edit Course</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" @click="open = false" aria-label="Close"></button>
             </div>
             <form id="editCourseForm" method="post">
-                <div class="modal-body">
+                <div class="modal-body p-6">
                     <input type="hidden" name="action" value="edit_course">
                     <input type="hidden" id="edit_course_id" name="course_id">
                     
@@ -180,8 +182,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <div class="modal-footer bg-gray-50 px-6 py-3 flex justify-end space-x-2">
+                    <button type="button" class="btn btn-secondary" @click="open = false">Cancel</button>
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
             </form>
@@ -202,9 +204,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             document.getElementById('edit_duration_weeks').value = course.DurationWeeks || '';
             document.getElementById('edit_total_hours').value = course.TotalHours || '';
             
-            // Show modal
-            var editModal = new bootstrap.Modal(document.getElementById('editCourseModal'));
-            editModal.show();
+            // Show modal using Alpine.js
+            document.getElementById('editCourseModal').__x.$data.open = true;
         } else {
             alert('Error: Course not found.');
         }

@@ -159,11 +159,19 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
 .collapse {
   visibility: collapse;
 }
-.invisible {
-  visibility: hidden;
-}
 .visible {
   visibility: visible;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 .absolute {
   position: absolute;
@@ -180,14 +188,17 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
 .sticky {
   position: sticky;
 }
-.isolate {
-  isolation: isolate;
+.z-10 {
+  z-index: 10;
 }
 .z-20 {
   z-index: 20;
 }
 .z-30 {
   z-index: 30;
+}
+.z-50 {
+  z-index: 50;
 }
 .col-3 {
   grid-column: 3;
@@ -207,17 +218,14 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
 .mx-auto {
   margin-inline: auto;
 }
-.ms-auto {
-  margin-inline-start: auto;
-}
 .me-auto {
   margin-inline-end: auto;
 }
 .mt-auto {
   margin-top: auto;
 }
-.\!hidden {
-  display: none !important;
+.ml-auto {
+  margin-left: auto;
 }
 .block {
   display: block;
@@ -227,9 +235,6 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
 }
 .flex {
   display: flex;
-}
-.flow-root {
-  display: flow-root;
 }
 .grid {
   display: grid;
@@ -246,50 +251,26 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
 .inline-flex {
   display: inline-flex;
 }
-.inline-grid {
-  display: inline-grid;
-}
-.inline-table {
-  display: inline-table;
-}
-.list-item {
-  display: list-item;
-}
 .table {
   display: table;
-}
-.table-caption {
-  display: table-caption;
-}
-.table-cell {
-  display: table-cell;
-}
-.table-column {
-  display: table-column;
-}
-.table-column-group {
-  display: table-column-group;
-}
-.table-footer-group {
-  display: table-footer-group;
-}
-.table-header-group {
-  display: table-header-group;
-}
-.table-row {
-  display: table-row;
-}
-.table-row-group {
-  display: table-row-group;
-}
-.h-auto {
-  height: auto;
 }
 .h-full {
   height: 100%;
 }
+.min-h-\[150px\] {
+  min-height: 150px;
+}
+.min-h-\[200px\] {
+  min-height: 200px;
+}
 .min-h-screen {
   min-height: 100vh;
+}
+.w-4\/5 {
+  width: calc(4/5 * 100%);
+}
+.w-auto {
+  width: auto;
 }
 .w-full {
   width: 100%;
@@ -300,9 +281,6 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
 .flex-1 {
   flex: 1;
 }
-.flex-shrink {
-  flex-shrink: 1;
-}
 .flex-shrink-0 {
   flex-shrink: 0;
 }
@@ -312,21 +290,27 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
 .flex-grow-1 {
   flex-grow: 1;
 }
-.grow {
-  flex-grow: 1;
-}
-.border-collapse {
-  border-collapse: collapse;
-}
 .-translate-x-full {
   --tw-translate-x: -100%;
   translate: var(--tw-translate-x) var(--tw-translate-y);
 }
+.scale-95 {
+  --tw-scale-x: 95%;
+  --tw-scale-y: 95%;
+  --tw-scale-z: 95%;
+  scale: var(--tw-scale-x) var(--tw-scale-y);
+}
+.scale-100 {
+  --tw-scale-x: 100%;
+  --tw-scale-y: 100%;
+  --tw-scale-z: 100%;
+  scale: var(--tw-scale-x) var(--tw-scale-y);
+}
+.rotate-90 {
+  rotate: 90deg;
+}
 .transform {
   transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
-}
-.cursor-pointer {
-  cursor: pointer;
 }
 .resize {
   resize: both;
@@ -343,9 +327,6 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
 .flex-col {
   flex-direction: column;
 }
-.flex-row {
-  flex-direction: row;
-}
 .flex-wrap {
   flex-wrap: wrap;
 }
@@ -358,6 +339,9 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
 .justify-center {
   justify-content: center;
 }
+.justify-end {
+  justify-content: flex-end;
+}
 .divide-y {
   :where(& > :not(:last-child)) {
     --tw-divide-y-reverse: 0;
@@ -367,11 +351,6 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
     border-bottom-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
   }
 }
-.truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 .overflow-auto {
   overflow: auto;
 }
@@ -380,6 +359,9 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
 }
 .overflow-x-auto {
   overflow-x: auto;
+}
+.overflow-y-auto {
+  overflow-y: auto;
 }
 .rounded-full {
   border-radius: calc(infinity * 1px);
@@ -392,6 +374,18 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
   border-style: var(--tw-border-style);
   border-width: 0px;
 }
+.border-2 {
+  border-style: var(--tw-border-style);
+  border-width: 2px;
+}
+.border-t {
+  border-top-style: var(--tw-border-style);
+  border-top-width: 1px;
+}
+.border-t-2 {
+  border-top-style: var(--tw-border-style);
+  border-top-width: 2px;
+}
 .border-r {
   border-right-style: var(--tw-border-style);
   border-right-width: 1px;
@@ -400,21 +394,26 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
   border-bottom-style: var(--tw-border-style);
   border-bottom-width: 1px;
 }
+.border-b-2 {
+  border-bottom-style: var(--tw-border-style);
+  border-bottom-width: 2px;
+}
+.border-l-4 {
+  border-left-style: var(--tw-border-style);
+  border-left-width: 4px;
+}
 .border-transparent {
   border-color: transparent;
 }
-.mask-repeat {
-  -webkit-mask-repeat: repeat;
-          mask-repeat: repeat;
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .text-center {
   text-align: center;
 }
 .text-end {
   text-align: end;
-}
-.text-justify {
-  text-align: justify;
 }
 .text-left {
   text-align: left;
@@ -428,58 +427,42 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
 .text-nowrap {
   text-wrap: nowrap;
 }
-.break-all {
-  word-break: break-all;
-}
 .whitespace-nowrap {
   white-space: nowrap;
-}
-.capitalize {
-  text-transform: capitalize;
-}
-.lowercase {
-  text-transform: lowercase;
 }
 .uppercase {
   text-transform: uppercase;
 }
-.italic {
-  font-style: italic;
+.antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-.ordinal {
-  --tw-ordinal: ordinal;
-  font-variant-numeric: var(--tw-ordinal,) var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,);
+.opacity-0 {
+  opacity: 0%;
 }
-.line-through {
-  text-decoration-line: line-through;
+.opacity-25 {
+  opacity: 25%;
 }
-.overline {
-  text-decoration-line: overline;
+.opacity-75 {
+  opacity: 75%;
 }
-.underline {
-  text-decoration-line: underline;
+.opacity-100 {
+  opacity: 100%;
 }
 .ring {
   --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
-.outline {
-  outline-style: var(--tw-outline-style);
-  outline-width: 1px;
-}
-.grayscale {
-  --tw-grayscale: grayscale(100%);
-  filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
-}
-.invert {
-  --tw-invert: invert(100%);
-  filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
-}
-.\!filter {
-  filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,) !important;
+.ring-1 {
+  --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
 .filter {
   filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+}
+.backdrop-filter {
+  -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+  backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
 }
 .transition {
   transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, visibility, content-visibility, overlay, pointer-events;
@@ -496,9 +479,21 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
   transition-timing-function: var(--tw-ease, ease);
   transition-duration: var(--tw-duration, 0s);
 }
+.duration-75 {
+  --tw-duration: 75ms;
+  transition-duration: 75ms;
+}
+.duration-100 {
+  --tw-duration: 100ms;
+  transition-duration: 100ms;
+}
 .duration-200 {
   --tw-duration: 200ms;
   transition-duration: 200ms;
+}
+.duration-300 {
+  --tw-duration: 300ms;
+  transition-duration: 300ms;
 }
 .focus\:ring {
   &:focus {
@@ -524,6 +519,11 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
     outline-style: none;
   }
 }
+.focus\:ring-inset {
+  &:focus {
+    --tw-ring-inset: inset;
+  }
+}
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;
@@ -538,6 +538,21 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
   syntax: "*";
   inherits: false;
   initial-value: 0;
+}
+@property --tw-scale-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
 }
 @property --tw-rotate-x {
   syntax: "*";
@@ -568,26 +583,6 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
   syntax: "*";
   inherits: false;
   initial-value: solid;
-}
-@property --tw-ordinal {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-slashed-zero {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-numeric-figure {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-numeric-spacing {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-numeric-fraction {
-  syntax: "*";
-  inherits: false;
 }
 @property --tw-shadow {
   syntax: "*";
@@ -654,11 +649,6 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
   inherits: false;
   initial-value: 0 0 #0000;
 }
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @property --tw-blur {
   syntax: "*";
   inherits: false;
@@ -712,6 +702,42 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
   syntax: "*";
   inherits: false;
 }
+@property --tw-backdrop-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-sepia {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-duration {
   syntax: "*";
   inherits: false;
@@ -722,6 +748,9 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
       --tw-translate-x: 0;
       --tw-translate-y: 0;
       --tw-translate-z: 0;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-scale-z: 1;
       --tw-rotate-x: initial;
       --tw-rotate-y: initial;
       --tw-rotate-z: initial;
@@ -729,11 +758,6 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
       --tw-skew-y: initial;
       --tw-divide-y-reverse: 0;
       --tw-border-style: solid;
-      --tw-ordinal: initial;
-      --tw-slashed-zero: initial;
-      --tw-numeric-figure: initial;
-      --tw-numeric-spacing: initial;
-      --tw-numeric-fraction: initial;
       --tw-shadow: 0 0 #0000;
       --tw-shadow-color: initial;
       --tw-shadow-alpha: 100%;
@@ -748,7 +772,6 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
       --tw-ring-offset-width: 0px;
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
-      --tw-outline-style: solid;
       --tw-blur: initial;
       --tw-brightness: initial;
       --tw-contrast: initial;
@@ -762,6 +785,15 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
       --tw-drop-shadow-color: initial;
       --tw-drop-shadow-alpha: 100%;
       --tw-drop-shadow-size: initial;
+      --tw-backdrop-blur: initial;
+      --tw-backdrop-brightness: initial;
+      --tw-backdrop-contrast: initial;
+      --tw-backdrop-grayscale: initial;
+      --tw-backdrop-hue-rotate: initial;
+      --tw-backdrop-invert: initial;
+      --tw-backdrop-opacity: initial;
+      --tw-backdrop-saturate: initial;
+      --tw-backdrop-sepia: initial;
       --tw-duration: initial;
     }
   }

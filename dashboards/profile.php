@@ -16,15 +16,6 @@ $pageTitle = "My Profile"; // Set the page title explicitly
 include_once '../includes/header.php'; // Then HTML structure
 // Sidebar is already included by header.php, so this line is redundant and likely causing layout issues.
 
-// Start session if needed
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
-// Authentication check
-if (empty($_SESSION['user_id'])) {
-    header('Location: ../login.php');
-    exit;
-}
 $UserID = (int) $_SESSION['user_id'];
 
 // Avatar directories (absolute web paths)

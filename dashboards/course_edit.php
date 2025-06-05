@@ -1,13 +1,13 @@
 <?php
 $pageTitle = "Edit Course";
-require_once "../includes/config.php";
-require_once "../includes/auth.php";
+// Include the header - this also includes config.php and auth.php
 include_once "../includes/header.php";
 
-// Check if user is logged in
-if (!isLoggedIn()) {
-    header("Location: ../login.php");
-    exit;
+// RBAC guard: Only users with 'manage_courses' permission can access this page.
+if (!require_permission('manage_courses', '../login.php')) {
+    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . ($_SESSION['access_denied_message'] ?? 'You do not have permission to access this page.') . '</div></div>';
+    include_once "../includes/footer.php"; // Ensure footer is included
+    die(); // Terminate script
 }
 
 // Get course ID from URL

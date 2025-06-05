@@ -4,6 +4,12 @@
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/config.php';
 
+// RBAC guard: Only users with 'manage_groups' permission can access this page.
+if (!hasPermission('manage_groups')) {
+    http_response_code(403);
+    exit('Access denied. You do not have permission to manage groups.');
+}
+
 // Expect POST (or you can use DELETE via AJAX if you prefer)
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);

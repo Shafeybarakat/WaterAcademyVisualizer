@@ -1,16 +1,14 @@
 <?php
 $pageTitle = "Enter Grades"; // Set page title
-include_once("../includes/config.php");
-include_once("../includes/auth.php");
+// Include the header - this also includes config.php and auth.php
+include_once("../includes/header.php");
 
 // Protect this page - only users with record_grades permission can access
-if (!isLoggedIn() || !hasPermission('record_grades')) {
-    header("Location: ../login.php?message=access_denied");
-    exit;
+if (!require_permission('record_grades', '../login.php')) {
+    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . ($_SESSION['access_denied_message'] ?? 'You do not have permission to access this page.') . '</div></div>';
+    include_once "../includes/footer.php"; // Ensure footer is included
+    die(); // Terminate script
 }
-
-// Include the header - this also includes the sidebar
-include_once("../includes/header.php");
 
 // Get instructor ID
 $instructorId = $_SESSION['user_id'];

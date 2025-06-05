@@ -1,13 +1,13 @@
 <?php
 $pageTitle = "Coordinators Management";
-require_once "../includes/config.php";
-require_once "../includes/auth.php";
-require_once "../includes/header.php";
+// Include the header - this also includes config.php and auth.php
+include_once "../includes/header.php";
 
-// Check authorization - only users with view_users permission can access
-if (!hasPermission('view_users')) {
-    header('Location: ../login.php?error=unauthorized');
-    exit;
+// RBAC guard
+if (!require_permission('view_users', '../login.php')) {
+    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . ($_SESSION['access_denied_message'] ?? 'You do not have permission to access this page.') . '</div></div>';
+    include_once "../includes/footer.php"; // Ensure footer is included
+    die(); // Terminate script
 }
 
 // Handle coordinator update if submitted

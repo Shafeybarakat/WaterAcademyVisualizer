@@ -1,0 +1,150 @@
+[2025-06-05 19:31:56] DEBUG: Session started successfully in config.php. Session ID: qqkponbnn2d698gb4fjltqhfpt (File: index.php)[2025-06-05 19:31:57] DEBUG: Session started successfully in config.php. Session ID: qqkponbnn2d698gb4fjltqhfpt (File: login.php)[2025-06-05 19:32:18] DEBUG: Session started successfully in config.php. Session ID: qqkponbnn2d698gb4fjltqhfpt (File: login.php)[05-Jun-2025 19:32:18 UTC] loadUserPermissions called. UserID: 1, RoleID: 1, Role: Super Admin
+[05-Jun-2025 19:32:18 UTC] loadUserPermissions: Loaded permissions for RoleID 1: manage_users, view_users, manage_roles, manage_courses, view_courses, assign_courses, manage_groups, view_groups, assign_trainees, manage_trainees, view_trainees, record_grades, view_grades, record_attendance, view_attendance, access_trainee_reports, access_group_reports, access_attendance_reports, export_reports, email_reports, manage_system_settings, view_system_logs, manage_email_templates, edit_own_profile
+[2025-06-05 19:32:19] DEBUG: Session started successfully in config.php. Session ID: 8c84ht6aap1s951mnbuph3h69e (File: index.php)[05-Jun-2025 19:32:19 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:19 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:32:19 UTC] hasPermission called for 'access_dashboard'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:19 UTC] hasPermission: Result for 'access_dashboard': False
+[05-Jun-2025 19:32:19 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:19 UTC] hasPermission: Result for 'manage_roles': True
+[2025-06-05 19:32:22] DEBUG: Session started successfully in config.php. Session ID: 8c84ht6aap1s951mnbuph3h69e (File: index.php)[05-Jun-2025 19:32:22 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:22 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:32:22 UTC] hasPermission called for 'access_dashboard'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:22 UTC] hasPermission: Result for 'access_dashboard': False
+[05-Jun-2025 19:32:22 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:22 UTC] hasPermission: Result for 'manage_roles': True
+[2025-06-05 19:32:24] DEBUG: Session started successfully in config.php. Session ID: 8c84ht6aap1s951mnbuph3h69e (File: index.php)[05-Jun-2025 19:32:24 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:24 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:32:24 UTC] hasPermission called for 'access_dashboard'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:24 UTC] hasPermission: Result for 'access_dashboard': False
+[05-Jun-2025 19:32:24 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:24 UTC] hasPermission: Result for 'manage_roles': True
+[2025-06-05 19:32:31] DEBUG: Session started successfully in config.php. Session ID: 8c84ht6aap1s951mnbuph3h69e (File: attendance_grades.php)[05-Jun-2025 19:32:31 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:31 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:32:31 UTC] enforceAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:32:31 UTC] hasAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:32:31 UTC] hasPermission called for 'enter_grades'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:31 UTC] hasPermission: Result for 'enter_grades': False
+[05-Jun-2025 19:32:31 UTC] hasPermission called for 'enter_attendance'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:31 UTC] hasPermission: Result for 'enter_attendance': False
+[05-Jun-2025 19:32:31 UTC] hasAnyPermission: User does not have any of the required permissions. Returning false.
+[05-Jun-2025 19:32:31 UTC] enforceAnyPermission: User does not have any of the required permissions.
+[2025-06-05 19:32:36] DEBUG: Session started successfully in config.php. Session ID: 8c84ht6aap1s951mnbuph3h69e (File: attendance_grades.php)[05-Jun-2025 19:32:36 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:36 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:32:36 UTC] enforceAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:32:36 UTC] hasAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:32:36 UTC] hasPermission called for 'enter_grades'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:36 UTC] hasPermission: Result for 'enter_grades': False
+[05-Jun-2025 19:32:36 UTC] hasPermission called for 'enter_attendance'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:32:36 UTC] hasPermission: Result for 'enter_attendance': False
+[05-Jun-2025 19:32:36 UTC] hasAnyPermission: User does not have any of the required permissions. Returning false.
+[05-Jun-2025 19:32:36 UTC] enforceAnyPermission: User does not have any of the required permissions.
+[2025-06-05 19:33:19] DEBUG: Session started successfully in config.php. Session ID: 8c84ht6aap1s951mnbuph3h69e (File: index.php)[05-Jun-2025 19:33:19 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:33:19 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:33:19 UTC] hasPermission called for 'access_dashboard'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:33:19 UTC] hasPermission: Result for 'access_dashboard': False
+[05-Jun-2025 19:33:19 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:33:19 UTC] hasPermission: Result for 'manage_roles': True
+[2025-06-05 19:33:22] DEBUG: Session started successfully in config.php. Session ID: 8c84ht6aap1s951mnbuph3h69e (File: attendance_grades.php)[05-Jun-2025 19:33:22 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:33:22 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:33:22 UTC] enforceAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:33:22 UTC] hasAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:33:22 UTC] hasPermission called for 'enter_grades'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:33:22 UTC] hasPermission: Result for 'enter_grades': False
+[05-Jun-2025 19:33:22 UTC] hasPermission called for 'enter_attendance'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:33:22 UTC] hasPermission: Result for 'enter_attendance': False
+[05-Jun-2025 19:33:22 UTC] hasAnyPermission: User does not have any of the required permissions. Returning false.
+[05-Jun-2025 19:33:22 UTC] enforceAnyPermission: User does not have any of the required permissions.
+[2025-06-05 19:36:11] DEBUG: Session started successfully in config.php. Session ID: 8c84ht6aap1s951mnbuph3h69e (File: attendance_grades.php)[05-Jun-2025 19:36:11 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:36:11 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:36:11 UTC] enforceAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:36:11 UTC] hasAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:36:11 UTC] hasPermission called for 'enter_grades'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:36:11 UTC] hasPermission: Result for 'enter_grades': False
+[05-Jun-2025 19:36:11 UTC] hasPermission called for 'enter_attendance'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:36:11 UTC] hasPermission: Result for 'enter_attendance': False
+[05-Jun-2025 19:36:11 UTC] hasAnyPermission: User does not have any of the required permissions. Returning false.
+[05-Jun-2025 19:36:11 UTC] enforceAnyPermission: User does not have any of the required permissions.
+[2025-06-05 19:41:57] DEBUG: Session started successfully in config.php. Session ID: t9ur83ph7bpuhhs76bj7qro0kl (File: index.php)[2025-06-05 19:41:58] DEBUG: Session started successfully in config.php. Session ID: t9ur83ph7bpuhhs76bj7qro0kl (File: login.php)[2025-06-05 19:42:35] DEBUG: Session started successfully in config.php. Session ID: t9ur83ph7bpuhhs76bj7qro0kl (File: login.php)[05-Jun-2025 19:42:35 UTC] loadUserPermissions called. UserID: 1, RoleID: 1, Role: Super Admin
+[05-Jun-2025 19:42:35 UTC] loadUserPermissions: Loaded permissions for RoleID 1: manage_users, view_users, manage_roles, manage_courses, view_courses, assign_courses, manage_groups, view_groups, assign_trainees, manage_trainees, view_trainees, record_grades, view_grades, record_attendance, view_attendance, access_trainee_reports, access_group_reports, access_attendance_reports, export_reports, email_reports, manage_system_settings, view_system_logs, manage_email_templates, edit_own_profile
+[2025-06-05 19:42:35] DEBUG: Session started successfully in config.php. Session ID: m3a1oj5msa4iih7ni3cdeujfdm (File: index.php)[05-Jun-2025 19:42:35 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:42:35 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:42:35 UTC] hasPermission called for 'access_dashboard'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:42:35 UTC] hasPermission: Result for 'access_dashboard': False
+[05-Jun-2025 19:42:35 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:42:35 UTC] hasPermission: Result for 'manage_roles': True
+[2025-06-05 19:47:27] DEBUG: Session started successfully in config.php. Session ID: n5buka2f6f1119cbloj780ncd6 (File: index.php)[2025-06-05 19:47:28] DEBUG: Session started successfully in config.php. Session ID: n5buka2f6f1119cbloj780ncd6 (File: login.php)[2025-06-05 19:47:41] DEBUG: Session started successfully in config.php. Session ID: n5buka2f6f1119cbloj780ncd6 (File: login.php)[05-Jun-2025 19:47:41 UTC] loadUserPermissions called. UserID: 1, RoleID: 1, Role: Super Admin
+[05-Jun-2025 19:47:41 UTC] loadUserPermissions: Loaded permissions for RoleID 1: manage_users, view_users, manage_roles, manage_courses, view_courses, assign_courses, manage_groups, view_groups, assign_trainees, manage_trainees, view_trainees, record_grades, view_grades, record_attendance, view_attendance, access_trainee_reports, access_group_reports, access_attendance_reports, export_reports, email_reports, manage_system_settings, view_system_logs, manage_email_templates, edit_own_profile
+[2025-06-05 19:47:43] DEBUG: Session started successfully in config.php. Session ID: vhc036tt49h7hthfk15idt3sti (File: index.php)[05-Jun-2025 19:47:43 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:47:43 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:47:43 UTC] hasPermission called for 'access_dashboard'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:47:43 UTC] hasPermission: Result for 'access_dashboard': False
+[05-Jun-2025 19:47:43 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:47:43 UTC] hasPermission: Result for 'manage_roles': True
+[2025-06-05 19:47:57] DEBUG: Session started successfully in config.php. Session ID: vhc036tt49h7hthfk15idt3sti (File: attendance_grades.php)[05-Jun-2025 19:47:57 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:47:57 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:47:57 UTC] enforceAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:47:57 UTC] hasAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:47:57 UTC] hasPermission called for 'enter_grades'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:47:57 UTC] hasPermission: Result for 'enter_grades': False
+[05-Jun-2025 19:47:57 UTC] hasPermission called for 'enter_attendance'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:47:57 UTC] hasPermission: Result for 'enter_attendance': False
+[05-Jun-2025 19:47:57 UTC] hasAnyPermission: User does not have any of the required permissions. Returning false.
+[05-Jun-2025 19:47:57 UTC] enforceAnyPermission: User does not have any of the required permissions.
+[2025-06-05 19:49:52] DEBUG: Session started successfully in config.php. Session ID: p850g68trqncpdfu75hnvnu0cc (File: login.php)[2025-06-05 19:50:24] DEBUG: Session started successfully in config.php. Session ID: p850g68trqncpdfu75hnvnu0cc (File: login.php)[05-Jun-2025 19:50:25 UTC] loadUserPermissions called. UserID: 1, RoleID: 1, Role: Super Admin
+[05-Jun-2025 19:50:25 UTC] loadUserPermissions: Loaded permissions for RoleID 1: manage_users, view_users, manage_roles, manage_courses, view_courses, assign_courses, manage_groups, view_groups, assign_trainees, manage_trainees, view_trainees, record_grades, view_grades, record_attendance, view_attendance, access_trainee_reports, access_group_reports, access_attendance_reports, export_reports, email_reports, manage_system_settings, view_system_logs, manage_email_templates, edit_own_profile
+[2025-06-05 19:50:25] DEBUG: Session started successfully in config.php. Session ID: daarctghvshl7pi5vfs0pror5v (File: index.php)[05-Jun-2025 19:50:25 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:50:25 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:50:25 UTC] hasPermission called for 'access_dashboard'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:50:25 UTC] hasPermission: Result for 'access_dashboard': False
+[05-Jun-2025 19:50:25 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:50:25 UTC] hasPermission: Result for 'manage_roles': True
+[2025-06-05 19:51:07] DEBUG: Session started successfully in config.php. Session ID: daarctghvshl7pi5vfs0pror5v (File: attendance_grades.php)[05-Jun-2025 19:51:07 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:51:07 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:51:07 UTC] enforceAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:51:07 UTC] hasAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:51:07 UTC] hasPermission called for 'enter_grades'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:51:07 UTC] hasPermission: Result for 'enter_grades': False
+[05-Jun-2025 19:51:07 UTC] hasPermission called for 'enter_attendance'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:51:07 UTC] hasPermission: Result for 'enter_attendance': False
+[05-Jun-2025 19:51:07 UTC] hasAnyPermission: User does not have any of the required permissions. Returning false.
+[05-Jun-2025 19:51:07 UTC] enforceAnyPermission: User does not have any of the required permissions.
+[2025-06-05 19:52:03] DEBUG: Session started successfully in config.php. Session ID: daarctghvshl7pi5vfs0pror5v (File: attendance_grades.php)[05-Jun-2025 19:52:03 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:52:03 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:52:03 UTC] enforceAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:52:03 UTC] hasAnyPermission called for permissions: enter_grades, enter_attendance
+[05-Jun-2025 19:52:03 UTC] hasPermission called for 'enter_grades'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:52:03 UTC] hasPermission: Result for 'enter_grades': False
+[05-Jun-2025 19:52:03 UTC] hasPermission called for 'enter_attendance'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:52:03 UTC] hasPermission: Result for 'enter_attendance': False
+[05-Jun-2025 19:52:03 UTC] hasAnyPermission: User does not have any of the required permissions. Returning false.
+[05-Jun-2025 19:52:03 UTC] enforceAnyPermission: User does not have any of the required permissions.
+[2025-06-05 19:52:42] DEBUG: Session started successfully in config.php. Session ID: daarctghvshl7pi5vfs0pror5v (File: index.php)[05-Jun-2025 19:52:42 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:52:42 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 19:52:42 UTC] hasPermission called for 'access_dashboard'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:52:42 UTC] hasPermission: Result for 'access_dashboard': False
+[05-Jun-2025 19:52:42 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 19:52:42 UTC] hasPermission: Result for 'manage_roles': True
+[2025-06-05 20:46:08] DEBUG: Session started successfully in config.php. Session ID: uvtu9tjr6cetamim8d6asd2jlk (File: login.php)[2025-06-05 20:46:12] DEBUG: Session started successfully in config.php. Session ID: uvtu9tjr6cetamim8d6asd2jlk (File: login.php)[05-Jun-2025 20:46:12 UTC] loadUserPermissions called. UserID: 1, RoleID: 1, Role: Super Admin
+[05-Jun-2025 20:46:12 UTC] loadUserPermissions: Loaded permissions for RoleID 1: manage_users, view_users, manage_roles, manage_courses, view_courses, assign_courses, manage_groups, view_groups, assign_trainees, manage_trainees, view_trainees, record_grades, view_grades, record_attendance, view_attendance, access_trainee_reports, access_group_reports, access_attendance_reports, export_reports, email_reports, manage_system_settings, view_system_logs, manage_email_templates, edit_own_profile
+[2025-06-05 20:46:13] DEBUG: Session started successfully in config.php. Session ID: hkk44f8ostqth08gdgnnab94d3 (File: index.php)[05-Jun-2025 20:46:13 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 20:46:13 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 20:46:13 UTC] hasPermission called for 'access_dashboard'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 20:46:13 UTC] hasPermission: Result for 'access_dashboard': False
+[05-Jun-2025 20:46:13 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 20:46:13 UTC] hasPermission: Result for 'manage_roles': True
+[2025-06-05 20:46:19] DEBUG: Session started successfully in config.php. Session ID: hkk44f8ostqth08gdgnnab94d3 (File: reports.php)[05-Jun-2025 20:46:19 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 20:46:19 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 20:46:19 UTC] enforceAnyPermission called for permissions: access_group_reports, access_trainee_reports, access_attendance_reports
+[05-Jun-2025 20:46:19 UTC] hasAnyPermission called for permissions: access_group_reports, access_trainee_reports, access_attendance_reports
+[05-Jun-2025 20:46:19 UTC] hasPermission called for 'access_group_reports'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 20:46:19 UTC] hasPermission: Result for 'access_group_reports': True
+[05-Jun-2025 20:46:19 UTC] hasAnyPermission: User has permission 'access_group_reports'. Returning true.
+[05-Jun-2025 20:46:19 UTC] enforceAnyPermission: User has required permissions.
+[05-Jun-2025 20:46:19 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 20:46:19 UTC] hasPermission: Result for 'manage_roles': True
+[2025-06-05 20:46:25] DEBUG: Session started successfully in config.php. Session ID: hkk44f8ostqth08gdgnnab94d3 (File: group-analytics.php)[05-Jun-2025 20:46:25 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 20:46:25 UTC] hasPermission: Result for 'manage_roles': True
+[05-Jun-2025 20:46:25 UTC] hasPermission called for 'access_group_analytics'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 20:46:25 UTC] hasPermission: Result for 'access_group_analytics': False
+[05-Jun-2025 20:46:25 UTC] hasPermission called for 'manage_roles'. UserID: 1, RoleID: 1, LoggedIn: Yes
+[05-Jun-2025 20:46:25 UTC] hasPermission: Result for 'manage_roles': True

@@ -1,8 +1,14 @@
 <?php
 $pageTitle = "Group Dashboard";
-require_once "../includes/auth.php";
-require_once "../includes/config.php";
+// Include the header - this also includes config.php and auth.php
 include_once "../includes/header.php";
+
+// RBAC guard: Only users with 'access_group_dashboard' permission can access this page.
+if (!require_permission('access_group_dashboard', '../login.php')) {
+    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . ($_SESSION['access_denied_message'] ?? 'You do not have permission to access this page.') . '</div></div>';
+    include_once "../includes/footer.php"; // Ensure footer is included
+    die(); // Terminate script
+}
 
 // Fetch all groups
 $groupsResult = $conn->query("SELECT GroupID, GroupName FROM Groups ORDER BY GroupName");

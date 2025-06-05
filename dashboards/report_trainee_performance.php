@@ -1,9 +1,16 @@
 <?php
 $pageTitle = "Trainee Performance Report"; // Set page title
-require_once __DIR__ . '/../includes/auth.php';
-require_permission('access_trainee_reports', '../login.php'); // RBAC guard
-require_once __DIR__ . '/../includes/config.php';
 require_once 'report_functions.php'; // PHP functions to fetch data
+
+// Include the header - this also includes config.php and auth.php
+include_once '../includes/header.php';
+
+// RBAC guard
+if (!require_permission('access_trainee_reports', '../login.php')) {
+    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . ($_SESSION['access_denied_message'] ?? 'You do not have permission to access this page.') . '</div></div>';
+    include_once "../includes/footer.php"; // Ensure footer is included
+    die(); // Terminate script
+}
 
 $user_role = $_SESSION["user_role"];
 $user_id = $_SESSION["user_id"]; // Assuming user ID is stored in session

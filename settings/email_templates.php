@@ -7,14 +7,14 @@
 
 // Include necessary files
 $pageTitle = "Email Templates";
-require_once '../includes/config.php';
-require_once '../includes/auth.php';
+// Include config.php and auth.php via header.php
 require_once '../includes/header.php';
 
 // Check authorization - only users with manage_email_templates permission can access
-if (!isLoggedIn() || !hasPermission('manage_email_templates')) {
-    header('Location: ../login.php?error=unauthorized');
-    exit;
+if (!require_permission('manage_email_templates', '../login.php')) {
+    echo '<div class="container-xxl flex-grow-1 container-p-y"><div class="alert alert-danger" role="alert">' . ($_SESSION['access_denied_message'] ?? 'You do not have permission to access this page.') . '</div></div>';
+    require_once '../includes/footer.php'; // Ensure footer is included
+    die(); // Terminate script
 }
 
 // Handle form submission if applicable

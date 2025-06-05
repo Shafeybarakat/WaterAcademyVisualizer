@@ -245,9 +245,12 @@ document.addEventListener('DOMContentLoaded', function() {
         defaultDate.setDate(defaultDate.getDate() + 7);
         newEndDate.value = formatDateForInput(defaultDate);
         
-        // Show modal
-        const bsModal = new bootstrap.Modal(dateExtensionModal);
-        bsModal.show();
+        // Show modal using Alpine.js
+        if (dateExtensionModal.__x) {
+            dateExtensionModal.__x.$data.open = true;
+        } else {
+            console.error('Alpine.js component not found on dateExtensionModal');
+        }
     }
     
     /**
@@ -286,8 +289,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw new Error(data.error);
             }
             
-            // Close modal
-            bootstrap.Modal.getInstance(dateExtensionModal).hide();
+            // Close modal using Alpine.js
+            if (dateExtensionModal.__x) {
+                dateExtensionModal.__x.$data.open = false;
+            }
             
             // Show success message
             alert('End date updated successfully. The page will now reload to reflect the changes.');

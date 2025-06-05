@@ -3,20 +3,15 @@
 $pageTitle = "Reports";
 
 // Authentication, config and header
-require_once "../includes/auth.php";
-require_once "../includes/config.php";
 include_once "../includes/header.php";
 
 // Add necessary Select2 CSS and JS 
 echo '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />';
 echo '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>';
 
-// Check permissions
-$can_see_reports = hasAnyPermission(['access_group_reports', 'access_trainee_reports', 'access_attendance_reports']);
-if (!$can_see_reports) {
-    header("Location: ../login.php?message=access_denied");
-    exit;
-}
+// Enforce permissions
+enforceAnyPermission(['access_group_reports', 'access_trainee_reports', 'access_attendance_reports']);
+// If execution continues, permissions are granted.
 
 // Fetch all groups that have courses assigned to them
 $groupsResult = $conn->query("
@@ -58,21 +53,21 @@ if (!empty($selectedGroup)) {
 <div class="container-xxl flex-grow-1 container-p-y pt-0">
 
     <!-- Filter Section -->
-    <div class="card mb-4 filter-card">
-        <div class="card-header">
-            <h5 class="card-title mb-0">Filters</h5>
+    <div class="action-card mb-4">
+        <div class="action-card-header">
+            <h5 class="action-card-title">Filters</h5>
         </div>
-        <div class="card-body">
+        <div class="action-card-content"> <!-- Removed p-4 -->
             <form method="get">
-                <div class="row mb-3 d-flex flex-wrap"> <!-- Added d-flex flex-wrap to ensure horizontal alignment -->
+                <div class="flex flex-wrap -mx-2 md:flex-nowrap">
                     <!-- Group and Course filters side by side -->
-                    <div class="col-md-6 mb-3 mb-md-0"> <!-- Added mb-3 for spacing on small screens, mb-md-0 to remove on medium+ -->
-                      <label class="form-label fw-bold">Group</label>
-                      <div class="input-group">
+                    <div class="w-full md:w-1/2 px-2 mb-3 md:mb-0">
+                      <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Group</label>
+                      <div class="input-group flex">
                         <span class="input-group-text bg-primary text-white">
                           <i class="ri-team-line"></i>
                         </span>
-                        <select id="group_filter" name="group_id" class="form-select w-100">
+                        <select id="group_filter" name="group_id" class="form-select w-full">
                           <option value="">– Select Group –</option>
                           <?php foreach($groups as $g): ?>
                             <option
@@ -84,16 +79,16 @@ if (!empty($selectedGroup)) {
                       </div>
                     </div>
 
-                    <div class="col-md-6">
-                      <label class="form-label fw-bold">Course</label>
-                      <div class="input-group">
+                    <div class="w-full md:w-1/2 px-2">
+                      <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Course</label>
+                      <div class="input-group flex">
                         <span class="input-group-text bg-success text-white">
                           <i class="ri-book-open-line"></i>
                         </span>
                         <select
                           id="course_filter"
                           name="course_id"
-                          class="form-select w-100"
+                          class="form-select w-full"
                           <?php if(empty($selectedGroup)) echo 'disabled' ?>
                         >
                           <option value="">– Select Course –</option>
@@ -109,15 +104,13 @@ if (!empty($selectedGroup)) {
                 </div>
                 
                 <!-- Buttons in a separate row, aligned to the right -->
-                <div class="row">
-                    <div class="col-12 d-flex justify-content-end gap-2">
-                        <button type="submit" class="btn btn-primary action-btn">
-                            <i class="ri-filter-3-line me-1"></i> Apply Filters
-                        </button>
-                        <a href="reports.php" class="btn btn-outline-secondary action-btn">
-                            <i class="ri-refresh-line me-1"></i> Reset Filters
-                        </a>
-                    </div>
+                <div class="flex justify-end mt-4 space-x-2">
+                    <button type="submit" class="btn btn-primary action-btn">
+                        <i class="ri-filter-3-line me-1"></i> Apply Filters
+                    </button>
+                    <a href="reports.php" class="btn btn-outline-secondary action-btn">
+                        <i class="ri-refresh-line me-1"></i> Reset Filters
+                    </a>
                 </div>
             </form>
         </div>
@@ -125,18 +118,20 @@ if (!empty($selectedGroup)) {
 
     <!-- Group Report Cards -->
     <h5 class="fw-bold py-3 mb-2">Group Reports</h5>
-    <div class="row g-4 mb-4 d-flex align-items-stretch"> <!-- Added d-flex align-items-stretch for horizontal alignment and equal height -->
+    <div class="flex flex-wrap -mx-2 mb-4"> <!-- Changed from row g-4 d-flex align-items-stretch -->
         <!-- Group Analytics Card -->
-        <div class="col-md-6 col-12">
-            <div class="card h-100 wa-card">
-                <div class="card-body text-center d-flex flex-column pb-3"> <!-- Added d-flex flex-column for internal layout and pb-3 for padding -->
-                    <div class="mb-3">
-                        <i class="ri-pie-chart-line text-primary" style="font-size: 3rem;"></i>
-                    </div>
-                    <h5 class="card-title fw-bold">Group Analytics</h5>
-                    <p class="card-text mb-4 flex-grow-1">View detailed analytics and performance metrics for the selected group and course.</p> <!-- Increased mb-3 to mb-4 and added flex-grow-1 -->
+        <div class="w-full md:w-1/2 px-2 mb-4"> <!-- Changed from col-md-6 col-12 -->
+            <div class="action-card h-100">
+                <div class="action-card-header">
+                    <i class="ri-pie-chart-line text-primary action-card-icon"></i>
+                    <h5 class="action-card-title">Group Analytics</h5>
+                </div>
+                <div class="action-card-content text-center d-flex flex-column pb-3">
+                    <p class="card-text mb-4 flex-grow-1">View detailed analytics and performance metrics for the selected group and course.</p>
+                </div>
+                <div class="flex justify-center">
                     <button type="button" onclick="window.location.href='group-analytics.php?group_id=<?= $selectedGroup ?>&course_id=<?= $selectedCourse ?>'"
-                       class="btn btn-primary mt-auto <?= (empty($selectedGroup) || empty($selectedCourse)) ? 'disabled' : '' ?>"> <!-- Changed to button and added mt-auto to push button to bottom -->
+                       class="action-card-button shining-btn w-4/5 mt-auto <?= (empty($selectedGroup) || empty($selectedCourse)) ? 'disabled' : '' ?>">
                         <i class="ri-bar-chart-2-line me-1"></i> View Analytics
                     </button>
                 </div>
@@ -144,16 +139,18 @@ if (!empty($selectedGroup)) {
         </div>
 
         <!-- Group Performance Card -->
-        <div class="col-md-6 col-12">
-            <div class="card h-100 wa-card">
-                <div class="card-body text-center d-flex flex-column pb-3"> <!-- Added d-flex flex-column for internal layout and pb-3 for padding -->
-                    <div class="mb-3">
-                        <i class="ri-bar-chart-grouped-line text-success" style="font-size: 3rem;"></i>
-                    </div>
-                    <h5 class="card-title fw-bold">Group Performance</h5>
-                    <p class="card-text mb-4 flex-grow-1">Comprehensive performance report for the selected group with detailed metrics.</p> <!-- Increased mb-3 to mb-4 and added flex-grow-1 -->
+        <div class="w-full md:w-1/2 px-2 mb-4"> <!-- Changed from col-md-6 col-12 -->
+            <div class="action-card h-100">
+                <div class="action-card-header">
+                    <i class="ri-bar-chart-grouped-line text-success action-card-icon"></i>
+                    <h5 class="action-card-title">Group Performance</h5>
+                </div>
+                <div class="action-card-content text-center d-flex flex-column pb-3">
+                    <p class="card-text mb-4 flex-grow-1">Comprehensive performance report for the selected group with detailed metrics.</p>
+                </div>
+                <div class="flex justify-center">
                     <button type="button" onclick="window.location.href='report_group_performance.php?group_id=<?= $selectedGroup ?>&course_id=<?= $selectedCourse ?>'"
-                       class="btn btn-primary mt-auto <?= (empty($selectedGroup) || empty($selectedCourse)) ? 'disabled' : '' ?>"> <!-- Changed to button and added mt-auto to push button to bottom -->
+                       class="action-card-button shining-btn w-4/5 mt-auto <?= (empty($selectedGroup) || empty($selectedCourse)) ? 'disabled' : '' ?>">
                         <i class="ri-line-chart-line me-1"></i> View Performance
                     </button>
                 </div>
@@ -165,11 +162,11 @@ if (!empty($selectedGroup)) {
 
     <!-- Trainee Search Section -->
     <h5 class="fw-bold py-3 mb-2">Trainee Reports</h5>
-    <div class="card mb-4 filter-card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="card-title mb-0 fw-bold">Search for a Trainee</h5>
+    <div class="action-card mb-4">
+        <div class="action-card-header">
+            <h5 class="action-card-title">Search for a Trainee</h5>
         </div>
-        <div class="card-body">
+        <div class="action-card-content"> <!-- Removed p-4 -->
             <div class="row mb-3">
                 <div class="col-md-12 d-flex justify-content-center"> <!-- Use flexbox to center content -->
                     <div class="input-group" style="max-width: 500px;"> <!-- Set max-width for centering -->
@@ -215,18 +212,20 @@ if (!empty($selectedGroup)) {
     </div>
 
     <!-- Trainee Report Cards -->
-    <div class="row g-4 mb-4 d-flex align-items-stretch"> <!-- Added d-flex align-items-stretch for horizontal alignment and equal height -->
+    <div class="flex flex-wrap -mx-2 mb-4"> <!-- Changed from row g-4 d-flex align-items-stretch -->
         <!-- Trainee Performance Card -->
-        <div class="col-md-6 col-12">
-            <div class="card h-100 wa-card">
-                <div class="card-body text-center d-flex flex-column"> <!-- Added d-flex flex-column for internal layout -->
-                    <div class="mb-3">
-                        <i class="ri-user-star-line text-info" style="font-size: 3rem;"></i>
-                    </div>
-                    <h5 class="card-title fw-bold">Trainee Performance</h5>
-                    <p class="card-text mb-4 flex-grow-1">Individual trainee performance reports with detailed progress tracking.</p> <!-- Increased mb-3 to mb-4 and added flex-grow-1 -->
+        <div class="w-full md:w-1/2 px-2 mb-4"> <!-- Changed from col-md-6 col-12 -->
+            <div class="action-card h-100">
+                <div class="action-card-header">
+                    <i class="ri-user-star-line text-info action-card-icon"></i>
+                    <h5 class="action-card-title">Trainee Performance</h5>
+                </div>
+                <div class="action-card-content text-center d-flex flex-column pb-3">
+                    <p class="card-text mb-4 flex-grow-1">Individual trainee performance reports with detailed progress tracking.</p>
+                </div>
+                <div class="flex justify-center">
                     <button type="button" id="traineePerformanceBtn" 
-                       class="btn btn-info mt-auto disabled"> <!-- Added mt-auto to push button to bottom -->
+                       class="action-card-button shining-btn w-4/5 mt-auto disabled">
                         <i class="ri-user-search-line me-1"></i> View Performance
                     </button>
                 </div>
@@ -234,16 +233,18 @@ if (!empty($selectedGroup)) {
         </div>
 
         <!-- Attendance Summary Card -->
-        <div class="col-md-6 col-12">
-            <div class="card h-100 wa-card">
-                <div class="card-body text-center d-flex flex-column"> <!-- Added d-flex flex-column for internal layout -->
-                    <div class="mb-3">
-                        <i class="ri-calendar-event-line text-warning" style="font-size: 3rem;"></i>
-                    </div>
-                    <h5 class="card-title fw-bold">Attendance Summary</h5>
-                    <p class="card-text mb-4 flex-grow-1">Comprehensive attendance report for the selected trainee and course.</p> <!-- Increased mb-3 to mb-4 and added flex-grow-1 -->
+        <div class="w-full md:w-1/2 px-2 mb-4"> <!-- Changed from col-md-6 col-12 -->
+            <div class="action-card h-100">
+                <div class="action-card-header">
+                    <i class="ri-calendar-event-line text-warning action-card-icon"></i>
+                    <h5 class="action-card-title">Attendance Summary</h5>
+                </div>
+                <div class="action-card-content text-center d-flex flex-column pb-3">
+                    <p class="card-text mb-4 flex-grow-1">Comprehensive attendance report for the selected trainee and course.</p>
+                </div>
+                <div class="flex justify-center">
                     <button type="button" id="traineeAttendanceBtn" 
-                       class="btn btn-warning mt-auto disabled"> <!-- Added mt-auto to push button to bottom -->
+                       class="action-card-button shining-btn w-4/5 mt-auto disabled">
                         <i class="ri-calendar-check-line me-1"></i> View Attendance
                     </button>
                 </div>
@@ -251,58 +252,6 @@ if (!empty($selectedGroup)) {
         </div>
     </div>
 
-    <?php if(empty($selectedGroup) || empty($selectedCourse)): ?>
-    <div class="alert alert-info mt-4">
-        <i class="ri-information-line me-2"></i>
-        Please select both a group and a course to enable the report buttons.
-    </div>
-    <?php endif; ?>
-
-    <?php
-    // Check if the selected group/course has grades and attendance data
-    $hasData = false;
-    if (!empty($selectedGroup) && !empty($selectedCourse)) {
-        $stmt = $conn->prepare("
-            SELECT COUNT(*) as count
-            FROM GroupCourses gc
-            LEFT JOIN Attendance a ON gc.ID = a.GroupCourseID
-            LEFT JOIN TraineeGrades tg ON gc.ID = tg.GroupCourseID
-            WHERE gc.GroupID = ? AND gc.CourseID = ?
-            AND (a.AttendanceID IS NOT NULL OR tg.GradeID IS NOT NULL)
-        ");
-        if ($stmt) {
-            $stmt->bind_param("is", $selectedGroup, $selectedCourse);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            if ($row = $result->fetch_assoc()) {
-                $hasData = $row['count'] > 0;
-            }
-            $stmt->close();
-        }
-    }
-    ?>
-
-    <!-- Warning Modal for No Data -->
-    <div class="modal fade" id="noDataModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-warning text-white">
-                    <h5 class="modal-title"><i class="ri-alert-line me-2"></i> Warning</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>The selected group and course do not have any grades or attendance data submitted yet. Reports may not display correctly or may be empty.</p>
-                    <p>Please select a different group/course combination or ensure that grades and attendance data are submitted first.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a href="attendance_grades.php?group_id=<?= $selectedGroup ?>&course_id=<?= $selectedCourse ?>" class="btn btn-primary">
-                        <i class="ri-edit-2-line me-1"></i> Submit Data
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- Include footer -->
@@ -534,7 +483,7 @@ $(document).ready(function() {
     });
     
     // Handle Enter key in search input
-    $('#traineeSearchInput').on('keypress', function(e) {
+    $(document).on('keypress', function(e) {
         if (e.which === 13) { // Enter key
             e.preventDefault();
             $('#searchButton').click();

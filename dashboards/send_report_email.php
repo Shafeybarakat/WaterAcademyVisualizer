@@ -10,14 +10,15 @@ require_once '../includes/config.php';
 require_once '../includes/auth.php';
 require_once 'report_functions.php'; // Updated path to the new location
 
-// Check if user is authenticated
-if (!isLoggedIn()) {
-    echo json_encode(['success' => false, 'message' => 'Not authenticated']);
-    exit;
-}
-
 // Set content type to JSON
 header('Content-Type: application/json');
+
+// RBAC guard: Only users with 'send_reports_email' permission can access this page.
+if (!hasPermission('send_reports_email')) {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'Access denied. You do not have permission to send reports.']);
+    exit;
+}
 
 // Get the JSON data from the request
 $jsonData = file_get_contents('php://input');

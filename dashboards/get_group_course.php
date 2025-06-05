@@ -4,6 +4,12 @@
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/config.php';
 
+// RBAC guard: Only users with 'view_groups' permission can access this page.
+if (!hasPermission('view_groups')) {
+    http_response_code(403);
+    exit('Access denied. You do not have permission to view group details.');
+}
+
 if (empty($_GET['group_id']) || !ctype_digit($_GET['group_id'])) {
     http_response_code(400);
     exit('Invalid group ID');

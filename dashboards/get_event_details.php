@@ -9,6 +9,13 @@ include("../includes/auth.php"); // Basic auth, ensure session started
 
 header("Content-Type: application/json"); // Ensure this is set before any output
 
+// RBAC guard: Only logged-in users can access this page.
+if (!isLoggedIn()) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Authentication required.']);
+    exit;
+}
+
 $event_type = $_GET["type"] ?? null;
 $event_id = isset($_GET["id"]) ? intval($_GET["id"]) : null; // Ensure event_id is treated as an integer
 
